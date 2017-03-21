@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#eceff1"
+              android:orientation="vertical">
+
+    <com.handy.widget.titlebar.HandyTitleBar
+        android:id="@+id/base_mytitlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#1f1f1f"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/content_main_edt"
+                    style="@style/mytitlebar_test_dynamic_edtstyle"
+                    android:hint="主标题"/>
+
+                <EditText
+                    android:id="@+id/content_second_edt"
+                    style="@style/mytitlebar_test_dynamic_edtstyle"
+                    android:hint="副标题"/>
+
+                <Button
+                    android:id="@+id/content_style_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:text="标题格式(横)"/>
+
+                <Button
+                    android:id="@+id/content_setting_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:layout_marginRight="8dp"
+                    android:text="显示主标题"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/main_size_edt"
+                    style="@style/mytitlebar_test_dynamic_edtstyle"
+                    android:hint="主标题14/sp"
+                    android:inputType="number"/>
+
+                <Button
+                    android:id="@+id/main_size_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:text="设置主标题"/>
+
+                <EditText
+                    android:id="@+id/second_size_edt"
+                    style="@style/mytitlebar_test_dynamic_edtstyle"
+                    android:hint="副标题10/sp"
+                    android:inputType="number"/>
+
+                <Button
+                    android:id="@+id/second_size_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:layout_marginRight="8dp"
+                    android:text="设置副标题"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/main_textcolor_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:text="改变主标题颜色"/>
+
+                <Button
+                    android:id="@+id/second_textcolor_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:layout_marginRight="8dp"
+                    android:text="改变副标题颜色"/>
+
+                <Button
+                    android:id="@+id/main_background_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:text="改变主标题背景"/>
+
+                <Button
+                    android:id="@+id/second_background_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:layout_marginRight="8dp"
+                    android:text="改变副标题背景"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/statebar_background_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:text="改变状态栏颜色"/>
+
+                <Button
+                    android:id="@+id/titlebar_background_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:text="改变标题栏颜色"/>
+
+                <Button
+                    android:id="@+id/titlebar_recover_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:layout_marginRight="8dp"
+                    android:text="恢复标题栏颜色"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/statebar_immersive_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:text="关闭浸入式效果"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="#1f1f1f"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:layout_width="wrap_content"
+                    android:background="#eaeaea"
+                    android:text="标题栏高度："/>
+
+                <EditText
+                    android:id="@+id/mytitlebar_htight_edt"
+                    style="@style/mytitlebar_test_dynamic_edtstyle"
+                    android:layout_width="wrap_content"
+                    android:ems="2"
+                    android:hint="标题栏高度48/dp"
+                    android:inputType="number"/>
+
+                <Button
+                    android:id="@+id/mytitlebar_setting_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:layout_marginRight="8dp"
+                    android:text="设置"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:layout_width="wrap_content"
+                    android:background="#eaeaea"
+                    android:text="顶部分割线："/>
+
+                <Button
+                    android:id="@+id/topline_background_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:layout_width="wrap_content"
+                    android:text="改变颜色"/>
+
+
+                <EditText
+                    android:id="@+id/topline_htight_edt"
+                    style="@style/mytitlebar_test_dynamic_edtstyle"
+                    android:layout_width="wrap_content"
+                    android:ems="2"
+                    android:hint="1/dp"
+                    android:inputType="number"/>
+
+                <Button
+                    android:id="@+id/topline_setting_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:text="设置"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:layout_width="wrap_content"
+                    android:background="#eaeaea"
+                    android:text="底部分割线："/>
+
+                <Button
+                    android:id="@+id/bottomline_background_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:layout_width="wrap_content"
+                    android:text="改变颜色"/>
+
+                <EditText
+                    android:id="@+id/bottomline_htight_edt"
+                    style="@style/mytitlebar_test_dynamic_edtstyle"
+                    android:layout_width="wrap_content"
+                    android:ems="2"
+                    android:hint="1/dp"
+                    android:inputType="number"/>
+
+                <Button
+                    android:id="@+id/bottomline_setting_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:text="设置"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="#1f1f1f"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/leftaction_add_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:text="增加左按钮"/>
+
+                <Button
+                    android:id="@+id/leftaction_remove_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:text="删除左按钮"/>
+
+                <Button
+                    android:id="@+id/rightaction_add_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:text="增加右按钮"/>
+
+                <Button
+                    android:id="@+id/rightaction_remove_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:layout_marginRight="8dp"
+                    android:text="删除右按钮"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+
+                <EditText
+                    android:id="@+id/action_content_edt"
+                    style="@style/mytitlebar_test_dynamic_edtstyle"
+                    android:layout_width="wrap_content"
+                    android:ems="2"
+                    android:hint="文字内容"/>
+
+
+                <EditText
+                    android:id="@+id/action_textsize_edt"
+                    style="@style/mytitlebar_test_dynamic_edtstyle"
+                    android:ems="2"
+                    android:hint="文字15/sp"
+                    android:inputType="number"/>
+
+
+                <EditText
+                    android:id="@+id/action_imgsize_edt"
+                    style="@style/mytitlebar_test_dynamic_edtstyle"
+                    android:ems="2"
+                    android:hint="图片18/dp"
+                    android:inputType="number"/>
+
+
+                <EditText
+                    android:id="@+id/action_clicktoast_edt"
+                    style="@style/mytitlebar_test_dynamic_edtstyle"
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:ems="2"
+                    android:hint="点击提示内容"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/action_add_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:text="增加按钮"/>
+
+                <Button
+                    android:id="@+id/action_remove_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:text="删除按钮"/>
+
+                <Button
+                    android:id="@+id/action_initialize_btn"
+                    style="@style/mytitlebar_test_dynamic_btnstyle"
+                    android:layout_marginRight="8dp"
+                    android:text="按钮初始化"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="#1f1f1f"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

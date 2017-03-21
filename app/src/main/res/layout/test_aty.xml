@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/main_aty"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <com.handy.widget.titlebar.HandyTitleBar
+        android:id="@+id/base_mytitlebar"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"/>
+
+    <Button
+        android:id="@+id/main_dynamic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="8dp"
+        android:text="动态样例"/>
+</LinearLayout>
