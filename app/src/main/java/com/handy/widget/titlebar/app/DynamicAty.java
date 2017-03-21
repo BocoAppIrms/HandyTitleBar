@@ -1,4 +1,4 @@
-package com.handy.widget.titlebar;
+package com.handy.widget.titlebar.app;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.handy.widget.titlebar.HandyTitleBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
