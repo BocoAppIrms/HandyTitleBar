@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.ljcode.app.mytitlebar">
+          package="com.handy.widget.titlebar">
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -14,5 +14,4 @@
         </activity>
         <activity android:name="com.handy.widget.titlebar.DynamicAty"/>
     </application>
-
 </manifest>
