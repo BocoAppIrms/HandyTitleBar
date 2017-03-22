@@ -214,7 +214,7 @@ public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
         try {
             StatusBar.setBackgroundResource(statusBarBackground);
         } catch (Exception e) {
-            Log.d("MyTitleBar", "资源ID设置有误");
+            Log.d("HandyTitleBar", "资源ID设置有误");
         }
         onRefresh();
         return this;
@@ -228,7 +228,7 @@ public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
             TopLineHeight = dpTopx(dividerHeight);
             TopLine.getLayoutParams().height = TopLineHeight;
         } else {
-            Log.e("MyTitleBar", " TopLineHeight 设置无效");
+            Log.e("HandyTitleBar", " TopLineHeight 设置无效");
         }
         onRefresh();
         return this;
@@ -238,7 +238,7 @@ public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
         try {
             TopLine.setBackgroundResource(backgroundresId);
         } catch (Exception e) {
-            Log.d("MyTitleBar", "资源ID设置有误");
+            Log.d("HandyTitleBar", "资源ID设置有误");
         }
         onRefresh();
         return this;
@@ -252,7 +252,7 @@ public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
             TitleBarHeight = dpTopx(height);
         } else {
             TitleBarHeight = dpTopx(DEFAULT_TITLEBAR_HEIGHT);
-            Log.e("MyTitleBar", " TitleBarHeight 设置无效，恢复为默认高度");
+            Log.e("HandyTitleBar", " TitleBarHeight 设置无效，恢复为默认高度");
         }
         onRefresh();
         return this;
@@ -262,7 +262,7 @@ public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
         try {
             setBackgroundResource(resID);
         } catch (Exception e) {
-            Log.d("MyTitleBar", "资源ID设置有误");
+            Log.d("HandyTitleBar", "资源ID设置有误");
         }
         onRefresh();
         return this;
@@ -387,7 +387,7 @@ public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
         try {
             CenterText.setBackgroundResource(resid);
         } catch (Exception e) {
-            Log.d("MyTitleBar", "资源ID设置有误");
+            Log.d("HandyTitleBar", "资源ID设置有误");
         }
         return this;
     }
@@ -416,7 +416,7 @@ public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
         try {
             SubTitleText.setBackgroundResource(resid);
         } catch (Exception e) {
-            Log.d("MyTitleBar", "资源ID设置有误");
+            Log.d("HandyTitleBar", "资源ID设置有误");
         }
         return this;
     }
@@ -503,7 +503,7 @@ public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
             BottomLineHeight = dpTopx(dividerHeight);
             BottomLine.getLayoutParams().height = BottomLineHeight;
         } else {
-            Log.e("MyTitleBar", " BottomLineHeight 设置无效");
+            Log.e("HandyTitleBar", " BottomLineHeight 设置无效");
         }
         onRefresh();
         return this;
@@ -513,7 +513,7 @@ public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
         try {
             BottomLine.setBackgroundResource(backgroundresId);
         } catch (Exception e) {
-            Log.d("MyTitleBar", "资源ID设置有误");
+            Log.d("HandyTitleBar", "资源ID设置有误");
         }
         onRefresh();
         return this;
