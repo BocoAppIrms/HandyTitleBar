@@ -1,4 +1,4 @@
-package com.handy.widget.titlebar.app;
+package com.handy.titlebar.app;
 
 import android.content.Intent;
 import android.graphics.Color;
