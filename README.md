@@ -1,8 +1,8 @@
 #   敏捷开发基本控件之标题栏
 ![](HandyBase.png)
-## 项目引用
 
-***Step 2.添加maven地址到Project的build.gradle配置文件中***
+## 项目引用
+***Step 1.添加maven地址到Project的build.gradle配置文件中***
 
 ```javascript
 
