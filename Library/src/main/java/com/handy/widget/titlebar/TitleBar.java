@@ -22,9 +22,10 @@ import java.util.LinkedList;
 
 /**
  * <pre>
+ *  author: Handy
+ *  blog  : https://github.com/liujie045
+ *  time  : 2017-4-18 10:14:23
  *  自定义标题栏
- *  创建人：Coder-LJ
- *  创建时间：2016年8月28日19:50:29
  * </pre>
  */
 public class TitleBar extends ViewGroup implements View.OnClickListener {
