@@ -5,7 +5,7 @@
               android:background="#eceff1"
               android:orientation="vertical">
 
-    <com.handy.widget.titlebar.HandyTitleBar
+    <com.handy.widget.titlebar.TitleBar
         android:id="@+id/base_mytitlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

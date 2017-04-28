@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.handy.widget.titlebar.HandyTitleBar;
+import com.handy.widget.titlebar.TitleBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,7 +20,7 @@ import butterknife.OnClick;
 public class DynamicAty extends AppCompatActivity {
 
     @BindView(R.id.base_mytitlebar)
-    HandyTitleBar baseHandyTitleBar;
+    TitleBar titleBar;
     @BindView(R.id.content_main_edt)
     EditText contentMainEdt;
     @BindView(R.id.content_second_edt)
@@ -92,17 +92,17 @@ public class DynamicAty extends AppCompatActivity {
     @BindView(R.id.second_background_btn)
     Button secondBackgroundBtn;
 
-    private HandyTitleBar.Action action = null;
+    private TitleBar.Action action = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dynamic_aty);
         ButterKnife.bind(this);
-        baseHandyTitleBar.setTitle("主标题" + "\n" + "副标题");
-        baseHandyTitleBar.setImmersive(DynamicAty.this, true);
-        baseHandyTitleBar.setBackgroundColor(Color.parseColor("#1f1f1f"));
-        baseHandyTitleBar.addLeftAction(new HandyTitleBar.Action() {
+        titleBar.setTitle("主标题" + "\n" + "副标题");
+        titleBar.setImmersive(DynamicAty.this, true);
+        titleBar.setBackgroundColor(Color.parseColor("#1f1f1f"));
+        titleBar.addLeftAction(new TitleBar.Action() {
             @Override
             public void onClick() {
                 finish();
@@ -124,83 +124,83 @@ public class DynamicAty extends AppCompatActivity {
             case R.id.content_style_btn:// 标题格式
                 if (contentStyleBtn.getText().equals("标题格式(竖)")) {
                     contentStyleBtn.setText("标题格式(横)");
-                    baseHandyTitleBar.setTitle(contentMain + "\n" + contentSecond);
+                    titleBar.setTitle(contentMain + "\n" + contentSecond);
                 } else if (contentStyleBtn.getText().equals("标题格式(横)")) {
                     contentStyleBtn.setText("标题格式(竖)");
-                    baseHandyTitleBar.setTitle(contentMain + "\t" + contentSecond);
+                    titleBar.setTitle(contentMain + "\t" + contentSecond);
                 }
                 break;
             case R.id.content_setting_btn:// 标题内容
                 if (contentSettingBtn.getText().equals("显示主标题")) {
                     contentSettingBtn.setText("显示全标题");
-                    baseHandyTitleBar.setTitle(contentMain);
+                    titleBar.setTitle(contentMain);
                 } else if (contentSettingBtn.getText().equals("显示全标题")) {
                     contentSettingBtn.setText("显示主标题");
                     if (contentStyleBtn.getText().equals("标题格式(竖)")) {
-                        baseHandyTitleBar.setTitle(contentMain + "\t" + contentSecond);
+                        titleBar.setTitle(contentMain + "\t" + contentSecond);
                     } else if (contentStyleBtn.getText().equals("标题格式(横)")) {
-                        baseHandyTitleBar.setTitle(contentMain + "\n" + contentSecond);
+                        titleBar.setTitle(contentMain + "\n" + contentSecond);
                     }
                 }
                 break;
             case R.id.main_size_btn:// 主标题大小
-                baseHandyTitleBar.setTitleSize(mainSizeEdt.getText().toString().length() == 0 ? HandyTitleBar.DEFAULT_MAIN_TEXT_SIZE : Float.valueOf(mainSizeEdt.getText().toString()));
+                titleBar.setTitleSize(mainSizeEdt.getText().toString().length() == 0 ? TitleBar.DEFAULT_MAIN_TEXT_SIZE : Float.valueOf(mainSizeEdt.getText().toString()));
                 break;
             case R.id.second_size_btn:// 副标题大小
-                baseHandyTitleBar.setSubTitleSize(secondSizeEdt.getText().toString().length() == 0 ? HandyTitleBar.DEFAULT_SUB_TEXT_SIZE : Float.valueOf(secondSizeEdt.getText().toString()));
+                titleBar.setSubTitleSize(secondSizeEdt.getText().toString().length() == 0 ? TitleBar.DEFAULT_SUB_TEXT_SIZE : Float.valueOf(secondSizeEdt.getText().toString()));
                 break;
             case R.id.main_textcolor_btn:// 改变主标题字体
-                baseHandyTitleBar.setTitleColor(R.color.myTitleBar_TestColor_Title);
+                titleBar.setTitleColor(R.color.myTitleBar_TestColor_Title);
                 break;
             case R.id.second_textcolor_btn:// 改变副标题字体
-                baseHandyTitleBar.setSubTitleColor(R.color.myTitleBar_TestColor_SubTitle);
+                titleBar.setSubTitleColor(R.color.myTitleBar_TestColor_SubTitle);
                 break;
             case R.id.main_background_btn:// 改变主标题颜色
-                baseHandyTitleBar.setTitleBackground(R.color.myTitleBar_TestColor_TitleBG);
+                titleBar.setTitleBackground(R.color.myTitleBar_TestColor_TitleBG);
                 break;
             case R.id.second_background_btn:// 改变副标题颜色
-                baseHandyTitleBar.setSubTitleBackground(R.color.myTitleBar_TestColor_SubTitleBG);
+                titleBar.setSubTitleBackground(R.color.myTitleBar_TestColor_SubTitleBG);
                 break;
             case R.id.statebar_background_btn:// 改变状态栏颜色
-                baseHandyTitleBar.setStatusBarBackground(R.color.myTitleBar_TestColor_StatuBar);
+                titleBar.setStatusBarBackground(R.color.myTitleBar_TestColor_StatuBar);
                 break;
             case R.id.titlebar_background_btn:// 改变标题栏颜色
-                baseHandyTitleBar.setTitleBarBackground(R.color.myTitleBar_TestColor_TitleBar);// myTitleBar.setTitleBarBackground(R.mipmap.ic_launcher);
+                titleBar.setTitleBarBackground(R.color.myTitleBar_TestColor_TitleBar);// myTitleBar.setTitleBarBackground(R.mipmap.ic_launcher);
                 break;
             case R.id.titlebar_recover_btn:// 恢复标题栏颜色
-                baseHandyTitleBar.setTitleColor(Color.WHITE);
-                baseHandyTitleBar.setSubTitleColor(Color.WHITE);
-                baseHandyTitleBar.setBackgroundColor(Color.parseColor("#1f1f1f"));
-                baseHandyTitleBar.setTitleBackground(R.color.myTitleBar_TestColor_Transparent);
-                baseHandyTitleBar.setSubTitleBackground(R.color.myTitleBar_TestColor_Transparent);
-                baseHandyTitleBar.setStatusBarBackground(R.color.myTitleBar_TestColor_Transparent);
+                titleBar.setTitleColor(Color.WHITE);
+                titleBar.setSubTitleColor(Color.WHITE);
+                titleBar.setBackgroundColor(Color.parseColor("#1f1f1f"));
+                titleBar.setTitleBackground(R.color.myTitleBar_TestColor_Transparent);
+                titleBar.setSubTitleBackground(R.color.myTitleBar_TestColor_Transparent);
+                titleBar.setStatusBarBackground(R.color.myTitleBar_TestColor_Transparent);
                 break;
             case R.id.statebar_immersive_btn:// 设置浸入式效果
                 if (statebarImmersiveBtn.getText().equals("打开浸入式效果")) {
                     statebarImmersiveBtn.setText("关闭浸入式效果");
-                    baseHandyTitleBar.setImmersive(DynamicAty.this, true);
+                    titleBar.setImmersive(DynamicAty.this, true);
                 } else if (statebarImmersiveBtn.getText().equals("关闭浸入式效果")) {
                     statebarImmersiveBtn.setText("打开浸入式效果");
-                    baseHandyTitleBar.setImmersive(DynamicAty.this, false);
+                    titleBar.setImmersive(DynamicAty.this, false);
                 }
                 break;
             case R.id.mytitlebar_setting_btn:// 设置标题栏高度
-                baseHandyTitleBar.setTitleBarHeight(mytitlebarHtightEdt.getText().toString().length() == 0 ? HandyTitleBar.DEFAULT_TITLEBAR_HEIGHT : Integer.valueOf(mytitlebarHtightEdt.getText().toString()));
+                titleBar.setTitleBarHeight(mytitlebarHtightEdt.getText().toString().length() == 0 ? TitleBar.DEFAULT_TITLEBAR_HEIGHT : Integer.valueOf(mytitlebarHtightEdt.getText().toString()));
                 break;
             case R.id.topline_background_btn:// 设置顶部分割线颜色
-                baseHandyTitleBar.setTopLineBackground(R.color.myTitleBar_TestColor_TopLine);
+                titleBar.setTopLineBackground(R.color.myTitleBar_TestColor_TopLine);
                 break;
             case R.id.topline_setting_btn:// 设置底部分割线高度
-                baseHandyTitleBar.setTopLineHeight(toplineHtightEdt.getText().toString().length() == 0 ? HandyTitleBar.DEFAULT_TOPLINE_HEIGHT : Integer.valueOf(toplineHtightEdt.getText().toString()));
+                titleBar.setTopLineHeight(toplineHtightEdt.getText().toString().length() == 0 ? TitleBar.DEFAULT_TOPLINE_HEIGHT : Integer.valueOf(toplineHtightEdt.getText().toString()));
                 break;
             case R.id.bottomline_background_btn:// 改变底部分割线颜色
-                baseHandyTitleBar.setBottomLineBackground(R.color.myTitleBar_TestColor_BottomLine);
+                titleBar.setBottomLineBackground(R.color.myTitleBar_TestColor_BottomLine);
                 break;
             case R.id.bottomline_setting_btn:// 改变底部分割线高度
-                baseHandyTitleBar.setBottomLineHeight(bottomlineHtightEdt.getText().toString().length() == 0 ? HandyTitleBar.DEFAULT_BOTTOMLINE_HEIGHT : Integer.valueOf(bottomlineHtightEdt.getText().toString()));
+                titleBar.setBottomLineHeight(bottomlineHtightEdt.getText().toString().length() == 0 ? TitleBar.DEFAULT_BOTTOMLINE_HEIGHT : Integer.valueOf(bottomlineHtightEdt.getText().toString()));
                 break;
             case R.id.leftaction_add_btn:// 增加一个左侧按钮
-                baseHandyTitleBar.addLeftAction(new HandyTitleBar.Action() {
+                titleBar.addLeftAction(new TitleBar.Action() {
                     @Override
                     public void onClick() {
 
@@ -213,8 +213,8 @@ public class DynamicAty extends AppCompatActivity {
                 });
                 break;
             case R.id.leftaction_remove_btn:// 删除左侧按钮
-                baseHandyTitleBar.removeAllLeftActions();
-                baseHandyTitleBar.addLeftAction(new HandyTitleBar.Action() {
+                titleBar.removeAllLeftActions();
+                titleBar.addLeftAction(new TitleBar.Action() {
                     @Override
                     public void onClick() {
                         finish();
@@ -227,7 +227,7 @@ public class DynamicAty extends AppCompatActivity {
                 });
                 break;
             case R.id.rightaction_add_btn:// 增加一个右侧按钮
-                baseHandyTitleBar.addRightAction(new HandyTitleBar.Action() {
+                titleBar.addRightAction(new TitleBar.Action() {
                     @Override
                     public void onClick() {
 
@@ -240,25 +240,25 @@ public class DynamicAty extends AppCompatActivity {
                 });
                 break;
             case R.id.rightaction_remove_btn:// 删除右侧按钮
-                baseHandyTitleBar.removeAllRightActions();
+                titleBar.removeAllRightActions();
                 break;
             case R.id.action_add_btn:// 增加一个自定义按钮
                 String Text = actionContentEdt.getText().toString().length() == 0 ? "Action" : actionContentEdt.getText().toString();
-                int TextSize = actionTextsizeEdt.getText().toString().length() == 0 ? HandyTitleBar.DEFAULT_TITLEBAR_HEIGHT : Integer.valueOf(actionTextsizeEdt.getText().toString());
+                int TextSize = actionTextsizeEdt.getText().toString().length() == 0 ? TitleBar.DEFAULT_TITLEBAR_HEIGHT : Integer.valueOf(actionTextsizeEdt.getText().toString());
                 int img = R.mipmap.ic_launcher;
-                int ImgSize = actionImgsizeEdt.getText().toString().length() == 0 ? HandyTitleBar.DEFAULT_TITLEBAR_HEIGHT : Integer.valueOf(actionImgsizeEdt.getText().toString());
+                int ImgSize = actionImgsizeEdt.getText().toString().length() == 0 ? TitleBar.DEFAULT_TITLEBAR_HEIGHT : Integer.valueOf(actionImgsizeEdt.getText().toString());
                 String ClickToast = actionClicktoastEdt.getText().toString().length() == 0 ? "已点击" : actionClicktoastEdt.getText().toString();
 
                 getAction(Text, TextSize, img, ImgSize, ClickToast);
-                baseHandyTitleBar.addRightAction(action);
+                titleBar.addRightAction(action);
                 break;
             case R.id.action_remove_btn:// 移除指定按钮
-                baseHandyTitleBar.removerightAction(action);
+                titleBar.removerightAction(action);
                 break;
             case R.id.action_initialize_btn:// 按钮初始化
-                baseHandyTitleBar.removeAllLeftActions();
-                baseHandyTitleBar.removeAllRightActions();
-                baseHandyTitleBar.addLeftAction(new HandyTitleBar.Action() {
+                titleBar.removeAllLeftActions();
+                titleBar.removeAllRightActions();
+                titleBar.addLeftAction(new TitleBar.Action() {
                     @Override
                     public void onClick() {
                         finish();
@@ -274,7 +274,7 @@ public class DynamicAty extends AppCompatActivity {
     }
 
     private void getAction(final String text, final int textSize, final int img, final int imgSize, final String clickToast) {
-        action = new HandyTitleBar.Action() {
+        action = new TitleBar.Action() {
             @Override
             public void onClick() {
                 Toast.makeText(DynamicAty.this, clickToast, Toast.LENGTH_SHORT).show();

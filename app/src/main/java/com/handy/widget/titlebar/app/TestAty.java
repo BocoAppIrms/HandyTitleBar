@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.handy.widget.titlebar.HandyTitleBar;
+import com.handy.widget.titlebar.TitleBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,11 +25,11 @@ public class TestAty extends AppCompatActivity {
         ButterKnife.bind(this);
 
         /* 初始化标题栏 */
-        HandyTitleBar baseHandyTitleBar = (HandyTitleBar) findViewById(R.id.base_mytitlebar);
-        baseHandyTitleBar.setTitle("MyTitleBar 使用样例");
-        baseHandyTitleBar.setImmersive(TestAty.this, true);
-        baseHandyTitleBar.setBackgroundColor(Color.parseColor("#1f1f1f"));
-        baseHandyTitleBar.addLeftAction(new HandyTitleBar.Action() {
+        TitleBar titleBar = (TitleBar) findViewById(R.id.base_mytitlebar);
+        titleBar.setTitle("MyTitleBar 使用样例");
+        titleBar.setImmersive(TestAty.this, true);
+        titleBar.setBackgroundColor(Color.parseColor("#1f1f1f"));
+        titleBar.addLeftAction(new TitleBar.Action() {
             @Override
             public void onClick() {
                 finish();
