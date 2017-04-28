@@ -27,7 +27,7 @@ import java.util.LinkedList;
  *  创建时间：2016年8月28日19:50:29
  * </pre>
  */
-public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
+public class TitleBar extends ViewGroup implements View.OnClickListener {
     public static final int DEFAULT_MAIN_TEXT_SIZE = 17;// 主标题字体大小
     public static final int DEFAULT_SUB_TEXT_SIZE = 11;// 副标题字体大小
     public static final int DEFAULT_ACTION_TEXT_SIZE = 13;// 动作按钮字体大小
@@ -58,17 +58,17 @@ public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
     private int BottomLineHeight = dpTopx(DEFAULT_BOTTOMLINE_HEIGHT);// 底部分割线高度
     private int ParentHeight;// 全局高度
 
-    public HandyTitleBar(Context context) {
+    public TitleBar(Context context) {
         super(context);
         init(context);
     }
 
-    public HandyTitleBar(Context context, AttributeSet attrs) {
+    public TitleBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public HandyTitleBar(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TitleBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
@@ -174,7 +174,7 @@ public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
     /**
      * ======================================== 状态栏 ========================================
      */
-    public HandyTitleBar setImmersive(Activity activity, boolean immersive) {// 设置系统状态栏是否可见，安卓系统版本大于等于19
+    public TitleBar setImmersive(Activity activity, boolean immersive) {// 设置系统状态栏是否可见，安卓系统版本大于等于19
         if (immersive) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
                 StatusBarHeight = 0;
@@ -210,11 +210,11 @@ public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
         return this;
     }
 
-    public HandyTitleBar setStatusBarBackground(int statusBarBackground) {
+    public TitleBar setStatusBarBackground(int statusBarBackground) {
         try {
             StatusBar.setBackgroundResource(statusBarBackground);
         } catch (Exception e) {
-            Log.d("HandyTitleBar", "资源ID设置有误");
+            Log.d("TitleBar", "资源ID设置有误");
         }
         onRefresh();
         return this;
@@ -223,22 +223,22 @@ public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
     /**
      * ======================================== 顶部分割线 ========================================
      */
-    public HandyTitleBar setTopLineHeight(int dividerHeight) {// 顶部分割线高度
+    public TitleBar setTopLineHeight(int dividerHeight) {// 顶部分割线高度
         if (dividerHeight >= 0) {
             TopLineHeight = dpTopx(dividerHeight);
             TopLine.getLayoutParams().height = TopLineHeight;
         } else {
-            Log.e("HandyTitleBar", " TopLineHeight 设置无效");
+            Log.e("TitleBar", " TopLineHeight 设置无效");
         }
         onRefresh();
         return this;
     }
 
-    public HandyTitleBar setTopLineBackground(int backgroundresId) {// 顶部分割线背景(backgroundresId = R.color.black)
+    public TitleBar setTopLineBackground(int backgroundresId) {// 顶部分割线背景(backgroundresId = R.color.black)
         try {
             TopLine.setBackgroundResource(backgroundresId);
         } catch (Exception e) {
-            Log.d("HandyTitleBar", "资源ID设置有误");
+            Log.d("TitleBar", "资源ID设置有误");
         }
         onRefresh();
         return this;
@@ -247,22 +247,22 @@ public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
     /**
      * ======================================== 标题栏 ========================================
      */
-    public HandyTitleBar setTitleBarHeight(int height) {// 标题栏高度
+    public TitleBar setTitleBarHeight(int height) {// 标题栏高度
         if (height >= 0) {
             TitleBarHeight = dpTopx(height);
         } else {
             TitleBarHeight = dpTopx(DEFAULT_TITLEBAR_HEIGHT);
-            Log.e("HandyTitleBar", " TitleBarHeight 设置无效，恢复为默认高度");
+            Log.e("TitleBar", " TitleBarHeight 设置无效，恢复为默认高度");
         }
         onRefresh();
         return this;
     }
 
-    public HandyTitleBar setTitleBarBackground(int resID) {// 标题栏背景
+    public TitleBar setTitleBarBackground(int resID) {// 标题栏背景
         try {
             setBackgroundResource(resID);
         } catch (Exception e) {
-            Log.d("HandyTitleBar", "资源ID设置有误");
+            Log.d("TitleBar", "资源ID设置有误");
         }
         onRefresh();
         return this;
@@ -320,7 +320,7 @@ public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
      * ======================================== 标题栏 —— 标题内容 ========================================
      */
     @SuppressLint("SetTextI18n")
-    public HandyTitleBar setTitle(CharSequence title) {// 标题内容设置（主标题与副标题用"\n"或"\t"分割）
+    public TitleBar setTitle(CharSequence title) {// 标题内容设置（主标题与副标题用"\n"或"\t"分割）
         CenterText.setVisibility(View.VISIBLE);
         SubTitleText.setVisibility(View.VISIBLE);
         int index = title.toString().indexOf("\n");
@@ -358,75 +358,75 @@ public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
         return SubTitleText.getText().toString();
     }
 
-    public HandyTitleBar setTitle(int resid) {// 标题内容设置（主标题与副标题用"\n"或"\t"分割）
+    public TitleBar setTitle(int resid) {// 标题内容设置（主标题与副标题用"\n"或"\t"分割）
         setTitle(getResources().getString(resid));
         return this;
     }
 
-    public HandyTitleBar setCenterClickListener(OnClickListener l) {// 标题内容点击事件
+    public TitleBar setCenterClickListener(OnClickListener l) {// 标题内容点击事件
         CenterLayout.setOnClickListener(l);
         return this;
     }
 
-    public HandyTitleBar setTitleColor(int resid) {// 主标题字体颜色
+    public TitleBar setTitleColor(int resid) {// 主标题字体颜色
         CenterText.setTextColor(resid);
         return this;
     }
 
-    public HandyTitleBar setTitleSize(float size) {// 主标题字体大小
+    public TitleBar setTitleSize(float size) {// 主标题字体大小
         CenterText.setTextSize(size);
         return this;
     }
 
-    public HandyTitleBar setTitleSizeDimens(int resdimensid) {// 主标题字体大小
+    public TitleBar setTitleSizeDimens(int resdimensid) {// 主标题字体大小
         CenterText.setTextSize(px2sp(context.getResources().getDimension(resdimensid)));
         return this;
     }
 
-    public HandyTitleBar setTitleBackground(int resid) {// 主标题背景
+    public TitleBar setTitleBackground(int resid) {// 主标题背景
         try {
             CenterText.setBackgroundResource(resid);
         } catch (Exception e) {
-            Log.d("HandyTitleBar", "资源ID设置有误");
+            Log.d("TitleBar", "资源ID设置有误");
         }
         return this;
     }
 
-    public HandyTitleBar setTitleOnClickListener(OnClickListener listener) {// 主标题点击事件
+    public TitleBar setTitleOnClickListener(OnClickListener listener) {// 主标题点击事件
         CenterText.setOnClickListener(listener);
         return this;
     }
 
-    public HandyTitleBar setSubTitleColor(int resid) {// 副标题字体颜色
+    public TitleBar setSubTitleColor(int resid) {// 副标题字体颜色
         SubTitleText.setTextColor(resid);
         return this;
     }
 
-    public HandyTitleBar setSubTitleSize(float size) {// 副标题字体大小
+    public TitleBar setSubTitleSize(float size) {// 副标题字体大小
         SubTitleText.setTextSize(size);
         return this;
     }
 
-    public HandyTitleBar setSubTitleSizeDimens(int resdimensid) {// 副标题字体大小
+    public TitleBar setSubTitleSizeDimens(int resdimensid) {// 副标题字体大小
         SubTitleText.setTextSize(px2sp(context.getResources().getDimension(resdimensid)));
         return this;
     }
 
-    public HandyTitleBar setSubTitleBackground(int resid) {// 副标题背景
+    public TitleBar setSubTitleBackground(int resid) {// 副标题背景
         try {
             SubTitleText.setBackgroundResource(resid);
         } catch (Exception e) {
-            Log.d("HandyTitleBar", "资源ID设置有误");
+            Log.d("TitleBar", "资源ID设置有误");
         }
         return this;
     }
 
-    public HandyTitleBar setSubTitleOnClickListener(OnClickListener listener) {// 副标题点击事件
+    public TitleBar setSubTitleOnClickListener(OnClickListener listener) {// 副标题点击事件
         SubTitleText.setOnClickListener(listener);
         return this;
     }
 
-    public HandyTitleBar setCustomTitle(View titleView) {// 自定义标题内容样式
+    public TitleBar setCustomTitle(View titleView) {// 自定义标题内容样式
         if (titleView == null) {
             CenterText.setVisibility(View.VISIBLE);
             if (CustomCenterView != null)
@@ -445,7 +445,7 @@ public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
     /**
      * ======================================== 标题栏 —— 右侧按钮 ========================================
      */
-    public HandyTitleBar setActionTextColor(int colorResId) {// 动作按钮字体颜色
+    public TitleBar setActionTextColor(int colorResId) {// 动作按钮字体颜色
         ActionTextColor = colorResId;
         return this;
     }
@@ -498,22 +498,22 @@ public class HandyTitleBar extends ViewGroup implements View.OnClickListener {
     /**
      * ======================================== 底部分割线 ========================================
      */
-    public HandyTitleBar setBottomLineHeight(int dividerHeight) {// 底部分割线高度
+    public TitleBar setBottomLineHeight(int dividerHeight) {// 底部分割线高度
         if (dividerHeight >= 0) {
             BottomLineHeight = dpTopx(dividerHeight);
             BottomLine.getLayoutParams().height = BottomLineHeight;
         } else {
-            Log.e("HandyTitleBar", " BottomLineHeight 设置无效");
+            Log.e("TitleBar", " BottomLineHeight 设置无效");
         }
         onRefresh();
         return this;
     }
 
-    public HandyTitleBar setBottomLineBackground(int backgroundresId) {// 底部分割线背景
+    public TitleBar setBottomLineBackground(int backgroundresId) {// 底部分割线背景
         try {
             BottomLine.setBackgroundResource(backgroundresId);
         } catch (Exception e) {
-            Log.d("HandyTitleBar", "资源ID设置有误");
+            Log.d("TitleBar", "资源ID设置有误");
         }
         onRefresh();
         return this;
