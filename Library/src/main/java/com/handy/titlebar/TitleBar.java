@@ -1,4 +1,4 @@
-package com.handy.widget.titlebar;
+package com.handy.titlebar;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
