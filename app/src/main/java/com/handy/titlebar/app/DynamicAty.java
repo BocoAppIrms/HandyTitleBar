@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.handy.widget.titlebar.TitleBar;
+import com.handy.titlebar.TitleBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

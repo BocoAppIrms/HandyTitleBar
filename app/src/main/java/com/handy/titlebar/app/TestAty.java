@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.handy.widget.titlebar.TitleBar;
+import com.handy.titlebar.TitleBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,7 +25,7 @@ public class TestAty extends AppCompatActivity {
         ButterKnife.bind(this);
 
         /* 初始化标题栏 */
-        TitleBar titleBar = (TitleBar) findViewById(R.id.base_mytitlebar);
+        TitleBar titleBar = findViewById(R.id.base_mytitlebar);
         titleBar.setTitle("MyTitleBar 使用样例");
         titleBar.setImmersive(TestAty.this, true);
         titleBar.setBackgroundColor(Color.parseColor("#1f1f1f"));
