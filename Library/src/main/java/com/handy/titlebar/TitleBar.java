@@ -29,13 +29,83 @@ import java.util.LinkedList;
  * </pre>
  */
 public class TitleBar extends ViewGroup implements View.OnClickListener {
-    public static final int DEFAULT_MAIN_TEXT_SIZE = 17;// 主标题字体大小
-    public static final int DEFAULT_SUB_TEXT_SIZE = 11;// 副标题字体大小
-    public static final int DEFAULT_ACTION_TEXT_SIZE = 13;// 动作按钮字体大小
-    public static final int DEFAULT_ACTION_IMG_SIZE = 18;// 动作按钮图片大小
-    public static final int DEFAULT_TITLEBAR_HEIGHT = 48;// 标题栏高度
-    public static final int DEFAULT_TOPLINE_HEIGHT = 0;// 分割线高度
-    public static final int DEFAULT_BOTTOMLINE_HEIGHT = 0;// 分割线高度
+    /**
+     * 主标题字体大小
+     */
+    public static final int DEFAULT_MAIN_TEXT_SIZE = 17;
+    /**
+     * 副标题字体大小
+     */
+    public static final int DEFAULT_SUB_TEXT_SIZE = 11;
+    /**
+     * 动作按钮字体大小
+     */
+    public static final int DEFAULT_ACTION_TEXT_SIZE = 13;
+    /**
+     * 动作按钮图片大小
+     */
+    public static final int DEFAULT_ACTION_IMG_SIZE = 18;
+    /**
+     * 标题栏高度
+     */
+    public static final int DEFAULT_TITLEBAR_HEIGHT = 48;
+    /**
+     * 分割线高度
+     */
+    public static final int DEFAULT_TOPLINE_HEIGHT = 0;
+    /**
+     * 分割线高度
+     */
+    public static final int DEFAULT_BOTTOMLINE_HEIGHT = 0;
+    /**
+     * 屏幕宽度
+     */
+    private int ScreenWidth;
+    /**
+     * 屏幕高度
+     */
+    private int ScreenHeight;
+    /**
+     * 状态栏背景
+     */
+    private int StatusBarColor = 0;
+    /**
+     * 状态栏高度
+     */
+    private int StatusBarHeight = 0;
+    /**
+     * 动作按钮内边距
+     */
+    private int ActionPadding = dpTopx(4);
+    /**
+     * 动作按钮外边距
+     */
+    private int OutPadding = dpTopx(8);
+    /**
+     * 标题文本字体颜色
+     */
+    private int TitleTextColor = Color.WHITE;
+    /**
+     * 动作按钮字体颜色
+     */
+    private int ActionTextColor = Color.WHITE;
+    /**
+     * 标题栏高度
+     */
+    private int TitleBarHeight = dpTopx(DEFAULT_TITLEBAR_HEIGHT);
+    /**
+     * 顶部分割线高度
+     */
+    private int TopLineHeight = dpTopx(DEFAULT_TOPLINE_HEIGHT);
+    /**
+     * 底部分割线高度
+     */
+    private int BottomLineHeight = dpTopx(DEFAULT_BOTTOMLINE_HEIGHT);
+    /**
+     * 全局高度
+     */
+    private int ParentHeight;
+
     public View StatusBar;
     public View TopLine;
     public LinearLayout LeftLayout;
@@ -46,18 +116,6 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
     public LinearLayout RightLayout;
     public View BottomLine;
     private Context context;
-    private int ScreenWidth;// 屏幕宽度
-    private int ScreenHeight;// 屏幕高度
-    private int StatusBarColor = 0;// 状态栏背景
-    private int StatusBarHeight = 0;// 状态栏高度
-    private int ActionPadding = dpTopx(4);// 动作按钮内边距
-    private int OutPadding = dpTopx(8);// 动作按钮外边距
-    private int TitleTextColor = Color.WHITE;// 标题文本字体颜色
-    private int ActionTextColor = Color.WHITE;// 动作按钮字体颜色
-    private int TitleBarHeight = dpTopx(DEFAULT_TITLEBAR_HEIGHT);// 标题栏高度
-    private int TopLineHeight = dpTopx(DEFAULT_TOPLINE_HEIGHT);// 顶部分割线高度
-    private int BottomLineHeight = dpTopx(DEFAULT_BOTTOMLINE_HEIGHT);// 底部分割线高度
-    private int ParentHeight;// 全局高度
 
     public TitleBar(Context context) {
         super(context);
@@ -173,9 +231,9 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
     }
 
     /**
-     * ======================================== 状态栏 ========================================
+     * 设置系统状态栏是否可见，安卓系统版本大于等于19
      */
-    public TitleBar setImmersive(Activity activity, boolean immersive) {// 设置系统状态栏是否可见，安卓系统版本大于等于19
+    public TitleBar setImmersive(Activity activity, boolean immersive) {
         if (immersive) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
                 StatusBarHeight = 0;
@@ -222,9 +280,9 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
     }
 
     /**
-     * ======================================== 顶部分割线 ========================================
+     * 顶部分割线高度
      */
-    public TitleBar setTopLineHeight(int dividerHeight) {// 顶部分割线高度
+    public TitleBar setTopLineHeight(int dividerHeight) {
         if (dividerHeight >= 0) {
             TopLineHeight = dpTopx(dividerHeight);
             TopLine.getLayoutParams().height = TopLineHeight;
@@ -246,9 +304,9 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
     }
 
     /**
-     * ======================================== 标题栏 ========================================
+     * 标题栏高度
      */
-    public TitleBar setTitleBarHeight(int height) {// 标题栏高度
+    public TitleBar setTitleBarHeight(int height) {
         if (height >= 0) {
             TitleBarHeight = dpTopx(height);
         } else {
@@ -259,7 +317,10 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         return this;
     }
 
-    public TitleBar setTitleBarBackground(int resID) {// 标题栏背景
+    /**
+     * 标题栏背景
+     */
+    public TitleBar setTitleBarBackground(int resID) {
         try {
             setBackgroundResource(resID);
         } catch (Exception e) {
@@ -270,21 +331,27 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
     }
 
     /**
-     * ======================================== 标题栏 左侧按钮 ========================================
+     * 新增多个动作按钮
      */
-    public void addLeftActions(ActionList actionList) {// 新增多个动作按钮
+    public void addLeftActions(ActionList actionList) {
         int actions = actionList.size();
         for (int i = 0; i < actions; i++) {
             addLeftAction(actionList.get(i));
         }
     }
 
-    public View addLeftAction(Action action) {// 新增单个动作按钮
+    /**
+     * 新增单个动作按钮
+     */
+    public View addLeftAction(Action action) {
         final int index = LeftLayout.getChildCount();
         return addLeftAction(action, index);
     }
 
-    public View addLeftAction(Action action, int index) {// 指定位置新增动作按钮
+    /**
+     * 指定位置新增动作按钮
+     */
+    public View addLeftAction(Action action, int index) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         View view = inflateAction(action);
         action.setActionView(view);
@@ -300,7 +367,10 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         LeftLayout.removeViewAt(index);
     }
 
-    public void removeLeftAction(Action action) {// 移除单个动作按钮
+    /**
+     * 移除单个动作按钮
+     */
+    public void removeLeftAction(Action action) {
         int childCount = LeftLayout.getChildCount();
         for (int i = 0; i < childCount; i++) {
             View view = LeftLayout.getChildAt(i);
@@ -318,10 +388,10 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
     }
 
     /**
-     * ======================================== 标题栏 —— 标题内容 ========================================
+     * 标题内容设置（主标题与副标题用"\n"或"\t"分割）
      */
     @SuppressLint("SetTextI18n")
-    public TitleBar setTitle(CharSequence title) {// 标题内容设置（主标题与副标题用"\n"或"\t"分割）
+    public TitleBar setTitle(CharSequence title) {
         CenterText.setVisibility(View.VISIBLE);
         SubTitleText.setVisibility(View.VISIBLE);
         int index = title.toString().indexOf("\n");
@@ -359,32 +429,50 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         return SubTitleText.getText().toString();
     }
 
-    public TitleBar setTitle(int resid) {// 标题内容设置（主标题与副标题用"\n"或"\t"分割）
+    /**
+     * 标题内容设置（主标题与副标题用"\n"或"\t"分割）
+     */
+    public TitleBar setTitle(int resid) {
         setTitle(getResources().getString(resid));
         return this;
     }
 
-    public TitleBar setCenterClickListener(OnClickListener l) {// 标题内容点击事件
+    /**
+     * 标题内容点击事件
+     */
+    public TitleBar setCenterClickListener(OnClickListener l) {
         CenterLayout.setOnClickListener(l);
         return this;
     }
 
-    public TitleBar setTitleColor(int resid) {// 主标题字体颜色
+    /**
+     * 主标题字体颜色
+     */
+    public TitleBar setTitleColor(int resid) {
         CenterText.setTextColor(resid);
         return this;
     }
 
-    public TitleBar setTitleSize(float size) {// 主标题字体大小
+    /**
+     * 主标题字体大小
+     */
+    public TitleBar setTitleSize(float size) {
         CenterText.setTextSize(size);
         return this;
     }
 
-    public TitleBar setTitleSizeDimens(int resdimensid) {// 主标题字体大小
+    /**
+     * 主标题字体大小
+     */
+    public TitleBar setTitleSizeDimens(int resdimensid) {
         CenterText.setTextSize(px2sp(context.getResources().getDimension(resdimensid)));
         return this;
     }
 
-    public TitleBar setTitleBackground(int resid) {// 主标题背景
+    /**
+     * 主标题背景
+     */
+    public TitleBar setTitleBackground(int resid) {
         try {
             CenterText.setBackgroundResource(resid);
         } catch (Exception e) {
@@ -393,27 +481,42 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         return this;
     }
 
-    public TitleBar setTitleOnClickListener(OnClickListener listener) {// 主标题点击事件
+    /**
+     * 主标题点击事件
+     */
+    public TitleBar setTitleOnClickListener(OnClickListener listener) {
         CenterText.setOnClickListener(listener);
         return this;
     }
 
-    public TitleBar setSubTitleColor(int resid) {// 副标题字体颜色
+    /**
+     * 副标题字体颜色
+     */
+    public TitleBar setSubTitleColor(int resid) {
         SubTitleText.setTextColor(resid);
         return this;
     }
 
-    public TitleBar setSubTitleSize(float size) {// 副标题字体大小
+    /**
+     * 副标题字体大小
+     */
+    public TitleBar setSubTitleSize(float size) {
         SubTitleText.setTextSize(size);
         return this;
     }
 
-    public TitleBar setSubTitleSizeDimens(int resdimensid) {// 副标题字体大小
+    /**
+     * 副标题字体大小
+     */
+    public TitleBar setSubTitleSizeDimens(int resdimensid) {
         SubTitleText.setTextSize(px2sp(context.getResources().getDimension(resdimensid)));
         return this;
     }
 
-    public TitleBar setSubTitleBackground(int resid) {// 副标题背景
+    /**
+     * 副标题背景
+     */
+    public TitleBar setSubTitleBackground(int resid) {
         try {
             SubTitleText.setBackgroundResource(resid);
         } catch (Exception e) {
@@ -422,19 +525,27 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         return this;
     }
 
-    public TitleBar setSubTitleOnClickListener(OnClickListener listener) {// 副标题点击事件
+    /**
+     * 副标题点击事件
+     */
+    public TitleBar setSubTitleOnClickListener(OnClickListener listener) {
         SubTitleText.setOnClickListener(listener);
         return this;
     }
 
-    public TitleBar setCustomTitle(View titleView) {// 自定义标题内容样式
+    /**
+     * 自定义标题内容样式
+     */
+    public TitleBar setCustomTitle(View titleView) {
         if (titleView == null) {
             CenterText.setVisibility(View.VISIBLE);
-            if (CustomCenterView != null)
+            if (CustomCenterView != null) {
                 CenterLayout.removeView(CustomCenterView);
+            }
         } else {
-            if (CustomCenterView != null)
+            if (CustomCenterView != null) {
                 CenterLayout.removeView(CustomCenterView);
+            }
             LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
             CustomCenterView = titleView;
             CenterLayout.addView(titleView, layoutParams);
@@ -444,26 +555,35 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
     }
 
     /**
-     * ======================================== 标题栏 —— 右侧按钮 ========================================
+     * 动作按钮字体颜色
      */
-    public TitleBar setActionTextColor(int colorResId) {// 动作按钮字体颜色
+    public TitleBar setActionTextColor(int colorResId) {
         ActionTextColor = colorResId;
         return this;
     }
 
-    public void addRightActions(ActionList actionList) {// 新增多个动作按钮
+    /**
+     * 新增多个动作按钮
+     */
+    public void addRightActions(ActionList actionList) {
         int actions = actionList.size();
         for (int i = 0; i < actions; i++) {
             addRightAction(actionList.get(i));
         }
     }
 
-    public View addRightAction(Action action) {// 新增单个动作按钮
+    /**
+     * 新增单个动作按钮
+     */
+    public View addRightAction(Action action) {
         final int index = RightLayout.getChildCount();
         return addRightAction(action, index);
     }
 
-    public View addRightAction(Action action, int index) {// 指定位置新增动作按钮
+    /**
+     * 指定位置新增动作按钮
+     */
+    public View addRightAction(Action action, int index) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         View view = inflateAction(action);
         action.setActionView(view);
@@ -475,7 +595,10 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         RightLayout.removeViewAt(index);
     }
 
-    public void removerightAction(Action action) {// 移除单个动作按钮
+    /**
+     * 移除单个动作按钮
+     */
+    public void removerightAction(Action action) {
         int childCount = RightLayout.getChildCount();
         for (int i = 0; i < childCount; i++) {
             View view = RightLayout.getChildAt(i);
@@ -497,9 +620,9 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
     }
 
     /**
-     * ======================================== 底部分割线 ========================================
+     * 底部分割线高度
      */
-    public TitleBar setBottomLineHeight(int dividerHeight) {// 底部分割线高度
+    public TitleBar setBottomLineHeight(int dividerHeight) {
         if (dividerHeight >= 0) {
             BottomLineHeight = dpTopx(dividerHeight);
             BottomLine.getLayoutParams().height = BottomLineHeight;
@@ -510,7 +633,10 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         return this;
     }
 
-    public TitleBar setBottomLineBackground(int backgroundresId) {// 底部分割线背景
+    /**
+     * 底部分割线背景
+     */
+    public TitleBar setBottomLineBackground(int backgroundresId) {
         try {
             BottomLine.setBackgroundResource(backgroundresId);
         } catch (Exception e) {
@@ -520,9 +646,6 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         return this;
     }
 
-    /**
-     * ======================================== 界面UI绘制 ========================================
-     */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         measureChild(StatusBar, widthMeasureSpec, heightMeasureSpec);
@@ -553,9 +676,9 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
     }
 
     /**
-     * ======================================== 新增动作按钮 共用方法 ========================================
+     * 初始化动作按钮布局控件
      */
-    private View inflateAction(Action action) {// 初始化动作按钮布局控件
+    private View inflateAction(Action action) {
         LinearLayout view = new LinearLayout(getContext());
         view.setGravity(Gravity.CENTER_VERTICAL);
         view.setPadding(ActionPadding, 0, ActionPadding, 0);
@@ -563,18 +686,22 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         view.setOnClickListener(this);
 
         if (action.setDrawable() != 0) {
-            ImageView img = new ImageView(getContext());//添加动作按钮的图片
+            //添加动作按钮的图片
+            ImageView img = new ImageView(getContext());
             LayoutParams imglp = action.setDrawableSize() == 0 ? new LayoutParams(dpTopx(DEFAULT_ACTION_IMG_SIZE), dpTopx(DEFAULT_ACTION_IMG_SIZE)) : new LayoutParams(dpTopx(action.setDrawableSize()), dpTopx(action.setDrawableSize()));
             img.setLayoutParams(imglp);
             img.setImageResource(action.setDrawable());
+            img.setClickable(false);
             view.addView(img);
         }
 
-        if (!TextUtils.isEmpty(action.setText())) {//若文字内容不为空，添加动作按钮的文字
+        //若文字内容不为空，添加动作按钮的文字
+        if (!TextUtils.isEmpty(action.setText())) {
             TextView text = new TextView(getContext());
             text.setGravity(Gravity.CENTER);
             text.setText(action.setText());
-            text.setPadding(dpTopx(4), 0, 0, 0);//动作按钮中文字举例图片4dp
+            //动作按钮中文字举例图片4dp
+            text.setPadding(dpTopx(4), 0, 0, 0);
             text.setTextSize(action.setTextSize() == 0 ? DEFAULT_ACTION_TEXT_SIZE : action.setTextSize());
             if (action.setTextColor() == 0) {
                 text.setTextColor(ActionTextColor);
@@ -587,7 +714,7 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View view) {// 动作按钮点击事件（回调）
+    public void onClick(View view) {
         final Object tag = view.getTag();
         if (tag instanceof Action) {
             final Action action = (Action) tag;
@@ -595,7 +722,10 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         }
     }
 
-    public View getViewByAction(Action action) {// 获取单个动作按钮布局容器
+    /**
+     * 获取单个动作按钮布局容器
+     */
+    public View getViewByAction(Action action) {
         View view = findViewWithTag(action);
         return view;
     }
