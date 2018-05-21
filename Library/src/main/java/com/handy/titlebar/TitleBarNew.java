@@ -108,7 +108,7 @@ public class TitleBarNew extends ViewGroup {
         mainTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_mainTextColor, Color.BLACK);
         mainTextBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_mainTextBackgroundColor, Color.TRANSPARENT);
         subText = typedArray.getString(R.styleable.HandyTitleBarStyleable_subText);
-        subTextSize = typedArray.getDimension(R.styleable.HandyTitleBarStyleable_subTextSize, 11);
+        subTextSize = typedArray.getDimension(R.styleable.HandyTitleBarStyleable_subTextSize, 13);
         subTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_subTextColor, Color.BLACK);
         subTextBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_subTextBackgroundColor, Color.TRANSPARENT);
 
@@ -116,7 +116,7 @@ public class TitleBarNew extends ViewGroup {
         bottomLineColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_bottomLineColor, Color.GRAY);
 
         actionPadding = typedArray.getDimension(R.styleable.HandyTitleBarStyleable_actionPadding, dpTopx(4));
-        actionTextSize = typedArray.getDimension(R.styleable.HandyTitleBarStyleable_actionTextSize, 13);
+        actionTextSize = typedArray.getDimension(R.styleable.HandyTitleBarStyleable_actionTextSize, 15);
         actionTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_actionTextColor, Color.BLACK);
         actionImageSrc = typedArray.getResourceId(R.styleable.HandyTitleBarStyleable_actionImageSrc, 0);
         actionImageSize = typedArray.getDimension(R.styleable.HandyTitleBarStyleable_actionImageSize, 18);
