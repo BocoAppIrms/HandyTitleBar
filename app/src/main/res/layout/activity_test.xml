@@ -17,4 +17,12 @@
         android:layout_marginTop="8dp"
         android:padding="8dp"
         android:text="动态样例"/>
+
+    <Button
+        android:id="@+id/main_newtitlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="8dp"
+        android:text="新标题栏测试" />
 </LinearLayout>
