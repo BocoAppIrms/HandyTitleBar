@@ -5,13 +5,14 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.lang.reflect.Field;
 
@@ -55,8 +56,12 @@ public class TitleBarNew extends ViewGroup {
     private float actionPadding;
     private float actionTextSize;
     private int actionTextColor;
-    private Drawable actionImageSrc;
+    private int actionImageSrc;
     private float actionImageSize;
+
+    private int displayWidth;
+    private int parentWidth;
+    private int parentHeight;
 
     private View statusBar;
     private View topLineView;
@@ -79,6 +84,9 @@ public class TitleBarNew extends ViewGroup {
     @SuppressLint("CustomViewStyleable")
     public TitleBarNew(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        displayWidth = getResources().getDisplayMetrics().widthPixels;
+
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.HandyTitleBarStyleable);
         statusBarHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_statusBarHeight, getStatusBarHeight(context));
         statusBarBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_statusBarBackgroundColor, 0xFF0091ea);
@@ -109,8 +117,8 @@ public class TitleBarNew extends ViewGroup {
 
         actionPadding = typedArray.getDimension(R.styleable.HandyTitleBarStyleable_actionPadding, dpTopx(4));
         actionTextSize = typedArray.getDimension(R.styleable.HandyTitleBarStyleable_actionTextSize, 13);
-        actionTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_actionTextColor, Color.WHITE);
-        actionImageSrc = typedArray.getDrawable(R.styleable.HandyTitleBarStyleable_actionImageSrc);
+        actionTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_actionTextColor, Color.BLACK);
+        actionImageSrc = typedArray.getResourceId(R.styleable.HandyTitleBarStyleable_actionImageSrc, 0);
         actionImageSize = typedArray.getDimension(R.styleable.HandyTitleBarStyleable_actionImageSize, 18);
         typedArray.recycle();
 
@@ -186,40 +194,51 @@ public class TitleBarNew extends ViewGroup {
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
-        measureChild(statusBar, widthMeasureSpec, MeasureSpec.makeMeasureSpec(statusBarHeight, MeasureSpec.EXACTLY));
-        measureChild(topLineView, widthMeasureSpec, MeasureSpec.makeMeasureSpec(topLineHeight, MeasureSpec.EXACTLY));
+        parentWidth = widthMode != MeasureSpec.AT_MOST ? widthSize : displayWidth;
+        parentHeight = heightMode != MeasureSpec.AT_MOST ? heightSize : statusBarHeight + topLineHeight + titleBarHeight + bottomLineHeight;
+
+        measureChild(statusBar, MeasureSpec.makeMeasureSpec(displayWidth, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(statusBarHeight, MeasureSpec.EXACTLY));
+        measureChild(titleBar, MeasureSpec.makeMeasureSpec(parentWidth, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(titleBarHeight, MeasureSpec.EXACTLY));
+        measureChild(topLineView, MeasureSpec.makeMeasureSpec(parentWidth, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(topLineHeight, MeasureSpec.EXACTLY));
+        measureChild(bottomLineView, MeasureSpec.makeMeasureSpec(parentWidth, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(bottomLineHeight, MeasureSpec.EXACTLY));
         measureChild(leftActionsLayout, widthMeasureSpec, MeasureSpec.makeMeasureSpec(titleBarHeight, MeasureSpec.EXACTLY));
         measureChild(rightActionsLayout, widthMeasureSpec, MeasureSpec.makeMeasureSpec(titleBarHeight, MeasureSpec.EXACTLY));
         if (leftActionsLayout.getMeasuredWidth() > rightActionsLayout.getMeasuredWidth()) {
-            contentLayout.measure(MeasureSpec.makeMeasureSpec(widthMeasureSpec - 2 * leftActionsLayout.getMeasuredWidth(), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(titleBarHeight, MeasureSpec.EXACTLY));
+            contentLayout.measure(MeasureSpec.makeMeasureSpec(parentWidth - 2 * leftActionsLayout.getMeasuredWidth(), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(titleBarHeight, MeasureSpec.EXACTLY));
         } else {
-            contentLayout.measure(MeasureSpec.makeMeasureSpec(widthMeasureSpec - 2 * rightActionsLayout.getMeasuredWidth(), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(titleBarHeight, MeasureSpec.EXACTLY));
+            contentLayout.measure(MeasureSpec.makeMeasureSpec(parentWidth - 2 * rightActionsLayout.getMeasuredWidth(), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(titleBarHeight, MeasureSpec.EXACTLY));
         }
-        measureChild(titleBar, widthMeasureSpec, MeasureSpec.makeMeasureSpec(titleBarHeight, MeasureSpec.EXACTLY));
-        measureChild(bottomLineView, widthMeasureSpec, MeasureSpec.makeMeasureSpec(bottomLineHeight, MeasureSpec.EXACTLY));
 
-        setMeasuredDimension(widthMode != MeasureSpec.AT_MOST ? widthSize : widthMeasureSpec, heightMode != MeasureSpec.AT_MOST ? heightSize : statusBarHeight + topLineHeight + titleBarHeight + bottomLineHeight);
+        setMeasuredDimension(displayWidth, parentHeight);
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        statusBar.layout(0, 0, statusBar.getMeasuredWidth(), statusBarHeight);
+        statusBar.layout(0, 0, displayWidth, statusBarHeight);
 
-        topLineView.layout(0, statusBarHeight, topLineView.getMeasuredWidth(), statusBarHeight + topLineHeight);
+        topLineView.layout(0, statusBarHeight, parentWidth, statusBarHeight + topLineHeight);
 
-        titleBar.layout(0, statusBarHeight + topLineHeight, titleBar.getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight);
+        titleBar.layout(0, statusBarHeight + topLineHeight, parentWidth, statusBarHeight + topLineHeight + titleBarHeight);
 
-        leftActionsLayout.layout(0, statusBarHeight + topLineHeight, leftActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight);
-
-        if (leftActionsLayout.getMeasuredWidth() > rightActionsLayout.getMeasuredWidth()) {
-            contentLayout.layout(leftActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight, contentLayout.getMeasuredWidth() - leftActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight);
-        } else {
-            contentLayout.layout(rightActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight, contentLayout.getMeasuredWidth() - rightActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight);
+        if (leftActionsLayout.getChildCount() > 0) {
+            leftActionsLayout.layout(0, statusBarHeight + topLineHeight, leftActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight);
         }
 
-        rightActionsLayout.layout(getMeasuredWidth() - rightActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight, rightActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight);
+        if (leftActionsLayout.getChildCount() > 0 || rightActionsLayout.getChildCount() > 0) {
+            if (leftActionsLayout.getMeasuredWidth() > rightActionsLayout.getMeasuredWidth()) {
+                contentLayout.layout(leftActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight, parentWidth - leftActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight);
+            } else {
+                contentLayout.layout(rightActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight, parentWidth - rightActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight);
+            }
+        } else {
+            contentLayout.layout(0, statusBarHeight + topLineHeight, parentWidth, statusBarHeight + topLineHeight + titleBarHeight);
+        }
 
-        bottomLineView.layout(0, statusBarHeight + topLineHeight + titleBarHeight, getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight + bottomLineHeight);
+        if (rightActionsLayout.getChildCount() > 0) {
+            rightActionsLayout.layout(parentWidth - rightActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight, parentWidth, statusBarHeight + topLineHeight + titleBarHeight);
+        }
+
+        bottomLineView.layout(0, statusBarHeight + topLineHeight + titleBarHeight, parentWidth, statusBarHeight + topLineHeight + titleBarHeight + bottomLineHeight);
     }
 
     /**
@@ -235,6 +254,123 @@ public class TitleBarNew extends ViewGroup {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    /**
+     * 移除左右侧容器内所有的动作按钮
+     */
+    public void removeAllActions() {
+        leftActionsLayout.removeAllViews();
+        rightActionsLayout.removeAllViews();
+    }
+
+    /**
+     * 在左侧容器内新增单个动作按钮
+     */
+    public View addLeftAction(TitleBarNew.BaseAction action) {
+        final int index = leftActionsLayout.getChildCount();
+        return addLeftAction(action, index);
+    }
+
+    /**
+     * 在左侧容器内指定的位置新增动作按钮
+     */
+    public View addLeftAction(TitleBarNew.BaseAction action, int index) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+        View view = inflateAction(action);
+        action.setActionView(view);
+        leftActionsLayout.addView(view, index, params);
+        return view;
+    }
+
+    /**
+     * 移除左侧容器内全部的动作按钮
+     */
+    public void removeLeftAction() {
+        leftActionsLayout.removeAllViews();
+    }
+
+    /**
+     * 移除左侧容器内指定位置的动作按钮
+     */
+    public void removeLeftAction(int index) {//
+        leftActionsLayout.removeViewAt(index);
+    }
+
+    /**
+     * 在右侧容器内新增单个动作按钮
+     */
+    public View addRightAction(TitleBarNew.BaseAction action) {
+        final int index = rightActionsLayout.getChildCount();
+        return addRightAction(action, index);
+    }
+
+    /**
+     * 在右侧容器内指定的位置新增动作按钮
+     */
+    public View addRightAction(TitleBarNew.BaseAction action, int index) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+        View view = inflateAction(action);
+        action.setActionView(view);
+        rightActionsLayout.addView(view, index, params);
+        return view;
+    }
+
+    /**
+     * 移除右侧容器内全部的动作按钮
+     */
+    public void removeRightAction() {
+        rightActionsLayout.removeAllViews();
+    }
+
+    /**
+     * 移除右侧容器内指定位置的动作按钮
+     */
+    public void removeRightAction(int index) {
+        rightActionsLayout.removeViewAt(index);
+    }
+
+    /**
+     * 初始化动作按钮控件布局
+     */
+    private View inflateAction(TitleBarNew.BaseAction action) {
+        LinearLayout view = new LinearLayout(getContext());
+        view.setGravity(Gravity.CENTER_VERTICAL);
+        view.setPadding((int) actionPadding, 0, (int) actionPadding, 0);
+        view.setTag(action);
+        view.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Object tag = v.getTag();
+                if (tag instanceof TitleBarNew.BaseAction) {
+                    final TitleBarNew.BaseAction action = (TitleBarNew.BaseAction) tag;
+                    action.onClick();
+                }
+            }
+        });
+
+        //若图片设置不为空，添加动作按钮的图片
+        if (action.setImageSrc() != 0) {
+            ImageView img = new ImageView(getContext());
+            LayoutParams imglp = new LayoutParams(dpTopx(action.setImageSize()), dpTopx(action.setImageSize()));
+            img.setLayoutParams(imglp);
+            img.setImageResource(action.setImageSrc());
+            img.setClickable(false);
+            view.addView(img);
+        }
+
+        //若文字设置不为空，添加动作按钮的文字
+        if (!TextUtils.isEmpty(action.setText())) {
+            TextView text = new TextView(getContext());
+            text.setGravity(Gravity.CENTER);
+            text.setText(action.setText());
+            //动作按钮中文字举例图片4dp
+            text.setPadding(dpTopx(4), 0, 0, 0);
+            text.setTextSize(action.setTextSize());
+            text.setTextColor(action.setTextColor());
+            view.addView(text);
+        }
+        return view;
     }
 
     /**
@@ -261,16 +397,90 @@ public class TitleBarNew extends ViewGroup {
 
     /**
      * dp转px
-     *
-     * @param dpValue dp值
      */
-    public int dpTopx(int dpValue) {
+    private int dpTopx(int dpValue) {
         final float scale = Resources.getSystem().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 
-    public static int sp2px(final float spValue) {
-        final float fontScale = Resources.getSystem().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * fontScale + 0.5f);
+    /**
+     * 自定义对象类
+     */
+    public static abstract class BaseAction {
+
+        private View actionView;
+        private TitleBarNew titleBarNew;
+
+        public BaseAction(TitleBarNew titleBarNew) {
+            this.titleBarNew = titleBarNew;
+        }
+
+        public abstract void onClick();
+
+        public String setText() {
+            return null;
+        }
+
+        public int setTextColor() {
+            return titleBarNew.actionTextColor;
+        }
+
+        public int setTextSize() {
+            return (int) titleBarNew.actionTextSize;
+        }
+
+        public int setImageSrc() {
+            return titleBarNew.actionImageSrc;
+        }
+
+        public int setImageSize() {
+            return (int) titleBarNew.actionImageSize;
+        }
+
+        public View getActionView() {
+            return actionView;
+        }
+
+        public void setActionView(View actionView) {
+            this.actionView = actionView;
+        }
+    }
+
+    /*============================== 内部控件开放 ==============================*/
+
+    public View getStatusBar() {
+        return statusBar;
+    }
+
+    public View getTopLineView() {
+        return topLineView;
+    }
+
+    public View getTitleBar() {
+        return titleBar;
+    }
+
+    public LinearLayout getLeftActionsLayout() {
+        return leftActionsLayout;
+    }
+
+    public LinearLayout getContentLayout() {
+        return contentLayout;
+    }
+
+    public MarqueeTextView getMainTextView() {
+        return mainTextView;
+    }
+
+    public MarqueeTextView getSubTextView() {
+        return subTextView;
+    }
+
+    public LinearLayout getRightActionsLayout() {
+        return rightActionsLayout;
+    }
+
+    public View getBottomLineView() {
+        return bottomLineView;
     }
 }
