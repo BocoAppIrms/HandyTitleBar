@@ -101,7 +101,7 @@ public class TitleBarNew extends ViewGroup {
         mainTextBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_mainTextBackgroundColor, Color.TRANSPARENT);
         subText = typedArray.getString(R.styleable.HandyTitleBarStyleable_subText);
         subTextSize = typedArray.getDimension(R.styleable.HandyTitleBarStyleable_subTextSize, 11);
-        subTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_subTextColor, Color.WHITE);
+        subTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_subTextColor, Color.BLACK);
         subTextBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_subTextBackgroundColor, Color.TRANSPARENT);
 
         bottomLineHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_bottomLineHeight, 0);
@@ -129,7 +129,7 @@ public class TitleBarNew extends ViewGroup {
 
         leftActionsLayout = new LinearLayout(context);
         leftActionsLayout.setOrientation(LinearLayout.HORIZONTAL);
-        leftActionsLayout.setPadding(titleBarMarginLeft, titleBarMarginTop, 0, titleBarMarginBottom);
+        leftActionsLayout.setPadding((int) actionPadding, 0, (int) actionPadding, 0);
         leftActionsLayout.setBackgroundColor(Color.TRANSPARENT);
         leftActionsLayout.setGravity(Gravity.CENTER);
 
@@ -141,7 +141,7 @@ public class TitleBarNew extends ViewGroup {
         mainTextView.setSingleLine();
         mainTextView.setGravity(Gravity.CENTER);
         mainTextView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-        mainTextView.setVisibility((mainText == null || mainText.equals("")) ? GONE : VISIBLE);
+        mainTextView.setVisibility((mainText == null || "".equals(mainText)) ? GONE : VISIBLE);
 
         subTextView = new MarqueeTextView(context);
         subTextView.setText(subText);
@@ -151,72 +151,75 @@ public class TitleBarNew extends ViewGroup {
         subTextView.setSingleLine();
         subTextView.setGravity(Gravity.CENTER);
         subTextView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-        subTextView.setVisibility((subText == null || subText.equals("")) ? GONE : VISIBLE);
+        subTextView.setVisibility((subText == null || "".equals(subText)) ? GONE : VISIBLE);
 
         contentLayout = new LinearLayout(context);
         contentLayout.setOrientation(LinearLayout.VERTICAL);
-        contentLayout.setPadding(0, titleBarMarginTop, 0, titleBarMarginBottom);
         contentLayout.setGravity(Gravity.CENTER);
         contentLayout.setBackgroundColor(Color.TRANSPARENT);
-        contentLayout.addView(mainTextView);
-        contentLayout.addView(subTextView);
+        contentLayout.addView(mainTextView, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        contentLayout.addView(subTextView, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
         rightActionsLayout = new LinearLayout(context);
         rightActionsLayout.setOrientation(LinearLayout.HORIZONTAL);
-        rightActionsLayout.setPadding(0, titleBarMarginTop, titleBarMarginRight, titleBarMarginBottom);
+        rightActionsLayout.setPadding((int) actionPadding, 0, (int) actionPadding, 0);
         rightActionsLayout.setBackgroundColor(Color.TRANSPARENT);
         rightActionsLayout.setGravity(Gravity.CENTER);
 
         bottomLineView = new View(context);
         bottomLineView.setBackgroundColor(bottomLineColor);
 
-        addView(leftActionsLayout, new LayoutParams(LayoutParams.WRAP_CONTENT, titleBarHeight));
-        addView(contentLayout, new LayoutParams(LayoutParams.MATCH_PARENT, titleBarHeight));
-        addView(rightActionsLayout, new LayoutParams(LayoutParams.WRAP_CONTENT, titleBarHeight));
         addView(statusBar, new LayoutParams(LayoutParams.MATCH_PARENT, statusBarHeight));
         addView(topLineView, new LayoutParams(LayoutParams.MATCH_PARENT, topLineHeight));
         addView(titleBar, new LayoutParams(LayoutParams.MATCH_PARENT, titleBarHeight));
+        addView(leftActionsLayout, new LayoutParams(LayoutParams.WRAP_CONTENT, titleBarHeight));
+        addView(contentLayout, new LayoutParams(LayoutParams.WRAP_CONTENT, titleBarHeight));
+        addView(rightActionsLayout, new LayoutParams(LayoutParams.WRAP_CONTENT, titleBarHeight));
         addView(bottomLineView, new LayoutParams(LayoutParams.MATCH_PARENT, bottomLineHeight));
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-        if (heightMode != MeasureSpec.AT_MOST) {
-            titleBarHeight = heightSize;
-        }
 
-        measureChild(statusBar, widthMeasureSpec, statusBarHeight);
-        measureChild(topLineView, widthMeasureSpec, topLineHeight);
+        measureChild(statusBar, widthMeasureSpec, MeasureSpec.makeMeasureSpec(statusBarHeight, MeasureSpec.EXACTLY));
+        measureChild(topLineView, widthMeasureSpec, MeasureSpec.makeMeasureSpec(topLineHeight, MeasureSpec.EXACTLY));
+        measureChild(leftActionsLayout, widthMeasureSpec, MeasureSpec.makeMeasureSpec(titleBarHeight, MeasureSpec.EXACTLY));
+        measureChild(rightActionsLayout, widthMeasureSpec, MeasureSpec.makeMeasureSpec(titleBarHeight, MeasureSpec.EXACTLY));
         if (leftActionsLayout.getMeasuredWidth() > rightActionsLayout.getMeasuredWidth()) {
-            rightActionsLayout.measure(MeasureSpec.makeMeasureSpec(leftActionsLayout.getMeasuredWidth(), MeasureSpec.EXACTLY), titleBarHeight);
+            contentLayout.measure(MeasureSpec.makeMeasureSpec(widthMeasureSpec - 2 * leftActionsLayout.getMeasuredWidth(), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(titleBarHeight, MeasureSpec.EXACTLY));
         } else {
-            leftActionsLayout.measure(MeasureSpec.makeMeasureSpec(rightActionsLayout.getMeasuredWidth(), MeasureSpec.EXACTLY), titleBarHeight);
+            contentLayout.measure(MeasureSpec.makeMeasureSpec(widthMeasureSpec - 2 * rightActionsLayout.getMeasuredWidth(), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(titleBarHeight, MeasureSpec.EXACTLY));
         }
-        measureChild(titleBar, titleBarWidth > 0 ? titleBarWidth : widthMeasureSpec, titleBarHeight);
-        measureChild(bottomLineView, widthMeasureSpec, bottomLineHeight);
+        measureChild(titleBar, widthMeasureSpec, MeasureSpec.makeMeasureSpec(titleBarHeight, MeasureSpec.EXACTLY));
+        measureChild(bottomLineView, widthMeasureSpec, MeasureSpec.makeMeasureSpec(bottomLineHeight, MeasureSpec.EXACTLY));
 
-        setMeasuredDimension(widthMode != MeasureSpec.AT_MOST ? widthSize : widthMeasureSpec, statusBarHeight + topLineHeight + titleBarHeight + bottomLineHeight);
+        setMeasuredDimension(widthMode != MeasureSpec.AT_MOST ? widthSize : widthMeasureSpec, heightMode != MeasureSpec.AT_MOST ? heightSize : statusBarHeight + topLineHeight + titleBarHeight + bottomLineHeight);
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        statusBar.layout(0, 0, statusBar.getMeasuredWidth(), statusBar.getMeasuredHeight());
-        topLineView.layout(0, statusBar.getMeasuredHeight(), getMeasuredWidth(), statusBar.getMeasuredHeight() + topLineView.getMeasuredHeight());
-        titleBar.layout(0, statusBar.getMeasuredHeight() + topLineView.getMeasuredHeight(), leftActionsLayout.getMeasuredWidth() + rightActionsLayout.getMeasuredWidth() + contentLayout.getMeasuredWidth(), getMeasuredHeight());
-        leftActionsLayout.layout(0, statusBar.getMeasuredHeight() + topLineView.getMeasuredHeight(), leftActionsLayout.getMeasuredWidth(), getMeasuredHeight());
-        rightActionsLayout.layout(getMeasuredWidth() - rightActionsLayout.getMeasuredWidth(), statusBar.getMeasuredHeight() + topLineView.getMeasuredHeight(), getMeasuredWidth(), getMeasuredHeight());
+        statusBar.layout(0, 0, statusBar.getMeasuredWidth(), statusBarHeight);
+
+        topLineView.layout(0, statusBarHeight, topLineView.getMeasuredWidth(), statusBarHeight + topLineHeight);
+
+        titleBar.layout(0, statusBarHeight + topLineHeight, titleBar.getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight);
+
+        leftActionsLayout.layout(0, statusBarHeight + topLineHeight, leftActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight);
+
         if (leftActionsLayout.getMeasuredWidth() > rightActionsLayout.getMeasuredWidth()) {
-            contentLayout.layout(leftActionsLayout.getMeasuredWidth(), statusBar.getMeasuredHeight() + topLineView.getMeasuredHeight(), getMeasuredWidth() - leftActionsLayout.getMeasuredWidth(), getMeasuredHeight());
+            contentLayout.layout(leftActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight, contentLayout.getMeasuredWidth() - leftActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight);
         } else {
-            contentLayout.layout(rightActionsLayout.getMeasuredWidth(), statusBar.getMeasuredHeight() + topLineView.getMeasuredHeight(), getMeasuredWidth() - rightActionsLayout.getMeasuredWidth(), getMeasuredHeight());
+            contentLayout.layout(rightActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight, contentLayout.getMeasuredWidth() - rightActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight);
         }
-        bottomLineView.layout(0, statusBar.getMeasuredHeight() + topLineView.getMeasuredHeight() + getMeasuredHeight(), getMeasuredWidth(), bottomLineView.getMeasuredHeight());
+
+        rightActionsLayout.layout(getMeasuredWidth() - rightActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight, rightActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight);
+
+        bottomLineView.layout(0, statusBarHeight + topLineHeight + titleBarHeight, getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight + bottomLineHeight);
     }
 
     /**
