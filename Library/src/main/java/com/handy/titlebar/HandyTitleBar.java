@@ -1,15 +1,18 @@
 package com.handy.titlebar;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,18 +20,18 @@ import android.widget.TextView;
 import java.lang.reflect.Field;
 
 /**
- * 标题栏
+ * 新标题栏控件
  *
- * @author LiuJie https://github.com/Handy045
- * @description 类功能内容
+ * @author LiuJie https://www.Handy045.com
+ * @description 支持沉浸式，可以在xml布局中通过自定义属性配置标题栏样式
  * @date Created in 2018/5/19 下午5:55
  * @modified By LiuJie
  */
-public class TitleBarNew extends ViewGroup {
+public class HandyTitleBar extends ViewGroup {
 
     private int statusBarHeight;
     private int statusBarBackgroundColor;
-    private boolean isImmersiveStatusBar;
+    private boolean isShowCustomStatusBar;
 
     private int topLineHeight;
     private int topLineColor;
@@ -73,24 +76,24 @@ public class TitleBarNew extends ViewGroup {
     private LinearLayout rightActionsLayout;
     private View bottomLineView;
 
-    public TitleBarNew(Context context) {
+    public HandyTitleBar(Context context) {
         this(context, null);
     }
 
-    public TitleBarNew(Context context, AttributeSet attrs) {
+    public HandyTitleBar(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
     @SuppressLint("CustomViewStyleable")
-    public TitleBarNew(Context context, AttributeSet attrs, int defStyleAttr) {
+    public HandyTitleBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
         displayWidth = getResources().getDisplayMetrics().widthPixels;
 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.HandyTitleBarStyleable);
         statusBarHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_statusBarHeight, getStatusBarHeight(context));
         statusBarBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_statusBarBackgroundColor, 0xFF0091ea);
-        isImmersiveStatusBar = typedArray.getBoolean(R.styleable.HandyTitleBarStyleable_isImmersiveStatusBar, false);
+        isShowCustomStatusBar = typedArray.getBoolean(R.styleable.HandyTitleBarStyleable_isShowCustomStatusBar, false);
+        initStatusBar((Activity) context, isShowCustomStatusBar);
 
         topLineHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_topLineHeight, 0);
         topLineColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_topLineColor, Color.GRAY);
@@ -121,7 +124,6 @@ public class TitleBarNew extends ViewGroup {
         actionImageSrc = typedArray.getResourceId(R.styleable.HandyTitleBarStyleable_actionImageSrc, 0);
         actionImageSize = typedArray.getDimension(R.styleable.HandyTitleBarStyleable_actionImageSize, 18);
         typedArray.recycle();
-
         initView(context);
     }
 
@@ -242,6 +244,38 @@ public class TitleBarNew extends ViewGroup {
     }
 
     /**
+     * 设置系统状态栏是否可见，安卓系统版本大于等于19
+     */
+    public void initStatusBar(Activity activity, boolean isShowCustomStatusBar) {
+        this.isShowCustomStatusBar = isShowCustomStatusBar;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            statusBarHeight = 0;
+            activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+        } else {
+            statusBarHeight = getStatusBarHeight(activity);
+            activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                if (isShowCustomStatusBar) {
+                    activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                } else {
+                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                }
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (isShowCustomStatusBar) {
+                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+                    activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
+                } else {
+                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+                    activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    activity.getWindow().setStatusBarColor(Color.BLACK);
+                }
+            }
+        }
+    }
+
+    /**
      * 获取状态栏高度高度
      */
     @SuppressLint("PrivateApi")
@@ -267,7 +301,7 @@ public class TitleBarNew extends ViewGroup {
     /**
      * 在左侧容器内新增单个动作按钮
      */
-    public View addLeftAction(TitleBarNew.BaseAction action) {
+    public View addLeftAction(HandyTitleBar.BaseAction action) {
         final int index = leftActionsLayout.getChildCount();
         return addLeftAction(action, index);
     }
@@ -275,7 +309,7 @@ public class TitleBarNew extends ViewGroup {
     /**
      * 在左侧容器内指定的位置新增动作按钮
      */
-    public View addLeftAction(TitleBarNew.BaseAction action, int index) {
+    public View addLeftAction(HandyTitleBar.BaseAction action, int index) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         View view = inflateAction(action);
         action.setActionView(view);
@@ -300,7 +334,7 @@ public class TitleBarNew extends ViewGroup {
     /**
      * 在右侧容器内新增单个动作按钮
      */
-    public View addRightAction(TitleBarNew.BaseAction action) {
+    public View addRightAction(HandyTitleBar.BaseAction action) {
         final int index = rightActionsLayout.getChildCount();
         return addRightAction(action, index);
     }
@@ -308,7 +342,7 @@ public class TitleBarNew extends ViewGroup {
     /**
      * 在右侧容器内指定的位置新增动作按钮
      */
-    public View addRightAction(TitleBarNew.BaseAction action, int index) {
+    public View addRightAction(HandyTitleBar.BaseAction action, int index) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         View view = inflateAction(action);
         action.setActionView(view);
@@ -333,7 +367,7 @@ public class TitleBarNew extends ViewGroup {
     /**
      * 初始化动作按钮控件布局
      */
-    private View inflateAction(TitleBarNew.BaseAction action) {
+    private View inflateAction(HandyTitleBar.BaseAction action) {
         LinearLayout view = new LinearLayout(getContext());
         view.setGravity(Gravity.CENTER_VERTICAL);
         view.setPadding((int) actionPadding, 0, (int) actionPadding, 0);
@@ -342,8 +376,8 @@ public class TitleBarNew extends ViewGroup {
             @Override
             public void onClick(View v) {
                 final Object tag = v.getTag();
-                if (tag instanceof TitleBarNew.BaseAction) {
-                    final TitleBarNew.BaseAction action = (TitleBarNew.BaseAction) tag;
+                if (tag instanceof HandyTitleBar.BaseAction) {
+                    final HandyTitleBar.BaseAction action = (HandyTitleBar.BaseAction) tag;
                     action.onClick();
                 }
             }
@@ -409,10 +443,10 @@ public class TitleBarNew extends ViewGroup {
     public static abstract class BaseAction {
 
         private View actionView;
-        private TitleBarNew titleBarNew;
+        private HandyTitleBar handyTitleBar;
 
-        public BaseAction(TitleBarNew titleBarNew) {
-            this.titleBarNew = titleBarNew;
+        public BaseAction(HandyTitleBar handyTitleBar) {
+            this.handyTitleBar = handyTitleBar;
         }
 
         public abstract void onClick();
@@ -422,19 +456,19 @@ public class TitleBarNew extends ViewGroup {
         }
 
         public int setTextColor() {
-            return titleBarNew.actionTextColor;
+            return handyTitleBar.actionTextColor;
         }
 
         public int setTextSize() {
-            return (int) titleBarNew.actionTextSize;
+            return (int) handyTitleBar.actionTextSize;
         }
 
         public int setImageSrc() {
-            return titleBarNew.actionImageSrc;
+            return handyTitleBar.actionImageSrc;
         }
 
         public int setImageSize() {
-            return (int) titleBarNew.actionImageSize;
+            return (int) handyTitleBar.actionImageSize;
         }
 
         public View getActionView() {
@@ -444,6 +478,7 @@ public class TitleBarNew extends ViewGroup {
         public void setActionView(View actionView) {
             this.actionView = actionView;
         }
+
     }
 
     /*============================== 内部控件开放 ==============================*/
