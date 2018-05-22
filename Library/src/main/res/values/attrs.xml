@@ -3,7 +3,7 @@
     <declare-styleable name="HandyTitleBarStyleable">
         <attr name="statusBarHeight" format="dimension" />
         <attr name="statusBarBackgroundColor" format="color" />
-        <attr name="isImmersiveStatusBar" format="boolean" />
+        <attr name="isShowCustomStatusBar" format="boolean" />
 
         <attr name="topLineHeight" format="dimension" />
         <attr name="topLineColor" format="color" />
