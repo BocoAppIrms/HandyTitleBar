@@ -8,9 +8,10 @@
 
     <com.handy.titlebar.HandyTitleBar
         android:id="@+id/titlebarNew"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:isShowCustomStatusBar="true"
-        app:mainText="12313213" />
+        app:mainText="12313213"
+        app:subText="12313213" />
 
 </LinearLayout>

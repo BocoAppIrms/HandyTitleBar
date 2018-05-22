@@ -28,7 +28,8 @@
         <attr name="bottomLineHeight" format="dimension" />
         <attr name="bottomLineColor" format="color" />
 
-        <attr name="actionPadding" format="dimension" />
+        <attr name="actionViewPadding" format="dimension" />
+        <attr name="actionLayoutPadding" format="dimension" />
         <attr name="actionTextSize" format="dimension" />
         <attr name="actionTextColor" format="color" />
         <attr name="actionImageSize" format="dimension" />
