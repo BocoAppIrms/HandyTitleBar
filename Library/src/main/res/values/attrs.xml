@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="HandyTitleBarStyleable">
-        <attr name="statusBarHeight" format="dimension" />
-        <attr name="statusBarBackgroundColor" format="color" />
-        <attr name="isShowCustomStatusBar" format="boolean" />
+        <attr name="handy_statusBarHeight" format="dimension" />
+        <attr name="handy_statusBarBackgroundColor" format="color" />
+        <attr name="handy_isShowCustomStatusBar" format="boolean" />
 
-        <attr name="topLineHeight" format="dimension" />
-        <attr name="topLineColor" format="color" />
+        <attr name="handy_topLineHeight" format="dimension" />
+        <attr name="handy_topLineColor" format="color" />
 
-        <attr name="titleBarMargin" format="dimension" />
-        <attr name="titleBarMarginTop" format="dimension" />
-        <attr name="titleBarMarginLeft" format="dimension" />
-        <attr name="titleBarMarginRight" format="dimension" />
-        <attr name="titleBarMarginBottom" format="dimension" />
-        <attr name="titleBarHeight" format="dimension" />
-        <attr name="titleBarBackground" format="reference|color" />
+        <attr name="handy_titleBarMargin" format="dimension" />
+        <attr name="handy_titleBarMarginTop" format="dimension" />
+        <attr name="handy_titleBarMarginLeft" format="dimension" />
+        <attr name="handy_titleBarMarginRight" format="dimension" />
+        <attr name="handy_titleBarMarginBottom" format="dimension" />
+        <attr name="handy_titleBarHeight" format="dimension" />
+        <attr name="handy_titleBarBackground" format="reference|color" />
 
-        <attr name="mainText" format="string" />
-        <attr name="mainTextSize" format="dimension" />
-        <attr name="mainTextColor" format="color" />
-        <attr name="mainTextBackgroundColor" format="color" />
-        <attr name="subText" format="string" />
-        <attr name="subTextSize" format="dimension" />
-        <attr name="subTextColor" format="color" />
-        <attr name="subTextBackgroundColor" format="color" />
+        <attr name="handy_mainText" format="string" />
+        <attr name="handy_mainTextSize" format="dimension" />
+        <attr name="handy_mainTextColor" format="color" />
+        <attr name="handy_mainTextBackgroundColor" format="color" />
+        <attr name="handy_subText" format="string" />
+        <attr name="handy_subTextSize" format="dimension" />
+        <attr name="handy_subTextColor" format="color" />
+        <attr name="handy_subTextBackgroundColor" format="color" />
 
-        <attr name="bottomLineHeight" format="dimension" />
-        <attr name="bottomLineColor" format="color" />
+        <attr name="handy_bottomLineHeight" format="dimension" />
+        <attr name="handy_bottomLineColor" format="color" />
 
-        <attr name="actionViewPadding" format="dimension" />
-        <attr name="actionLayoutPadding" format="dimension" />
-        <attr name="actionTextSize" format="dimension" />
-        <attr name="actionTextColor" format="color" />
-        <attr name="actionImageSize" format="dimension" />
-        <attr name="actionImageSrc" format="reference" />
+        <attr name="handy_actionViewPadding" format="dimension" />
+        <attr name="handy_actionLayoutPadding" format="dimension" />
+        <attr name="handy_actionTextSize" format="dimension" />
+        <attr name="handy_actionTextColor" format="color" />
+        <attr name="handy_actionImageSize" format="dimension" />
+        <attr name="handy_actionImageSrc" format="reference" />
 
     </declare-styleable>
 </resources>
