@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.handy.titlebar.app">
+    package="com.handy.titlebar.app">
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -8,8 +8,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".TestActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".TitleBarTestActivity" />
