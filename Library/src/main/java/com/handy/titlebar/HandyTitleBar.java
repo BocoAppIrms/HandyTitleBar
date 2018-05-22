@@ -93,7 +93,6 @@ public class HandyTitleBar extends ViewGroup {
         statusBarHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_statusBarHeight, getStatusBarHeight(context));
         statusBarBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_statusBarBackgroundColor, 0xFF0091ea);
         isShowCustomStatusBar = typedArray.getBoolean(R.styleable.HandyTitleBarStyleable_isShowCustomStatusBar, false);
-        initStatusBar((Activity) context, isShowCustomStatusBar);
 
         topLineHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_topLineHeight, 0);
         topLineColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_topLineColor, Color.GRAY);
@@ -241,6 +240,13 @@ public class HandyTitleBar extends ViewGroup {
         }
 
         bottomLineView.layout(0, statusBarHeight + topLineHeight + titleBarHeight, parentWidth, statusBarHeight + topLineHeight + titleBarHeight + bottomLineHeight);
+    }
+
+    /**
+     * 设置系统状态栏是否可见，安卓系统版本大于等于19
+     */
+    public void initStatusBar(Activity activity) {
+        initStatusBar(activity, isShowCustomStatusBar);
     }
 
     /**
