@@ -56,11 +56,12 @@ public class HandyTitleBar extends ViewGroup {
     private int bottomLineHeight;
     private int bottomLineColor;
 
-    private float actionPadding;
-    private float actionTextSize;
+    private int actionViewPadding;
+    private int actionLayoutPadding;
+    private int actionTextSize;
     private int actionTextColor;
     private int actionImageSrc;
-    private float actionImageSize;
+    private int actionImageSize;
 
     private int displayWidth;
     private int parentWidth;
@@ -106,22 +107,23 @@ public class HandyTitleBar extends ViewGroup {
         titleBarBackground = typedArray.getColor(R.styleable.HandyTitleBarStyleable_titleBarBackground, Color.WHITE);
 
         mainText = typedArray.getString(R.styleable.HandyTitleBarStyleable_mainText);
-        mainTextSize = typedArray.getDimension(R.styleable.HandyTitleBarStyleable_mainTextSize, 17);
+        mainTextSize = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_mainTextSize, 17);
         mainTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_mainTextColor, Color.BLACK);
         mainTextBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_mainTextBackgroundColor, Color.TRANSPARENT);
         subText = typedArray.getString(R.styleable.HandyTitleBarStyleable_subText);
-        subTextSize = typedArray.getDimension(R.styleable.HandyTitleBarStyleable_subTextSize, 13);
+        subTextSize = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_subTextSize, 13);
         subTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_subTextColor, Color.BLACK);
         subTextBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_subTextBackgroundColor, Color.TRANSPARENT);
 
         bottomLineHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_bottomLineHeight, 0);
         bottomLineColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_bottomLineColor, Color.GRAY);
 
-        actionPadding = typedArray.getDimension(R.styleable.HandyTitleBarStyleable_actionPadding, dpTopx(4));
-        actionTextSize = typedArray.getDimension(R.styleable.HandyTitleBarStyleable_actionTextSize, 15);
+        actionViewPadding = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_actionViewPadding, dpTopx(4));
+        actionLayoutPadding = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_actionLayoutPadding, dpTopx(4));
+        actionTextSize = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_actionTextSize, 15);
         actionTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_actionTextColor, Color.BLACK);
         actionImageSrc = typedArray.getResourceId(R.styleable.HandyTitleBarStyleable_actionImageSrc, 0);
-        actionImageSize = typedArray.getDimension(R.styleable.HandyTitleBarStyleable_actionImageSize, 18);
+        actionImageSize = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_actionImageSize, 18);
         typedArray.recycle();
         initView(context);
     }
@@ -138,7 +140,7 @@ public class HandyTitleBar extends ViewGroup {
 
         leftActionsLayout = new LinearLayout(context);
         leftActionsLayout.setOrientation(LinearLayout.HORIZONTAL);
-        leftActionsLayout.setPadding((int) actionPadding, 0, (int) actionPadding, 0);
+        leftActionsLayout.setPadding(actionLayoutPadding, 0, actionLayoutPadding, 0);
         leftActionsLayout.setBackgroundColor(Color.TRANSPARENT);
         leftActionsLayout.setGravity(Gravity.CENTER);
 
@@ -171,7 +173,7 @@ public class HandyTitleBar extends ViewGroup {
 
         rightActionsLayout = new LinearLayout(context);
         rightActionsLayout.setOrientation(LinearLayout.HORIZONTAL);
-        rightActionsLayout.setPadding((int) actionPadding, 0, (int) actionPadding, 0);
+        rightActionsLayout.setPadding(actionLayoutPadding, 0, actionLayoutPadding, 0);
         rightActionsLayout.setBackgroundColor(Color.TRANSPARENT);
         rightActionsLayout.setGravity(Gravity.CENTER);
 
@@ -376,7 +378,8 @@ public class HandyTitleBar extends ViewGroup {
     private View inflateAction(HandyTitleBar.BaseAction action) {
         LinearLayout view = new LinearLayout(getContext());
         view.setGravity(Gravity.CENTER_VERTICAL);
-        view.setPadding((int) actionPadding, 0, (int) actionPadding, 0);
+        view.setOrientation(LinearLayout.HORIZONTAL);
+        view.setPadding(actionViewPadding, 0, actionViewPadding, 0);
         view.setTag(action);
         view.setOnClickListener(new OnClickListener() {
             @Override
@@ -466,7 +469,7 @@ public class HandyTitleBar extends ViewGroup {
         }
 
         public int setTextSize() {
-            return (int) handyTitleBar.actionTextSize;
+            return handyTitleBar.actionTextSize;
         }
 
         public int setImageSrc() {
@@ -474,7 +477,7 @@ public class HandyTitleBar extends ViewGroup {
         }
 
         public int setImageSize() {
-            return (int) handyTitleBar.actionImageSize;
+            return handyTitleBar.actionImageSize;
         }
 
         public View getActionView() {
