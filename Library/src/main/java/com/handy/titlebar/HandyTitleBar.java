@@ -31,6 +31,8 @@ import java.lang.reflect.Field;
  */
 public class HandyTitleBar extends ViewGroup {
 
+    private TypedArray typedArray;
+
     private int statusBarHeight;
     private int statusBarBackgroundColor;
     private boolean isShowCustomStatusBar;
@@ -92,7 +94,7 @@ public class HandyTitleBar extends ViewGroup {
         super(context, attrs, defStyleAttr);
         displayWidth = getResources().getDisplayMetrics().widthPixels;
 
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.HandyTitleBarStyleable);
+        typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.HandyTitleBarStyleable);
         statusBarHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_statusBarHeight, getStatusBarHeight(context));
         statusBarBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_statusBarBackgroundColor, 0xFF0091ea);
         isShowCustomStatusBar = typedArray.getBoolean(R.styleable.HandyTitleBarStyleable_handy_isShowCustomStatusBar, true);
@@ -555,14 +557,12 @@ public class HandyTitleBar extends ViewGroup {
     }
 
     public HandyTitleBar setStatusBarBackgroundColor(@ColorInt int statusBarBackgroundColor) {
-        if (statusBarBackgroundColor >= 0) {
-            try {
-                statusBar.setBackgroundColor(statusBarBackgroundColor);
-                this.statusBarBackgroundColor = statusBarBackgroundColor;
-                requestLayout();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            statusBar.setBackgroundColor(statusBarBackgroundColor);
+            this.statusBarBackgroundColor = statusBarBackgroundColor;
+            requestLayout();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return this;
     }
@@ -583,14 +583,12 @@ public class HandyTitleBar extends ViewGroup {
     }
 
     public HandyTitleBar setTopLineColor(@ColorInt int topLineColor) {
-        if (topLineColor >= 0) {
-            try {
-                topLineView.setBackgroundColor(topLineColor);
-                this.topLineColor = topLineColor;
-                requestLayout();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            topLineView.setBackgroundColor(topLineColor);
+            this.topLineColor = topLineColor;
+            requestLayout();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return this;
     }
@@ -639,6 +637,18 @@ public class HandyTitleBar extends ViewGroup {
         if (titleBarHeight >= 0) {
             this.titleBarHeight = dpTopx(titleBarHeight);
             requestLayout();
+        }
+        return this;
+    }
+
+    public HandyTitleBar setTitleBarBackground(int titleBarBackground) {
+        if (typedArray != null) {
+            try {
+                setTitleBarBackground(typedArray.getDrawable(titleBarBackground));
+                requestLayout();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return this;
     }
@@ -700,19 +710,23 @@ public class HandyTitleBar extends ViewGroup {
     }
 
     public HandyTitleBar setMainTextColor(@ColorInt int mainTextColor) {
-        if (mainTextColor >= 0) {
+        try {
             mainTextView.setTextColor(mainTextColor);
             this.mainTextColor = mainTextColor;
             requestLayout();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return this;
     }
 
     public HandyTitleBar setMainTextBackgroundColor(@ColorInt int mainTextBackgroundColor) {
-        if (mainTextBackgroundColor >= 0) {
+        try {
             mainTextView.setBackgroundColor(mainTextBackgroundColor);
             this.mainTextBackgroundColor = mainTextBackgroundColor;
             requestLayout();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return this;
     }
@@ -734,19 +748,23 @@ public class HandyTitleBar extends ViewGroup {
     }
 
     public HandyTitleBar setSubTextColor(@ColorInt int subTextColor) {
-        if (subTextColor >= 0) {
+        try {
             subTextView.setTextColor(subTextColor);
             this.subTextColor = subTextColor;
             requestLayout();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return this;
     }
 
     public HandyTitleBar setSubTextBackgroundColor(@ColorInt int subTextBackgroundColor) {
-        if (subTextBackgroundColor >= 0) {
+        try {
             subTextView.setBackgroundColor(subTextBackgroundColor);
             this.subTextBackgroundColor = subTextBackgroundColor;
             requestLayout();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return this;
     }
@@ -760,14 +778,12 @@ public class HandyTitleBar extends ViewGroup {
     }
 
     public HandyTitleBar setBottomLineColor(int bottomLineColor) {
-        if (bottomLineColor >= 0) {
-            try {
-                bottomLineView.setBackgroundColor(bottomLineColor);
-                this.bottomLineColor = bottomLineColor;
-                requestLayout();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            bottomLineView.setBackgroundColor(bottomLineColor);
+            this.bottomLineColor = bottomLineColor;
+            requestLayout();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return this;
     }
