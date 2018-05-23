@@ -287,7 +287,7 @@ public class HandyTitleBar extends ViewGroup {
                 } else {
                     activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
                     activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                    activity.getWindow().setStatusBarColor(statusBarBackgroundColor);
+                    activity.getWindow().setStatusBarColor(Color.BLACK);
                 }
             }
         }
