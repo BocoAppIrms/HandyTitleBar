@@ -43,6 +43,7 @@ public class NewTitleBarTestActivity extends AppCompatActivity {
 
             @Override
             public void onClick() {
+                finish();
             }
         });
         handyTitleBar1.addRightAction(new HandyTitleBar.BaseAction(handyTitleBar1) {
@@ -67,6 +68,5 @@ public class NewTitleBarTestActivity extends AppCompatActivity {
             public void onClick() {
             }
         });
-
     }
 }
