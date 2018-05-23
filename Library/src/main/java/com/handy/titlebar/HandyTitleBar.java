@@ -427,7 +427,7 @@ public class HandyTitleBar extends ViewGroup {
     /**
      * 带跑马灯功能的TextView
      */
-    class MarqueeTextView extends android.support.v7.widget.AppCompatTextView {
+    public class MarqueeTextView extends android.support.v7.widget.AppCompatTextView {
         public MarqueeTextView(Context context) {
             super(context);
         }
@@ -535,4 +535,6 @@ public class HandyTitleBar extends ViewGroup {
     public View getBottomLineView() {
         return bottomLineView;
     }
+
+    /*============================== 元素属性修改 ==============================*/
 }
