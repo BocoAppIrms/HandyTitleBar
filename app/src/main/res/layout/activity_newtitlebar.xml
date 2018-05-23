@@ -12,33 +12,11 @@
         android:layout_height="wrap_content"
         app:handy_isShowCustomStatusBar="true"
         app:handy_mainText="主标题内容"
-        app:handy_subText="副标题" />
-
-    <com.handy.titlebar.HandyTitleBar
-        android:id="@+id/titlebarNew2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:handy_isShowCustomStatusBar="true"
-        app:handy_mainText="主标题内容"
-        app:handy_statusBarHeight="0dp"
-        app:handy_subText="副标题" />
-
-    <com.handy.titlebar.HandyTitleBar
-        android:id="@+id/titlebarNew3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:handy_bottomLineColor="#000000"
-        app:handy_bottomLineHeight="3dp"
-        app:handy_isShowCustomStatusBar="true"
-        app:handy_mainText="主标题内容"
         app:handy_mainTextColor="#ffffff"
-        app:handy_statusBarHeight="0dp"
         app:handy_subText="副标题"
         app:handy_subTextColor="#ffffff"
         app:handy_titleBarBackground="#0091ea"
-        app:handy_topLineColor="#000000"
-        app:handy_topLineHeight="3dp" />
+        app:handy_bottomLineColor="#0071ea"
+        app:handy_bottomLineHeight="2dp" />
 
 </LinearLayout>

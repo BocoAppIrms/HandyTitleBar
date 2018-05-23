@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import com.handy.titlebar.HandyTitleBar;
 
@@ -23,60 +22,7 @@ public class NewTitleBarTestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_newtitlebar);
 
         final HandyTitleBar handyTitleBar1 = findViewById(R.id.titlebarNew1);
-        final HandyTitleBar handyTitleBar2 = findViewById(R.id.titlebarNew2);
-        final HandyTitleBar handyTitleBar3 = findViewById(R.id.titlebarNew3);
         handyTitleBar1.addLeftAction(new HandyTitleBar.BaseAction(handyTitleBar1) {
-
-            @Override
-            public String setText() {
-                return "返回";
-            }
-
-            @Override
-            public void onClick() {
-                Toast.makeText(NewTitleBarTestActivity.this, "111", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        handyTitleBar2.addLeftAction(new HandyTitleBar.BaseAction(handyTitleBar2) {
-
-            @Override
-            public int setImageSrc() {
-                return R.drawable.hdb_back_c;
-            }
-
-            @Override
-            public void onClick() {
-                Toast.makeText(NewTitleBarTestActivity.this, "111", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        handyTitleBar2.addRightAction(new HandyTitleBar.BaseAction(handyTitleBar2) {
-
-            @Override
-            public int setImageSrc() {
-                return R.drawable.hdb_menu_c;
-            }
-
-            @Override
-            public void onClick() {
-                Toast.makeText(NewTitleBarTestActivity.this, "111", Toast.LENGTH_SHORT).show();
-            }
-        });
-        handyTitleBar2.addRightAction(new HandyTitleBar.BaseAction(handyTitleBar2) {
-
-            @Override
-            public int setImageSrc() {
-                return R.drawable.hdb_setting_c;
-            }
-
-            @Override
-            public void onClick() {
-                Toast.makeText(NewTitleBarTestActivity.this, "111", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        handyTitleBar3.addLeftAction(new HandyTitleBar.BaseAction(handyTitleBar3) {
 
             @Override
             public int setImageSrc() {
@@ -97,7 +43,7 @@ public class NewTitleBarTestActivity extends AppCompatActivity {
             public void onClick() {
             }
         });
-        handyTitleBar3.addRightAction(new HandyTitleBar.BaseAction(handyTitleBar3) {
+        handyTitleBar1.addRightAction(new HandyTitleBar.BaseAction(handyTitleBar1) {
 
             @Override
             public int setImageSrc() {
@@ -108,7 +54,7 @@ public class NewTitleBarTestActivity extends AppCompatActivity {
             public void onClick() {
             }
         });
-        handyTitleBar3.addRightAction(new HandyTitleBar.BaseAction(handyTitleBar3) {
+        handyTitleBar1.addRightAction(new HandyTitleBar.BaseAction(handyTitleBar1) {
 
             @Override
             public int setImageSrc() {
