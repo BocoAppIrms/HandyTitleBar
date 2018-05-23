@@ -409,7 +409,7 @@ public class HandyTitleBar extends ViewGroup {
             TextView text = new TextView(getContext());
             text.setGravity(Gravity.CENTER);
             text.setText(action.setText());
-            //动作按钮中文字举例图片4dp
+            //动作按钮中文字距离图片4dp
             text.setPadding(action.setImageSrc() != 0 ? dpTopx(4) : 0, 0, 0, 0);
             text.setTextSize(action.setTextSize());
             text.setTextColor(action.setTextColor());
