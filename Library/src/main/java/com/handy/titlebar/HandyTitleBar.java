@@ -259,28 +259,34 @@ public class HandyTitleBar extends ViewGroup {
      */
     private void initStatusBar(Activity activity, boolean isShowCustomStatusBar) {
         this.isShowCustomStatusBar = isShowCustomStatusBar;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            statusBarHeight = 0;
-            activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-        } else {
-            statusBarHeight = getStatusBarHeight(activity);
-            activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                if (isShowCustomStatusBar) {
+        if (isShowCustomStatusBar) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                statusBarHeight = 0;
+                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            } else {
+                statusBarHeight = getStatusBarHeight(activity);
+                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                     activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 } else {
-                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                }
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                if (isShowCustomStatusBar) {
                     activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
                     activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                     activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
+                }
+            }
+        } else {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                statusBarHeight = 0;
+                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            } else {
+                statusBarHeight = getStatusBarHeight(activity);
+                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 } else {
                     activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
                     activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                    activity.getWindow().setStatusBarColor(Color.BLACK);
+                    activity.getWindow().setStatusBarColor(statusBarBackgroundColor);
                 }
             }
         }
