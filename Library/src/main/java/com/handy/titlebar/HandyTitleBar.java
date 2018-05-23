@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -43,7 +44,7 @@ public class HandyTitleBar extends ViewGroup {
     private int titleBarMarginBottom;
     private int titleBarWidth;
     private int titleBarHeight;
-    private int titleBarBackground;
+    private Drawable titleBarBackground;
     private String mainText;
     private float mainTextSize;
     private int mainTextColor;
@@ -104,7 +105,7 @@ public class HandyTitleBar extends ViewGroup {
         titleBarMarginRight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarMarginRight, 0);
         titleBarMarginBottom = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarMarginBottom, 0);
         titleBarHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarHeight, dpTopx(48));
-        titleBarBackground = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_titleBarBackground, Color.WHITE);
+        titleBarBackground = typedArray.getDrawable(R.styleable.HandyTitleBarStyleable_handy_titleBarBackground);
 
         mainText = typedArray.getString(R.styleable.HandyTitleBarStyleable_handy_mainText);
         mainTextSize = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_mainTextSize, 17);
@@ -136,7 +137,14 @@ public class HandyTitleBar extends ViewGroup {
         topLineView.setBackgroundColor(topLineColor);
 
         titleBar = new View(context);
-        titleBar.setBackgroundColor(titleBarBackground);
+        titleBar.setBackgroundColor(Color.WHITE);
+        if (titleBarBackground != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                titleBar.setBackground(titleBarBackground);
+            } else {
+                titleBar.setBackgroundDrawable(titleBarBackground);
+            }
+        }
 
         leftActionsLayout = new LinearLayout(context);
         leftActionsLayout.setOrientation(LinearLayout.HORIZONTAL);
