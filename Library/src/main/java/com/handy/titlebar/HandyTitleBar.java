@@ -8,6 +8,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -255,14 +256,7 @@ public class HandyTitleBar extends ViewGroup {
     /**
      * 设置系统状态栏是否可见，安卓系统版本大于等于19
      */
-    public void initStatusBar(Activity activity) {
-        initStatusBar(activity, isShowCustomStatusBar);
-    }
-
-    /**
-     * 设置系统状态栏是否可见，安卓系统版本大于等于19
-     */
-    public void initStatusBar(Activity activity, boolean isShowCustomStatusBar) {
+    private void initStatusBar(Activity activity, boolean isShowCustomStatusBar) {
         this.isShowCustomStatusBar = isShowCustomStatusBar;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             statusBarHeight = 0;
@@ -455,6 +449,14 @@ public class HandyTitleBar extends ViewGroup {
     }
 
     /**
+     * sp 转 px
+     */
+    private static int spTopx(final float spValue) {
+        final float fontScale = Resources.getSystem().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
+    }
+
+    /**
      * 自定义对象类
      */
     public static abstract class BaseAction {
@@ -537,4 +539,207 @@ public class HandyTitleBar extends ViewGroup {
     }
 
     /*============================== 元素属性修改 ==============================*/
+
+    public HandyTitleBar setStatusBarHeight(int statusBarHeight) {
+        if (statusBarHeight >= 0) {
+            this.statusBarHeight = dpTopx(statusBarHeight);
+            requestLayout();
+        }
+        return this;
+    }
+
+    public HandyTitleBar setStatusBarBackgroundColor(@ColorInt int statusBarBackgroundColor) {
+        if (statusBarBackgroundColor >= 0) {
+            try {
+                statusBar.setBackgroundColor(statusBarBackgroundColor);
+                this.statusBarBackgroundColor = statusBarBackgroundColor;
+                requestLayout();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return this;
+    }
+
+    public HandyTitleBar setShowCustomStatusBar(Activity activity, boolean showCustomStatusBar) {
+        isShowCustomStatusBar = showCustomStatusBar;
+        initStatusBar(activity, isShowCustomStatusBar);
+        requestLayout();
+        return this;
+    }
+
+    public HandyTitleBar setTopLineHeight(int topLineHeight) {
+        if (topLineHeight >= 0) {
+            this.topLineHeight = dpTopx(topLineHeight);
+            requestLayout();
+        }
+        return this;
+    }
+
+    public HandyTitleBar setTopLineColor(@ColorInt int topLineColor) {
+        if (topLineColor >= 0) {
+            try {
+                topLineView.setBackgroundColor(topLineColor);
+                this.topLineColor = topLineColor;
+                requestLayout();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return this;
+    }
+
+    public HandyTitleBar setTitleBarMargin(int titleBarMargin) {
+        if (titleBarMargin >= 0) {
+            this.titleBarMargin = dpTopx(titleBarMargin);
+            requestLayout();
+        }
+        return this;
+    }
+
+    public HandyTitleBar setTitleBarMarginTop(int titleBarMarginTop) {
+        if (titleBarMarginTop >= 0) {
+            this.titleBarMarginTop = dpTopx(titleBarMarginTop);
+            requestLayout();
+        }
+        return this;
+    }
+
+    public HandyTitleBar setTitleBarMarginLeft(int titleBarMarginLeft) {
+        if (titleBarMarginLeft >= 0) {
+            this.titleBarMarginLeft = dpTopx(titleBarMarginLeft);
+            requestLayout();
+        }
+        return this;
+    }
+
+    public HandyTitleBar setTitleBarMarginRight(int titleBarMarginRight) {
+        if (titleBarMarginRight >= 0) {
+            this.titleBarMarginRight = dpTopx(titleBarMarginRight);
+            requestLayout();
+        }
+        return this;
+    }
+
+    public HandyTitleBar setTitleBarMarginBottom(int titleBarMarginBottom) {
+        if (titleBarMarginBottom >= 0) {
+            this.titleBarMarginBottom = dpTopx(titleBarMarginBottom);
+            requestLayout();
+        }
+        return this;
+    }
+
+    public HandyTitleBar setTitleBarHeight(int titleBarHeight) {
+        if (titleBarHeight >= 0) {
+            this.titleBarHeight = dpTopx(titleBarHeight);
+            requestLayout();
+        }
+        return this;
+    }
+
+    public HandyTitleBar setTitleBarBackground(Drawable titleBarBackground) {
+        if (titleBarBackground != null) {
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    titleBar.setBackground(titleBarBackground);
+                } else {
+                    titleBar.setBackgroundDrawable(titleBarBackground);
+                }
+                this.titleBarBackground = titleBarBackground;
+                requestLayout();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return this;
+    }
+
+    public HandyTitleBar setMainText(String mainText) {
+        this.mainText = mainText;
+        mainTextView.setText(mainText);
+        requestLayout();
+        return this;
+    }
+
+    public HandyTitleBar setMainTextSize(float mainTextSize) {
+        if (mainTextSize >= 0) {
+            this.mainTextSize = spTopx(mainTextSize);
+            mainTextView.setTextSize(mainTextSize);
+            requestLayout();
+        }
+        return this;
+    }
+
+    public HandyTitleBar setMainTextColor(@ColorInt int mainTextColor) {
+        if (mainTextColor >= 0) {
+            mainTextView.setTextColor(mainTextColor);
+            this.mainTextColor = mainTextColor;
+            requestLayout();
+        }
+        return this;
+    }
+
+    public HandyTitleBar setMainTextBackgroundColor(@ColorInt int mainTextBackgroundColor) {
+        if (mainTextBackgroundColor >= 0) {
+            mainTextView.setBackgroundColor(mainTextBackgroundColor);
+            this.mainTextBackgroundColor = mainTextBackgroundColor;
+            requestLayout();
+        }
+        return this;
+    }
+
+    public HandyTitleBar setSubText(String subText) {
+        this.subText = subText;
+        subTextView.setText(subText);
+        requestLayout();
+        return this;
+    }
+
+    public HandyTitleBar setSubTextSize(float subTextSize) {
+        if (subTextSize >= 0) {
+            this.subTextSize = spTopx(subTextSize);
+            subTextView.setTextSize(subTextSize);
+            requestLayout();
+        }
+        return this;
+    }
+
+    public HandyTitleBar setSubTextColor(@ColorInt int subTextColor) {
+        if (subTextColor >= 0) {
+            subTextView.setTextColor(subTextColor);
+            this.subTextColor = subTextColor;
+            requestLayout();
+        }
+        return this;
+    }
+
+    public HandyTitleBar setSubTextBackgroundColor(@ColorInt int subTextBackgroundColor) {
+        if (subTextBackgroundColor >= 0) {
+            subTextView.setBackgroundColor(subTextBackgroundColor);
+            this.subTextBackgroundColor = subTextBackgroundColor;
+            requestLayout();
+        }
+        return this;
+    }
+
+    public HandyTitleBar setBottomLineHeight(int bottomLineHeight) {
+        if (bottomLineHeight >= 0) {
+            this.bottomLineHeight = bottomLineHeight;
+            requestLayout();
+        }
+        return this;
+    }
+
+    public HandyTitleBar setBottomLineColor(int bottomLineColor) {
+        if (bottomLineColor >= 0) {
+            try {
+                bottomLineView.setBackgroundColor(bottomLineColor);
+                this.bottomLineColor = bottomLineColor;
+                requestLayout();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return this;
+    }
 }
