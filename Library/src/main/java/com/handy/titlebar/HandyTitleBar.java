@@ -95,7 +95,7 @@ public class HandyTitleBar extends ViewGroup {
         displayWidth = getResources().getDisplayMetrics().widthPixels;
 
         typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.HandyTitleBarStyleable);
-        statusBarHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_statusBarHeight, getStatusBarHeight(context));
+        statusBarHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_statusBarHeight, 0);
         statusBarBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_statusBarBackgroundColor, 0xFF0091ea);
         isShowCustomStatusBar = typedArray.getBoolean(R.styleable.HandyTitleBarStyleable_handy_isShowCustomStatusBar, true);
 
