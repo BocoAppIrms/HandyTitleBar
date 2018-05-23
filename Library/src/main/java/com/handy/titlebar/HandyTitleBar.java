@@ -654,6 +654,29 @@ public class HandyTitleBar extends ViewGroup {
         return this;
     }
 
+    @SuppressLint("SetTextI18n")
+    public HandyTitleBar setTitleBarContent(CharSequence title) {
+        mainTextView.setVisibility(View.VISIBLE);
+        subTextView.setVisibility(View.VISIBLE);
+        int index = title.toString().indexOf("\n");
+        if (index > 0) {
+            contentLayout.setOrientation(LinearLayout.VERTICAL);
+            mainTextView.setText(title.subSequence(0, index));
+            subTextView.setText(title.subSequence(index + 1, title.length()));
+        } else {
+            index = title.toString().indexOf("\t");
+            if (index > 0) {
+                contentLayout.setOrientation(LinearLayout.HORIZONTAL);
+                mainTextView.setText(title.subSequence(0, index));
+                subTextView.setText("  " + title.subSequence(index + 1, title.length()));
+            } else {
+                mainTextView.setText(title);
+                subTextView.setVisibility(View.GONE);
+            }
+        }
+        return this;
+    }
+
     public HandyTitleBar setMainText(String mainText) {
         this.mainText = mainText;
         mainTextView.setText(mainText);
