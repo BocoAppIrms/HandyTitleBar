@@ -22,6 +22,7 @@ public class NewTitleBarTestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_newtitlebar);
 
         final HandyTitleBar handyTitleBar1 = findViewById(R.id.titlebarNew1);
+        handyTitleBar1.setShowCustomStatusBar(NewTitleBarTestActivity.this, true);
         handyTitleBar1.addLeftAction(new HandyTitleBar.BaseAction(handyTitleBar1) {
 
             @Override
