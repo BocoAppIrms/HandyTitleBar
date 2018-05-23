@@ -113,7 +113,7 @@ public class HandyTitleBar extends ViewGroup {
         mainTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_mainTextColor, Color.BLACK);
         mainTextBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_mainTextBackgroundColor, Color.TRANSPARENT);
         subText = typedArray.getString(R.styleable.HandyTitleBarStyleable_handy_subText);
-        subTextSize = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_subTextSize, 13);
+        subTextSize = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_subTextSize, 11);
         subTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_subTextColor, Color.BLACK);
         subTextBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_subTextBackgroundColor, Color.TRANSPARENT);
 
@@ -121,8 +121,8 @@ public class HandyTitleBar extends ViewGroup {
         bottomLineColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_bottomLineColor, Color.GRAY);
 
         actionViewPadding = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionViewPadding, dpTopx(4));
-        actionLayoutPadding = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionLayoutPadding, dpTopx(4));
-        actionTextSize = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionTextSize, 15);
+        actionLayoutPadding = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionLayoutPadding, dpTopx(8));
+        actionTextSize = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionTextSize, 13);
         actionTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_actionTextColor, Color.BLACK);
         actionImageSrc = typedArray.getResourceId(R.styleable.HandyTitleBarStyleable_handy_actionImageSrc, 0);
         actionImageSize = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionImageSize, 18);
