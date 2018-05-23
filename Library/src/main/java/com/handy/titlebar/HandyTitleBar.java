@@ -133,6 +133,7 @@ public class HandyTitleBar extends ViewGroup {
     private void initView(Context context) {
         statusBar = new View(context);
         statusBar.setBackgroundColor(statusBarBackgroundColor);
+        initStatusBar((Activity) context, isShowCustomStatusBar);
 
         topLineView = new View(context);
         topLineView.setBackgroundColor(topLineColor);
