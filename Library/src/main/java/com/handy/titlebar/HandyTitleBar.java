@@ -40,12 +40,11 @@ public class HandyTitleBar extends ViewGroup {
     private int topLineHeight;
     private int topLineColor;
 
-    private int titleBarMargin;
-    private int titleBarMarginTop;
-    private int titleBarMarginLeft;
-    private int titleBarMarginRight;
-    private int titleBarMarginBottom;
-    private int titleBarWidth;
+    private int titleBarPadding;
+    private int titleBarPaddingTop;
+    private int titleBarPaddingLeft;
+    private int titleBarPaddingRight;
+    private int titleBarPaddingBottom;
     private int titleBarHeight;
     private Drawable titleBarBackground;
     private String mainText;
@@ -70,6 +69,11 @@ public class HandyTitleBar extends ViewGroup {
     private int displayWidth;
     private int parentWidth;
     private int parentHeight;
+
+    private int paddingTop;
+    private int paddingLeft;
+    private int paddingRight;
+    private int paddingBottom;
 
     private View statusBar;
     private View topLineView;
@@ -102,11 +106,11 @@ public class HandyTitleBar extends ViewGroup {
         topLineHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_topLineHeight, 0);
         topLineColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_topLineColor, Color.GRAY);
 
-        titleBarMargin = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarMargin, 0);
-        titleBarMarginTop = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarMarginTop, 0);
-        titleBarMarginLeft = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarMarginLeft, 0);
-        titleBarMarginRight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarMarginRight, 0);
-        titleBarMarginBottom = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarMarginBottom, 0);
+        titleBarPadding = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarPadding, 0);
+        titleBarPaddingTop = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarPaddingTop, 0);
+        titleBarPaddingLeft = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarPaddingLeft, 0);
+        titleBarPaddingRight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarPaddingRight, 0);
+        titleBarPaddingBottom = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarPaddingBottom, 0);
         titleBarHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarHeight, dpTopx(48));
         titleBarBackground = typedArray.getDrawable(R.styleable.HandyTitleBarStyleable_handy_titleBarBackground);
 
@@ -208,6 +212,11 @@ public class HandyTitleBar extends ViewGroup {
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
+        paddingTop = titleBarPadding > 0 ? titleBarPadding : titleBarPaddingTop;
+        paddingLeft = titleBarPadding > 0 ? titleBarPadding : titleBarPaddingLeft;
+        paddingRight = titleBarPadding > 0 ? titleBarPadding : titleBarPaddingRight;
+        paddingBottom = titleBarPadding > 0 ? titleBarPadding : titleBarPaddingBottom;
+
         parentWidth = widthMode != MeasureSpec.AT_MOST ? widthSize : displayWidth;
         parentHeight = heightMode != MeasureSpec.AT_MOST ? heightSize : statusBarHeight + topLineHeight + titleBarHeight + bottomLineHeight;
 
@@ -223,7 +232,7 @@ public class HandyTitleBar extends ViewGroup {
             contentLayout.measure(MeasureSpec.makeMeasureSpec(parentWidth - 2 * rightActionsLayout.getMeasuredWidth(), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(titleBarHeight, MeasureSpec.EXACTLY));
         }
 
-        setMeasuredDimension(displayWidth, parentHeight);
+        setMeasuredDimension(displayWidth, parentHeight + paddingTop + paddingBottom);
     }
 
     @Override
@@ -232,27 +241,27 @@ public class HandyTitleBar extends ViewGroup {
 
         topLineView.layout(0, statusBarHeight, parentWidth, statusBarHeight + topLineHeight);
 
-        titleBar.layout(0, statusBarHeight + topLineHeight, parentWidth, statusBarHeight + topLineHeight + titleBarHeight);
+        titleBar.layout(paddingLeft, statusBarHeight + topLineHeight + paddingTop, parentWidth - paddingRight, statusBarHeight + topLineHeight + titleBarHeight + paddingTop);
 
         if (leftActionsLayout.getChildCount() > 0) {
-            leftActionsLayout.layout(0, statusBarHeight + topLineHeight, leftActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight);
+            leftActionsLayout.layout(paddingLeft, statusBarHeight + topLineHeight + paddingTop, leftActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight + paddingTop);
         }
 
         if (leftActionsLayout.getChildCount() > 0 || rightActionsLayout.getChildCount() > 0) {
             if (leftActionsLayout.getMeasuredWidth() > rightActionsLayout.getMeasuredWidth()) {
-                contentLayout.layout(leftActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight, parentWidth - leftActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight);
+                contentLayout.layout(leftActionsLayout.getMeasuredWidth() + paddingLeft, statusBarHeight + topLineHeight + paddingTop, parentWidth - leftActionsLayout.getMeasuredWidth() - paddingRight, statusBarHeight + topLineHeight + titleBarHeight + paddingTop);
             } else {
-                contentLayout.layout(rightActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight, parentWidth - rightActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight + titleBarHeight);
+                contentLayout.layout(rightActionsLayout.getMeasuredWidth() + paddingLeft, statusBarHeight + topLineHeight + paddingTop, parentWidth - rightActionsLayout.getMeasuredWidth() - paddingRight, statusBarHeight + topLineHeight + titleBarHeight + paddingTop);
             }
         } else {
-            contentLayout.layout(0, statusBarHeight + topLineHeight, parentWidth, statusBarHeight + topLineHeight + titleBarHeight);
+            contentLayout.layout(paddingLeft, statusBarHeight + topLineHeight + paddingTop, parentWidth - paddingRight, statusBarHeight + topLineHeight + titleBarHeight + paddingTop);
         }
 
         if (rightActionsLayout.getChildCount() > 0) {
-            rightActionsLayout.layout(parentWidth - rightActionsLayout.getMeasuredWidth(), statusBarHeight + topLineHeight, parentWidth, statusBarHeight + topLineHeight + titleBarHeight);
+            rightActionsLayout.layout(parentWidth - rightActionsLayout.getMeasuredWidth() - paddingRight, statusBarHeight + topLineHeight + paddingTop, parentWidth - paddingRight, statusBarHeight + topLineHeight + titleBarHeight + paddingTop);
         }
 
-        bottomLineView.layout(0, statusBarHeight + topLineHeight + titleBarHeight, parentWidth, statusBarHeight + topLineHeight + titleBarHeight + bottomLineHeight);
+        bottomLineView.layout(paddingLeft, statusBarHeight + topLineHeight + titleBarHeight + paddingTop, parentWidth - paddingRight, statusBarHeight + topLineHeight + titleBarHeight + bottomLineHeight + paddingTop);
     }
 
     /**
@@ -519,41 +528,41 @@ public class HandyTitleBar extends ViewGroup {
         return this;
     }
 
-    public HandyTitleBar setTitleBarMargin(int titleBarMargin) {
-        if (titleBarMargin >= 0) {
-            this.titleBarMargin = dpTopx(titleBarMargin);
+    public HandyTitleBar setTitleBarPadding(int titleBarPadding) {
+        if (titleBarPadding >= 0) {
+            this.titleBarPadding = dpTopx(titleBarPadding);
             requestLayout();
         }
         return this;
     }
 
-    public HandyTitleBar setTitleBarMarginTop(int titleBarMarginTop) {
-        if (titleBarMarginTop >= 0) {
-            this.titleBarMarginTop = dpTopx(titleBarMarginTop);
+    public HandyTitleBar setTitleBarPaddingTop(int titleBarPaddingTop) {
+        if (titleBarPaddingTop >= 0) {
+            this.titleBarPaddingTop = dpTopx(titleBarPaddingTop);
             requestLayout();
         }
         return this;
     }
 
-    public HandyTitleBar setTitleBarMarginLeft(int titleBarMarginLeft) {
-        if (titleBarMarginLeft >= 0) {
-            this.titleBarMarginLeft = dpTopx(titleBarMarginLeft);
+    public HandyTitleBar setTitleBarPaddingLeft(int titleBarPaddingLeft) {
+        if (titleBarPaddingLeft >= 0) {
+            this.titleBarPaddingLeft = dpTopx(titleBarPaddingLeft);
             requestLayout();
         }
         return this;
     }
 
-    public HandyTitleBar setTitleBarMarginRight(int titleBarMarginRight) {
-        if (titleBarMarginRight >= 0) {
-            this.titleBarMarginRight = dpTopx(titleBarMarginRight);
+    public HandyTitleBar setTitleBarPaddingRight(int titleBarPaddingRight) {
+        if (titleBarPaddingRight >= 0) {
+            this.titleBarPaddingRight = dpTopx(titleBarPaddingRight);
             requestLayout();
         }
         return this;
     }
 
-    public HandyTitleBar setTitleBarMarginBottom(int titleBarMarginBottom) {
-        if (titleBarMarginBottom >= 0) {
-            this.titleBarMarginBottom = dpTopx(titleBarMarginBottom);
+    public HandyTitleBar setTitleBarPaddingBottom(int titleBarPaddingBottom) {
+        if (titleBarPaddingBottom >= 0) {
+            this.titleBarPaddingBottom = dpTopx(titleBarPaddingBottom);
             requestLayout();
         }
         return this;
