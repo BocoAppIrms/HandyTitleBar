@@ -309,77 +309,25 @@ public class HandyTitleBar extends ViewGroup {
     }
 
     /**
-     * 移除左右侧容器内所有的动作按钮
+     * 带跑马灯功能的TextView
      */
-    public void removeAllActions() {
-        leftActionsLayout.removeAllViews();
-        rightActionsLayout.removeAllViews();
-    }
+    public class MarqueeTextView extends android.support.v7.widget.AppCompatTextView {
+        public MarqueeTextView(Context context) {
+            super(context);
+        }
 
-    /**
-     * 在左侧容器内新增单个动作按钮
-     */
-    public View addLeftAction(HandyTitleBar.BaseAction action) {
-        final int index = leftActionsLayout.getChildCount();
-        return addLeftAction(action, index);
-    }
+        public MarqueeTextView(Context context, AttributeSet attrs) {
+            super(context, attrs);
+        }
 
-    /**
-     * 在左侧容器内指定的位置新增动作按钮
-     */
-    public View addLeftAction(HandyTitleBar.BaseAction action, int index) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
-        View view = inflateAction(action);
-        action.setActionView(view);
-        leftActionsLayout.addView(view, index, params);
-        return view;
-    }
+        public MarqueeTextView(Context context, AttributeSet attrs, int defStyle) {
+            super(context, attrs, defStyle);
+        }
 
-    /**
-     * 移除左侧容器内全部的动作按钮
-     */
-    public void removeLeftAction() {
-        leftActionsLayout.removeAllViews();
-    }
-
-    /**
-     * 移除左侧容器内指定位置的动作按钮
-     */
-    public void removeLeftAction(int index) {//
-        leftActionsLayout.removeViewAt(index);
-    }
-
-    /**
-     * 在右侧容器内新增单个动作按钮
-     */
-    public View addRightAction(HandyTitleBar.BaseAction action) {
-        final int index = rightActionsLayout.getChildCount();
-        return addRightAction(action, index);
-    }
-
-    /**
-     * 在右侧容器内指定的位置新增动作按钮
-     */
-    public View addRightAction(HandyTitleBar.BaseAction action, int index) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
-        View view = inflateAction(action);
-        action.setActionView(view);
-        rightActionsLayout.addView(view, index, params);
-        return view;
-    }
-
-    /**
-     * 移除右侧容器内全部的动作按钮
-     */
-    public void removeRightAction() {
-        rightActionsLayout.removeAllViews();
-    }
-
-    /**
-     * 移除右侧容器内指定位置的动作按钮
-     */
-    public void removeRightAction(int index) {
-        rightActionsLayout.removeViewAt(index);
+        @Override
+        public boolean isFocused() {
+            return true;
+        }
     }
 
     /**
@@ -424,28 +372,6 @@ public class HandyTitleBar extends ViewGroup {
             view.addView(text);
         }
         return view;
-    }
-
-    /**
-     * 带跑马灯功能的TextView
-     */
-    public class MarqueeTextView extends android.support.v7.widget.AppCompatTextView {
-        public MarqueeTextView(Context context) {
-            super(context);
-        }
-
-        public MarqueeTextView(Context context, AttributeSet attrs) {
-            super(context, attrs);
-        }
-
-        public MarqueeTextView(Context context, AttributeSet attrs, int defStyle) {
-            super(context, attrs, defStyle);
-        }
-
-        @Override
-        public boolean isFocused() {
-            return true;
-        }
     }
 
     /**
@@ -767,6 +693,80 @@ public class HandyTitleBar extends ViewGroup {
             e.printStackTrace();
         }
         return this;
+    }
+
+    /**
+     * 移除左右侧容器内所有的动作按钮
+     */
+    public void removeAllActions() {
+        leftActionsLayout.removeAllViews();
+        rightActionsLayout.removeAllViews();
+    }
+
+    /**
+     * 在左侧容器内新增单个动作按钮
+     */
+    public HandyTitleBar addLeftAction(HandyTitleBar.BaseAction action) {
+        final int index = leftActionsLayout.getChildCount();
+        return addLeftAction(action, index);
+    }
+
+    /**
+     * 在左侧容器内指定的位置新增动作按钮
+     */
+    public HandyTitleBar addLeftAction(HandyTitleBar.BaseAction action, int index) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+        View view = inflateAction(action);
+        action.setActionView(view);
+        leftActionsLayout.addView(view, index, params);
+        return this;
+    }
+
+    /**
+     * 移除左侧容器内全部的动作按钮
+     */
+    public void removeLeftAction() {
+        leftActionsLayout.removeAllViews();
+    }
+
+    /**
+     * 移除左侧容器内指定位置的动作按钮
+     */
+    public void removeLeftAction(int index) {//
+        leftActionsLayout.removeViewAt(index);
+    }
+
+    /**
+     * 在右侧容器内新增单个动作按钮
+     */
+    public HandyTitleBar addRightAction(HandyTitleBar.BaseAction action) {
+        final int index = rightActionsLayout.getChildCount();
+        return addRightAction(action, index);
+    }
+
+    /**
+     * 在右侧容器内指定的位置新增动作按钮
+     */
+    public HandyTitleBar addRightAction(HandyTitleBar.BaseAction action, int index) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+        View view = inflateAction(action);
+        action.setActionView(view);
+        rightActionsLayout.addView(view, index, params);
+        return this;
+    }
+
+    /**
+     * 移除右侧容器内全部的动作按钮
+     */
+    public void removeRightAction() {
+        rightActionsLayout.removeAllViews();
+    }
+
+    /**
+     * 移除右侧容器内指定位置的动作按钮
+     */
+    public void removeRightAction(int index) {
+        rightActionsLayout.removeViewAt(index);
     }
 
     public HandyTitleBar setBottomLineHeight(int bottomLineHeight) {
