@@ -25,6 +25,6 @@ https://handy045.cn/2018/05/22/Android开发/强大的自定义标题栏：Handy
 ```javascript
 
     dependencies {
-        compile 'com.github.liujie045:HandyTitleBar:1.1.0'
+        compile 'com.github.liujie045:HandyTitleBar:1.1.1'
     }
 ```
