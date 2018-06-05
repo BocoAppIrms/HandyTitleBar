@@ -1,4 +1,4 @@
-条码和二维码扫描库
+# 自定义标题栏控件
 
 [使用说明](https://handy045.cn/2018/05/22/Android/Handy/HandyTitleBar/)
 
