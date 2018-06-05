@@ -18,9 +18,9 @@ HandyTitleBar的布局元素：
     1. Action：动作按钮
 7. BottomLine：底部分割线（给标题栏画界）
 
-![](绘图1.jpeg)
+![](https://github.com/Handy045/HandyTitleBar/blob/master/document/绘图1.jpeg?raw=true)
 
-![](绘图2.jpeg)
+![](https://github.com/Handy045/HandyTitleBar/blob/master/document/绘图2.jpeg?raw=true)
 
 # 自定义属性说明
 
@@ -104,7 +104,7 @@ HandyTitleBar的布局元素：
 
 # 部分效果展示
 
-![](2018-05-23_22-18-55.png)
+![](https://github.com/Handy045/HandyTitleBar/blob/master/document/2018-05-23_22-18-55.png?raw=true)
 
 # 使用方式
 
