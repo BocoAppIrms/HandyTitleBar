@@ -1,6 +1,6 @@
 # 自定义标题栏控件
 
-[使用说明](https://handy045.cn/2018/05/22/Android/Handy/HandyTitleBar/)
+[使用说明](https://handy045.com/2018/05/22/Android/Handy/HandyTitleBar/)
 
 # 布局样式和组织结构
 
