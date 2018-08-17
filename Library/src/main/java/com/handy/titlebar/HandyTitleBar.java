@@ -167,7 +167,6 @@ public class HandyTitleBar extends ViewGroup {
         mainTextView.setSingleLine();
         mainTextView.setGravity(Gravity.CENTER);
         mainTextView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-        mainTextView.setVisibility((mainText == null || "".equals(mainText)) ? GONE : VISIBLE);
 
         subTextView = new MarqueeTextView(context);
         subTextView.setText(subText);
@@ -177,7 +176,6 @@ public class HandyTitleBar extends ViewGroup {
         subTextView.setSingleLine();
         subTextView.setGravity(Gravity.CENTER);
         subTextView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-        subTextView.setVisibility((subText == null || "".equals(subText)) ? GONE : VISIBLE);
 
         contentLayout = new LinearLayout(context);
         contentLayout.setOrientation(LinearLayout.VERTICAL);
@@ -605,6 +603,20 @@ public class HandyTitleBar extends ViewGroup {
         return this;
     }
 
+    /**
+     * 设置标题栏文本布局方向
+     *
+     * @param orientation View.VISIBLE View.INVISIBLE View.GONE
+     * @return HandyTitleBar
+     */
+    public HandyTitleBar setContentLayoutOrientatio(int orientation) {
+        if (orientation == View.VISIBLE || orientation == View.INVISIBLE || orientation == View.GONE) {
+            contentLayout.setOrientation(orientation);
+            requestLayout();
+        }
+        return this;
+    }
+
     @SuppressLint("SetTextI18n")
     public HandyTitleBar setTitleBarContent(CharSequence title) {
         mainTextView.setVisibility(View.VISIBLE);
@@ -630,6 +642,7 @@ public class HandyTitleBar extends ViewGroup {
 
     public HandyTitleBar setMainText(String mainText) {
         this.mainText = mainText;
+        mainTextView.setVisibility(VISIBLE);
         mainTextView.setText(mainText);
         requestLayout();
         return this;
@@ -638,6 +651,7 @@ public class HandyTitleBar extends ViewGroup {
     public HandyTitleBar setMainTextSize(float mainTextSize) {
         if (mainTextSize >= 0) {
             this.mainTextSize = spTopx(mainTextSize);
+            mainTextView.setVisibility(VISIBLE);
             mainTextView.setTextSize(mainTextSize);
             requestLayout();
         }
@@ -646,6 +660,7 @@ public class HandyTitleBar extends ViewGroup {
 
     public HandyTitleBar setMainTextColor(@ColorInt int mainTextColor) {
         try {
+            mainTextView.setVisibility(VISIBLE);
             mainTextView.setTextColor(mainTextColor);
             this.mainTextColor = mainTextColor;
             requestLayout();
@@ -657,6 +672,7 @@ public class HandyTitleBar extends ViewGroup {
 
     public HandyTitleBar setMainTextBackgroundColor(@ColorInt int mainTextBackgroundColor) {
         try {
+            mainTextView.setVisibility(VISIBLE);
             mainTextView.setBackgroundColor(mainTextBackgroundColor);
             this.mainTextBackgroundColor = mainTextBackgroundColor;
             requestLayout();
@@ -668,6 +684,7 @@ public class HandyTitleBar extends ViewGroup {
 
     public HandyTitleBar setSubText(String subText) {
         this.subText = subText;
+        subTextView.setVisibility(VISIBLE);
         subTextView.setText(subText);
         requestLayout();
         return this;
@@ -676,6 +693,7 @@ public class HandyTitleBar extends ViewGroup {
     public HandyTitleBar setSubTextSize(float subTextSize) {
         if (subTextSize >= 0) {
             this.subTextSize = spTopx(subTextSize);
+            subTextView.setVisibility(VISIBLE);
             subTextView.setTextSize(subTextSize);
             requestLayout();
         }
@@ -684,6 +702,7 @@ public class HandyTitleBar extends ViewGroup {
 
     public HandyTitleBar setSubTextColor(@ColorInt int subTextColor) {
         try {
+            subTextView.setVisibility(VISIBLE);
             subTextView.setTextColor(subTextColor);
             this.subTextColor = subTextColor;
             requestLayout();
@@ -695,6 +714,7 @@ public class HandyTitleBar extends ViewGroup {
 
     public HandyTitleBar setSubTextBackgroundColor(@ColorInt int subTextBackgroundColor) {
         try {
+            subTextView.setVisibility(VISIBLE);
             subTextView.setBackgroundColor(subTextBackgroundColor);
             this.subTextBackgroundColor = subTextBackgroundColor;
             requestLayout();
