@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -36,6 +38,7 @@ public class HandyTitleBar extends ViewGroup {
 
     private int statusBarHeight;
     private int statusBarBackgroundColor;
+    private boolean isShowCustomStatusBar;
 
     private int topLineHeight;
     private int topLineColor;
@@ -63,7 +66,6 @@ public class HandyTitleBar extends ViewGroup {
     private int actionLayoutPadding;
     private int actionTextSize;
     private int actionTextColor;
-    private int actionImageSrc;
     private int actionImageSize;
 
     private int displayWidth;
@@ -99,7 +101,8 @@ public class HandyTitleBar extends ViewGroup {
         displayWidth = getResources().getDisplayMetrics().widthPixels;
         typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.HandyTitleBarStyleable);
 
-        statusBarHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_statusBarHeight, 0);
+        isShowCustomStatusBar = typedArray.getBoolean(R.styleable.HandyTitleBarStyleable_handy_isShowCustomStatusBar, false);
+        statusBarHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_statusBarHeight, isShowCustomStatusBar ? getStatusBarHeight(context) : 0);
         statusBarBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_statusBarBackgroundColor, 0xFF0091ea);
 
         topLineHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_topLineHeight, 0);
@@ -130,7 +133,6 @@ public class HandyTitleBar extends ViewGroup {
         actionLayoutPadding = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionLayoutPadding, dpTopx(4));
         actionTextSize = typedArray.getDimensionPixelSize(R.styleable.HandyTitleBarStyleable_handy_actionTextSize, spTopx(13));
         actionTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_actionTextColor, Color.BLACK);
-        actionImageSrc = typedArray.getResourceId(R.styleable.HandyTitleBarStyleable_handy_actionImageSrc, 0);
         actionImageSize = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionImageSize, dpTopx(18));
 
         typedArray.recycle();
@@ -267,147 +269,6 @@ public class HandyTitleBar extends ViewGroup {
         }
 
         bottomLineView.layout(paddingLeft, statusBarHeight + topLineHeight + titleBarHeight + paddingTop, parentWidth - paddingRight, statusBarHeight + topLineHeight + titleBarHeight + bottomLineHeight + paddingTop);
-    }
-
-    /**
-     * 获取状态栏高度高度
-     */
-    @SuppressLint("PrivateApi")
-    private int getStatusBarHeight(Context context) {
-        try {
-            Object obj = Class.forName("com.android.internal.R$dimen").newInstance();
-            Field field = Class.forName("com.android.internal.R$dimen").getField("status_bar_height");
-            return context.getResources().getDimensionPixelSize(Integer.parseInt(field.get(obj).toString()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    /**
-     * 带跑马灯功能的TextView
-     */
-    public class MarqueeTextView extends android.support.v7.widget.AppCompatTextView {
-        public MarqueeTextView(Context context) {
-            super(context);
-        }
-
-        public MarqueeTextView(Context context, AttributeSet attrs) {
-            super(context, attrs);
-        }
-
-        public MarqueeTextView(Context context, AttributeSet attrs, int defStyle) {
-            super(context, attrs, defStyle);
-        }
-
-        @Override
-        public boolean isFocused() {
-            return true;
-        }
-    }
-
-    /**
-     * 初始化动作按钮控件布局
-     */
-    private View inflateAction(HandyTitleBar.BaseAction action) {
-        LinearLayout view = new LinearLayout(getContext());
-        view.setGravity(Gravity.CENTER_VERTICAL);
-        view.setOrientation(LinearLayout.HORIZONTAL);
-        view.setPadding(actionViewPadding, 0, actionViewPadding, 0);
-        view.setTag(action);
-        view.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Object tag = v.getTag();
-                if (tag instanceof HandyTitleBar.BaseAction) {
-                    final HandyTitleBar.BaseAction action = (HandyTitleBar.BaseAction) tag;
-                    action.onClick();
-                }
-            }
-        });
-
-        //若图片设置不为空，添加动作按钮的图片
-        if (action.setImageSrc() != 0) {
-            ImageView img = new ImageView(getContext());
-            LayoutParams imglp = new LayoutParams(action.setImageSize(), action.setImageSize());
-            img.setLayoutParams(imglp);
-            img.setImageResource(action.setImageSrc());
-            img.setClickable(false);
-            view.addView(img);
-        }
-
-        //若文字设置不为空，添加动作按钮的文字
-        if (!TextUtils.isEmpty(action.setText())) {
-            TextView text = new TextView(getContext());
-            text.setGravity(Gravity.CENTER);
-            text.setText(action.setText());
-            //动作按钮中文字距离图片4dp
-            text.setPadding(action.setImageSrc() != 0 ? dpTopx(4) : 0, 0, 0, 0);
-            text.setTextSize(TypedValue.COMPLEX_UNIT_PX, action.setTextSize());
-            text.setTextColor(action.setTextColor());
-            view.addView(text);
-        }
-        return view;
-    }
-
-    /**
-     * dp转px
-     */
-    private int dpTopx(int dpValue) {
-        final float scale = Resources.getSystem().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
-    }
-
-    /**
-     * sp 转 px
-     */
-    private static int spTopx(final float spValue) {
-        final float fontScale = Resources.getSystem().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * fontScale + 0.5f);
-    }
-
-    /**
-     * 自定义对象类
-     */
-    public static abstract class BaseAction {
-
-        private View actionView;
-        private HandyTitleBar handyTitleBar;
-
-        public BaseAction(HandyTitleBar handyTitleBar) {
-            this.handyTitleBar = handyTitleBar;
-        }
-
-        public abstract void onClick();
-
-        public String setText() {
-            return null;
-        }
-
-        public int setTextColor() {
-            return handyTitleBar.actionTextColor;
-        }
-
-        public int setTextSize() {
-            return handyTitleBar.actionTextSize;
-        }
-
-        public int setImageSrc() {
-            return handyTitleBar.actionImageSrc;
-        }
-
-        public int setImageSize() {
-            return handyTitleBar.actionImageSize;
-        }
-
-        public View getActionView() {
-            return actionView;
-        }
-
-        public void setActionView(View actionView) {
-            this.actionView = actionView;
-        }
-
     }
 
     /*============================== 内部控件开放 ==============================*/
@@ -797,5 +658,204 @@ public class HandyTitleBar extends ViewGroup {
             e.printStackTrace();
         }
         return this;
+    }
+
+    /*============================== 其他方法及内部类 ==============================*/
+
+    /**
+     * 获取状态栏高度高度
+     */
+    @SuppressLint("PrivateApi")
+    private int getStatusBarHeight(Context context) {
+        try {
+            Object obj = Class.forName("com.android.internal.R$dimen").newInstance();
+            Field field = Class.forName("com.android.internal.R$dimen").getField("status_bar_height");
+            return context.getResources().getDimensionPixelSize(Integer.parseInt(field.get(obj).toString()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    /**
+     * dp转px
+     */
+    private static int dpTopx(int dpValue) {
+        final float scale = Resources.getSystem().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
+     * sp 转 px
+     */
+    private static int spTopx(final float spValue) {
+        final float fontScale = Resources.getSystem().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
+    }
+
+    /**
+     * 带跑马灯功能的TextView
+     */
+    public class MarqueeTextView extends android.support.v7.widget.AppCompatTextView {
+        public MarqueeTextView(Context context) {
+            super(context);
+        }
+
+        public MarqueeTextView(Context context, AttributeSet attrs) {
+            super(context, attrs);
+        }
+
+        public MarqueeTextView(Context context, AttributeSet attrs, int defStyle) {
+            super(context, attrs, defStyle);
+        }
+
+        @Override
+        public boolean isFocused() {
+            return true;
+        }
+    }
+
+    /**
+     * 初始化动作按钮控件布局
+     */
+    private View inflateAction(HandyTitleBar.BaseAction action) {
+        LinearLayout view = new LinearLayout(getContext());
+        view.setGravity(Gravity.CENTER_VERTICAL);
+        view.setOrientation(LinearLayout.HORIZONTAL);
+        view.setPadding(actionViewPadding, 0, actionViewPadding, 0);
+        view.setTag(action);
+        view.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Object tag = v.getTag();
+                if (tag instanceof HandyTitleBar.BaseAction) {
+                    final HandyTitleBar.BaseAction action = (HandyTitleBar.BaseAction) tag;
+                    action.onClick();
+                }
+            }
+        });
+
+        //若图片设置不为空，添加动作按钮的图片
+        if (action.getImageSrc() != 0) {
+            ImageView img = new ImageView(getContext());
+            LayoutParams imglp = new LayoutParams(action.getImageSize(), action.getImageSize());
+            img.setLayoutParams(imglp);
+            img.setImageResource(action.getImageSrc());
+            img.setClickable(false);
+            view.addView(img);
+            action.setChildImageView(img);
+        }
+
+        //若文字设置不为空，添加动作按钮的文字
+        if (!TextUtils.isEmpty(action.getText())) {
+            TextView text = new TextView(getContext());
+            text.setGravity(Gravity.CENTER);
+            text.setText(action.getText());
+            //动作按钮中文字距离图片4dp
+            text.setPadding(action.getImageSrc() != 0 ? dpTopx(4) : 0, 0, 0, 0);
+            text.setTextSize(TypedValue.COMPLEX_UNIT_PX, action.getTextSize());
+            text.setTextColor(action.getTextColor());
+            text.setClickable(false);
+            view.addView(text);
+            action.setChildTextView(text);
+        }
+        return view;
+    }
+
+    /**
+     * 自定义对象类
+     */
+    public static abstract class BaseAction {
+
+        private View actionView;
+        private ImageView imageView;
+        private TextView textView;
+
+        private String actionText;
+        private int actionTextSize;
+        private int actionTextColor;
+        private int actionImageSrc;
+        private int actionImageSize;
+
+        public BaseAction(HandyTitleBar handyTitleBar) {
+            this.actionTextSize = handyTitleBar.actionTextSize;
+            this.actionTextColor = handyTitleBar.actionTextColor;
+            this.actionImageSize = handyTitleBar.actionImageSize;
+        }
+
+        public abstract void onClick();
+
+        public View getActionView() {
+            return actionView;
+        }
+
+        public ImageView getChildImageView() {
+            return imageView;
+        }
+
+        public TextView getChildTextView() {
+            return textView;
+        }
+
+        private String getText() {
+            return actionText;
+        }
+
+        private int getTextSize() {
+            return actionTextSize;
+        }
+
+        private int getTextColor() {
+            return actionTextColor;
+        }
+
+        private int getImageSrc() {
+            return actionImageSrc;
+        }
+
+        private int getImageSize() {
+            return actionImageSize;
+        }
+
+        private void setActionView(@NonNull View actionView) {
+            this.actionView = actionView;
+        }
+
+        private void setChildImageView(ImageView imageView) {
+            this.imageView = imageView;
+        }
+
+        private void setChildTextView(TextView textView) {
+            this.textView = textView;
+        }
+
+        public BaseAction setText(String actionText) {
+            this.actionText = actionText;
+            return this;
+        }
+
+        public BaseAction setTextSize(int actionTextSize) {
+            if (actionTextSize >= 0) {
+                this.actionTextSize = spTopx(actionTextSize);
+            }
+            return this;
+        }
+
+        public BaseAction setTextColor(@ColorInt int actionTextColor) {
+            this.actionTextColor = actionTextColor;
+            return this;
+        }
+
+        public BaseAction setImageSrc(@DrawableRes int actionImageSrc) {
+            this.actionImageSrc = actionImageSrc;
+            return this;
+        }
+
+        public BaseAction setImageSize(int actionImageSize) {
+            if (actionImageSize >= 0) {
+                this.actionImageSize = dpTopx(actionImageSize);
+            }
+            return this;
+        }
     }
 }
