@@ -33,7 +33,6 @@
         <attr name="handy_actionTextSize" format="dimension" />
         <attr name="handy_actionTextColor" format="color" />
         <attr name="handy_actionImageSize" format="dimension" />
-        <attr name="handy_actionImageSrc" format="reference" />
 
     </declare-styleable>
 </resources>

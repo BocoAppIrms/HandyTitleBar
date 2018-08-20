@@ -22,23 +22,15 @@ public class NewTitleBarTestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_newtitlebar);
 
         final HandyTitleBar handyTitleBar1 = findViewById(R.id.titlebarNew1);
-        handyTitleBar1.setShowCustomStatusBar(NewTitleBarTestActivity.this, true);
+        handyTitleBar1.showCustomStatusBar(NewTitleBarTestActivity.this);
         handyTitleBar1.setTitleBarContent("主标题\n副标题");
         handyTitleBar1.addLeftAction(new HandyTitleBar.BaseAction(handyTitleBar1) {
-
-            @Override
-            public int setImageSrc() {
-                return R.drawable.hdb_back_n;
-            }
-
-            @Override
-            public String setText() {
-                return "返回";
-            }
-
-            @Override
-            public int setTextColor() {
-                return Color.WHITE;
+            {
+                this.setImageSrc(R.drawable.hdb_back_n);
+                this.setText(null);
+                this.setTextColor(Color.WHITE);
+                this.setTextSize(15);
+                this.setImageSize(10);
             }
 
             @Override
@@ -47,10 +39,8 @@ public class NewTitleBarTestActivity extends AppCompatActivity {
             }
         });
         handyTitleBar1.addRightAction(new HandyTitleBar.BaseAction(handyTitleBar1) {
-
-            @Override
-            public int setImageSrc() {
-                return R.drawable.hdb_menu_n;
+            {
+                this.setImageSrc(R.drawable.hdb_menu_n);
             }
 
             @Override
@@ -58,10 +48,8 @@ public class NewTitleBarTestActivity extends AppCompatActivity {
             }
         });
         handyTitleBar1.addRightAction(new HandyTitleBar.BaseAction(handyTitleBar1) {
-
-            @Override
-            public int setImageSrc() {
-                return R.drawable.hdb_setting_n;
+            {
+                this.setImageSrc(R.drawable.hdb_setting_n);
             }
 
             @Override
