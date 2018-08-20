@@ -11,6 +11,7 @@ import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,11 +98,10 @@ public class HandyTitleBar extends ViewGroup {
     public HandyTitleBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         displayWidth = getResources().getDisplayMetrics().widthPixels;
-
         typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.HandyTitleBarStyleable);
+
         statusBarHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_statusBarHeight, 0);
         statusBarBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_statusBarBackgroundColor, 0xFF0091ea);
-        isShowCustomStatusBar = typedArray.getBoolean(R.styleable.HandyTitleBarStyleable_handy_isShowCustomStatusBar, true);
 
         topLineHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_topLineHeight, 0);
         topLineColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_topLineColor, Color.GRAY);
@@ -115,11 +115,12 @@ public class HandyTitleBar extends ViewGroup {
         titleBarBackground = typedArray.getDrawable(R.styleable.HandyTitleBarStyleable_handy_titleBarBackground);
 
         mainText = typedArray.getString(R.styleable.HandyTitleBarStyleable_handy_mainText);
-        mainTextSize = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_mainTextSize, 17);
+        mainTextSize = typedArray.getDimensionPixelSize(R.styleable.HandyTitleBarStyleable_handy_mainTextSize, spTopx(15));
         mainTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_mainTextColor, Color.BLACK);
         mainTextBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_mainTextBackgroundColor, Color.TRANSPARENT);
+
         subText = typedArray.getString(R.styleable.HandyTitleBarStyleable_handy_subText);
-        subTextSize = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_subTextSize, 11);
+        subTextSize = typedArray.getDimensionPixelSize(R.styleable.HandyTitleBarStyleable_handy_subTextSize, spTopx(11));
         subTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_subTextColor, Color.BLACK);
         subTextBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_subTextBackgroundColor, Color.TRANSPARENT);
 
@@ -128,10 +129,11 @@ public class HandyTitleBar extends ViewGroup {
 
         actionViewPadding = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionViewPadding, dpTopx(8));
         actionLayoutPadding = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionLayoutPadding, dpTopx(4));
-        actionTextSize = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionTextSize, 13);
+        actionTextSize = typedArray.getDimensionPixelSize(R.styleable.HandyTitleBarStyleable_handy_actionTextSize, spTopx(13));
         actionTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_actionTextColor, Color.BLACK);
         actionImageSrc = typedArray.getResourceId(R.styleable.HandyTitleBarStyleable_handy_actionImageSrc, 0);
-        actionImageSize = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionImageSize, 18);
+        actionImageSize = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionImageSize, dpTopx(18));
+
         typedArray.recycle();
         initView(context);
     }
@@ -162,20 +164,22 @@ public class HandyTitleBar extends ViewGroup {
         mainTextView = new MarqueeTextView(context);
         mainTextView.setText(mainText);
         mainTextView.setTextColor(mainTextColor);
-        mainTextView.setTextSize(mainTextSize);
+        mainTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mainTextSize);
         mainTextView.setBackgroundColor(mainTextBackgroundColor);
         mainTextView.setSingleLine();
         mainTextView.setGravity(Gravity.CENTER);
         mainTextView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        mainTextView.setVisibility((mainText == null || "".equals(mainText)) ? GONE : VISIBLE);
 
         subTextView = new MarqueeTextView(context);
         subTextView.setText(subText);
         subTextView.setTextColor(subTextColor);
-        subTextView.setTextSize(subTextSize);
+        subTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, subTextSize);
         subTextView.setBackgroundColor(subTextBackgroundColor);
         subTextView.setSingleLine();
         subTextView.setGravity(Gravity.CENTER);
         subTextView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        subTextView.setVisibility((subText == null || "".equals(subText)) ? GONE : VISIBLE);
 
         contentLayout = new LinearLayout(context);
         contentLayout.setOrientation(LinearLayout.VERTICAL);
@@ -360,7 +364,7 @@ public class HandyTitleBar extends ViewGroup {
         //若图片设置不为空，添加动作按钮的图片
         if (action.setImageSrc() != 0) {
             ImageView img = new ImageView(getContext());
-            LayoutParams imglp = new LayoutParams(dpTopx(action.setImageSize()), dpTopx(action.setImageSize()));
+            LayoutParams imglp = new LayoutParams(action.setImageSize(), action.setImageSize());
             img.setLayoutParams(imglp);
             img.setImageResource(action.setImageSrc());
             img.setClickable(false);
@@ -374,7 +378,7 @@ public class HandyTitleBar extends ViewGroup {
             text.setText(action.setText());
             //动作按钮中文字距离图片4dp
             text.setPadding(action.setImageSrc() != 0 ? dpTopx(4) : 0, 0, 0, 0);
-            text.setTextSize(action.setTextSize());
+            text.setTextSize(TypedValue.COMPLEX_UNIT_PX, action.setTextSize());
             text.setTextColor(action.setTextColor());
             view.addView(text);
         }
