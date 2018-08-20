@@ -12,7 +12,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TitleBarTestActivity" />
-        <activity android:name=".NewTitleBarTestActivity" />
     </application>
 </manifest>

@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/main_aty"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee"
+    android:orientation="vertical">
 
-    <com.handy.titlebar.TitleBar
-        android:id="@+id/base_mytitlebar"
-        android:layout_width="match_parent"
-        android:layout_height="85dp"/>
+    <com.handy.titlebar.HandyTitleBar
+        android:id="@+id/titlebarNew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        app:handy_bottomLineColor="#0071ea"
+        app:handy_bottomLineHeight="2dp"
+        app:handy_mainText="这个是主标题"
+        app:handy_mainTextColor="#ffffff"
+        app:handy_mainTextSize="15sp"
+        app:handy_subText="这个是副标题"
+        app:handy_subTextColor="#ffffff"
+        app:handy_titleBarBackground="#0091ea" />
 
-    <Button
-        android:id="@+id/main_dynamic"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:padding="8dp"
-        android:text="动态样例"/>
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        android:textColor="#000000"
+        android:textSize="17sp" />
 
-    <Button
-        android:id="@+id/main_newtitlebar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:padding="8dp"
-        android:text="新标题栏测试" />
-</LinearLayout>
+</RelativeLayout>
