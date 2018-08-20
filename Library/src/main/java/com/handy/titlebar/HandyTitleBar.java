@@ -36,7 +36,6 @@ public class HandyTitleBar extends ViewGroup {
 
     private int statusBarHeight;
     private int statusBarBackgroundColor;
-    private boolean isShowCustomStatusBar;
 
     private int topLineHeight;
     private int topLineColor;
@@ -168,7 +167,9 @@ public class HandyTitleBar extends ViewGroup {
         mainTextView.setBackgroundColor(mainTextBackgroundColor);
         mainTextView.setSingleLine();
         mainTextView.setGravity(Gravity.CENTER);
+        mainTextView.setIncludeFontPadding(false);
         mainTextView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        mainTextView.setPadding(0, 0, 0, dpTopx(1));
         mainTextView.setVisibility((mainText == null || "".equals(mainText)) ? GONE : VISIBLE);
 
         subTextView = new MarqueeTextView(context);
@@ -178,7 +179,9 @@ public class HandyTitleBar extends ViewGroup {
         subTextView.setBackgroundColor(subTextBackgroundColor);
         subTextView.setSingleLine();
         subTextView.setGravity(Gravity.CENTER);
+        subTextView.setIncludeFontPadding(false);
         subTextView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        subTextView.setPadding(dpTopx(0), dpTopx(1), 0, 0);
         subTextView.setVisibility((subText == null || "".equals(subText)) ? GONE : VISIBLE);
 
         contentLayout = new LinearLayout(context);
@@ -264,44 +267,6 @@ public class HandyTitleBar extends ViewGroup {
         }
 
         bottomLineView.layout(paddingLeft, statusBarHeight + topLineHeight + titleBarHeight + paddingTop, parentWidth - paddingRight, statusBarHeight + topLineHeight + titleBarHeight + bottomLineHeight + paddingTop);
-    }
-
-    /**
-     * 设置系统状态栏是否可见，安卓系统版本大于等于19
-     */
-    private void initStatusBar(Activity activity, boolean isShowCustomStatusBar) {
-        this.isShowCustomStatusBar = isShowCustomStatusBar;
-        if (isShowCustomStatusBar) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-                statusBarHeight = 0;
-                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-            } else {
-                statusBarHeight = getStatusBarHeight(activity);
-                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                    activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                } else {
-                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-                    activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                    activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
-                }
-            }
-        } else {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-                statusBarHeight = 0;
-                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-            } else {
-                statusBarHeight = getStatusBarHeight(activity);
-                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                } else {
-                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-                    activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                    activity.getWindow().setStatusBarColor(Color.BLACK);
-                }
-            }
-        }
     }
 
     /**
@@ -504,9 +469,22 @@ public class HandyTitleBar extends ViewGroup {
         return this;
     }
 
-    public HandyTitleBar setShowCustomStatusBar(Activity activity, boolean showCustomStatusBar) {
-        isShowCustomStatusBar = showCustomStatusBar;
-        initStatusBar(activity, isShowCustomStatusBar);
+    /**
+     * 设置系统状态栏是否可见，安卓系统版本大于等于19
+     */
+    public HandyTitleBar showCustomStatusBar(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            statusBarHeight = getStatusBarHeight(activity);
+            activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            } else {
+                activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+                activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
+            }
+        }
+
         requestLayout();
         return this;
     }
