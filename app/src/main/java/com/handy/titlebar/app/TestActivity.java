@@ -16,6 +16,7 @@ public class TestActivity extends AppCompatActivity {
         final HandyTitleBar handyTitleBar1 = findViewById(R.id.titlebarNew);
         handyTitleBar1.showCustomStatusBar(TestActivity.this);
         handyTitleBar1.setTitleBarContent("主标题\n副标题");
+        handyTitleBar1.setTitleBarBackground(R.color.colorPrimary);
         handyTitleBar1.addLeftAction(new HandyTitleBar.BaseAction(handyTitleBar1) {
             {
                 this.setImageSrc(R.drawable.hdb_back_n);
