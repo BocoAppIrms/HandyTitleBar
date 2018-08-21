@@ -319,9 +319,9 @@ public class HandyTitleBar extends ViewGroup {
         return this;
     }
 
-    public HandyTitleBar setStatusBarBackgroundColor(@ColorInt int statusBarBackgroundColor) {
+    public HandyTitleBar setStatusBarBackgroundColor(@DrawableRes int statusBarBackgroundColor) {
         try {
-            statusBar.setBackgroundColor(statusBarBackgroundColor);
+            statusBar.setBackgroundResource(statusBarBackgroundColor);
             this.statusBarBackgroundColor = statusBarBackgroundColor;
             requestLayout();
         } catch (Exception e) {
@@ -358,9 +358,9 @@ public class HandyTitleBar extends ViewGroup {
         return this;
     }
 
-    public HandyTitleBar setTopLineColor(@ColorInt int topLineColor) {
+    public HandyTitleBar setTopLineColor(@DrawableRes int topLineColor) {
         try {
-            topLineView.setBackgroundColor(topLineColor);
+            topLineView.setBackgroundResource(topLineColor);
             this.topLineColor = topLineColor;
             requestLayout();
         } catch (Exception e) {
@@ -417,14 +417,15 @@ public class HandyTitleBar extends ViewGroup {
         return this;
     }
 
-    public HandyTitleBar setTitleBarBackground(int titleBarBackground) {
-        if (typedArray != null) {
-            try {
-                setTitleBarBackground(typedArray.getDrawable(titleBarBackground));
-                requestLayout();
-            } catch (Exception e) {
-                e.printStackTrace();
+    public HandyTitleBar setTitleBarBackground(@DrawableRes int titleBarBackground) {
+        try {
+            titleBar.setBackgroundResource(titleBarBackground);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                this.titleBarBackground = getContext().getDrawable(titleBarBackground);
             }
+            requestLayout();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return this;
     }
@@ -449,11 +450,11 @@ public class HandyTitleBar extends ViewGroup {
     /**
      * 设置标题栏文本布局方向
      *
-     * @param orientation View.VISIBLE View.INVISIBLE View.GONE
+     * @param orientation LinearLayout.VERTICAL or LinearLayout.HORIZONTAL
      * @return HandyTitleBar
      */
     public HandyTitleBar setContentLayoutOrientatio(int orientation) {
-        if (orientation == View.VISIBLE || orientation == View.INVISIBLE || orientation == View.GONE) {
+        if (orientation == LinearLayout.VERTICAL || orientation == LinearLayout.HORIZONTAL) {
             contentLayout.setOrientation(orientation);
             requestLayout();
         }
@@ -513,10 +514,10 @@ public class HandyTitleBar extends ViewGroup {
         return this;
     }
 
-    public HandyTitleBar setMainTextBackgroundColor(@ColorInt int mainTextBackgroundColor) {
+    public HandyTitleBar setMainTextBackgroundColor(@DrawableRes int mainTextBackgroundColor) {
         try {
             mainTextView.setVisibility(VISIBLE);
-            mainTextView.setBackgroundColor(mainTextBackgroundColor);
+            mainTextView.setBackgroundResource(mainTextBackgroundColor);
             this.mainTextBackgroundColor = mainTextBackgroundColor;
             requestLayout();
         } catch (Exception e) {
@@ -555,10 +556,10 @@ public class HandyTitleBar extends ViewGroup {
         return this;
     }
 
-    public HandyTitleBar setSubTextBackgroundColor(@ColorInt int subTextBackgroundColor) {
+    public HandyTitleBar setSubTextBackgroundColor(@DrawableRes int subTextBackgroundColor) {
         try {
             subTextView.setVisibility(VISIBLE);
-            subTextView.setBackgroundColor(subTextBackgroundColor);
+            subTextView.setBackgroundResource(subTextBackgroundColor);
             this.subTextBackgroundColor = subTextBackgroundColor;
             requestLayout();
         } catch (Exception e) {
@@ -649,9 +650,9 @@ public class HandyTitleBar extends ViewGroup {
         return this;
     }
 
-    public HandyTitleBar setBottomLineColor(int bottomLineColor) {
+    public HandyTitleBar setBottomLineColor(@DrawableRes int bottomLineColor) {
         try {
-            bottomLineView.setBackgroundColor(bottomLineColor);
+            bottomLineView.setBackgroundResource(bottomLineColor);
             this.bottomLineColor = bottomLineColor;
             requestLayout();
         } catch (Exception e) {
