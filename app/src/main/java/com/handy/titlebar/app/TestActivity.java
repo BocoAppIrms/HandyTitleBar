@@ -3,6 +3,7 @@ package com.handy.titlebar.app;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.LinearLayout;
 
 import com.handy.titlebar.HandyTitleBar;
 
@@ -38,6 +39,7 @@ public class TestActivity extends AppCompatActivity {
 
             @Override
             public void onClick() {
+                handyTitleBar1.getContentLayout().setOrientation(LinearLayout.HORIZONTAL);
             }
         });
         handyTitleBar1.addRightAction(new HandyTitleBar.BaseAction(handyTitleBar1) {
@@ -47,6 +49,7 @@ public class TestActivity extends AppCompatActivity {
 
             @Override
             public void onClick() {
+                handyTitleBar1.getContentLayout().setOrientation(LinearLayout.VERTICAL);
             }
         });
     }
