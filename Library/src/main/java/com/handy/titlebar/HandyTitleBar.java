@@ -172,7 +172,6 @@ public class HandyTitleBar extends ViewGroup {
         mainTextView.setGravity(Gravity.CENTER);
         mainTextView.setIncludeFontPadding(false);
         mainTextView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-        mainTextView.setPadding(0, 0, 0, dpTopx(1));
         mainTextView.setVisibility((mainText == null || "".equals(mainText)) ? GONE : VISIBLE);
 
         subTextView = new MarqueeTextView(context);
@@ -184,15 +183,14 @@ public class HandyTitleBar extends ViewGroup {
         subTextView.setGravity(Gravity.CENTER);
         subTextView.setIncludeFontPadding(false);
         subTextView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-        subTextView.setPadding(dpTopx(0), dpTopx(1), 0, 0);
         subTextView.setVisibility((subText == null || "".equals(subText)) ? GONE : VISIBLE);
 
         contentLayout = new LinearLayout(context);
         contentLayout.setOrientation(LinearLayout.VERTICAL);
         contentLayout.setGravity(Gravity.CENTER);
         contentLayout.setBackgroundColor(Color.TRANSPARENT);
-        contentLayout.addView(mainTextView, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-        contentLayout.addView(subTextView, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        contentLayout.addView(mainTextView, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        contentLayout.addView(subTextView, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
         rightActionsLayout = new LinearLayout(context);
         rightActionsLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -219,6 +217,15 @@ public class HandyTitleBar extends ViewGroup {
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+        if (contentLayout.getOrientation() == LinearLayout.VERTICAL) {
+            mainTextView.setPadding(0, 0, 0, dpTopx(1));
+            subTextView.setPadding(0, dpTopx(1), 0, 0);
+
+        } else if (contentLayout.getOrientation() == LinearLayout.HORIZONTAL) {
+            mainTextView.setPadding(0, 0, dpTopx(2), 0);
+            subTextView.setPadding(dpTopx(2), 0, 0, 0);
+        }
 
         paddingTop = titleBarPadding > 0 ? titleBarPadding : titleBarPaddingTop;
         paddingLeft = titleBarPadding > 0 ? titleBarPadding : titleBarPaddingLeft;
@@ -476,7 +483,7 @@ public class HandyTitleBar extends ViewGroup {
             if (index > 0) {
                 contentLayout.setOrientation(LinearLayout.HORIZONTAL);
                 mainTextView.setText(title.subSequence(0, index));
-                subTextView.setText("  " + title.subSequence(index + 1, title.length()));
+                subTextView.setText(title.subSequence(index + 1, title.length()));
             } else {
                 mainTextView.setText(title);
                 subTextView.setVisibility(View.GONE);
@@ -698,7 +705,7 @@ public class HandyTitleBar extends ViewGroup {
     /**
      * 带跑马灯功能的TextView
      */
-    public class MarqueeTextView extends android.support.v7.widget.AppCompatTextView {
+    private class MarqueeTextView extends android.support.v7.widget.AppCompatTextView {
         public MarqueeTextView(Context context) {
             super(context);
         }
@@ -866,7 +873,7 @@ public class HandyTitleBar extends ViewGroup {
      *
      * @return the width of screen, in pixel
      */
-    public static int getScreenWidth(Context context) {
+    private static int getScreenWidth(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         if (wm == null) {
             return context.getResources().getDisplayMetrics().widthPixels;
