@@ -599,7 +599,7 @@ public class HandyTitleBar extends ViewGroup {
     /**
      * 移除左侧容器内全部的动作按钮
      */
-    public void removeLeftAction() {
+    public void removeLeftActions() {
         leftActionsLayout.removeAllViews();
     }
 
@@ -632,7 +632,7 @@ public class HandyTitleBar extends ViewGroup {
     /**
      * 移除右侧容器内全部的动作按钮
      */
-    public void removeRightAction() {
+    public void removeRightActions() {
         rightActionsLayout.removeAllViews();
     }
 
