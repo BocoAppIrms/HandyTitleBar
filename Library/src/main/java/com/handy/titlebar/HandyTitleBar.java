@@ -218,13 +218,19 @@ public class HandyTitleBar extends ViewGroup {
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
-        if (contentLayout.getOrientation() == LinearLayout.VERTICAL) {
-            mainTextView.setPadding(0, 0, 0, dpTopx(1));
-            subTextView.setPadding(0, dpTopx(1), 0, 0);
+        if (subTextView.getVisibility() == View.GONE) {
+            mainTextView.setPadding(0, 0, 0, 0);
+            subTextView.setPadding(0, 0, 0, 0);
 
-        } else if (contentLayout.getOrientation() == LinearLayout.HORIZONTAL) {
-            mainTextView.setPadding(0, 0, dpTopx(2), 0);
-            subTextView.setPadding(dpTopx(2), 0, 0, 0);
+        } else {
+            if (contentLayout.getOrientation() == LinearLayout.VERTICAL) {
+                mainTextView.setPadding(0, 0, 0, dpTopx(1));
+                subTextView.setPadding(0, dpTopx(1), 0, 0);
+
+            } else if (contentLayout.getOrientation() == LinearLayout.HORIZONTAL) {
+                mainTextView.setPadding(0, 0, dpTopx(2), 0);
+                subTextView.setPadding(dpTopx(2), 0, 0, 0);
+            }
         }
 
         paddingTop = titleBarPadding > 0 ? titleBarPadding : titleBarPaddingTop;
