@@ -5,7 +5,7 @@ android {
 
     defaultConfig {
         applicationId "com.handy.titlebar.app"
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -28,6 +28,4 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
 
     implementation project(':Library')
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }

@@ -73,3 +73,7 @@ fastlane/readme.md
 *.iml
 out
 gen
+Library/libs/
+app/libs/
+app/src/androidTest/java/com/handy/widget/
+app/src/test/java/com/handy/widget/

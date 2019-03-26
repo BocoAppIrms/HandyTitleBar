@@ -9,16 +9,18 @@ import com.handy.titlebar.HandyTitleBar;
 
 public class TestActivity extends AppCompatActivity {
 
+    private HandyTitleBar handyTitleBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        final HandyTitleBar handyTitleBar1 = findViewById(R.id.titlebarNew);
-        handyTitleBar1.showCustomStatusBar(TestActivity.this);
-        handyTitleBar1.setTitleBarContent("主标题\n副标题");
-        handyTitleBar1.setTitleBarBackground(R.color.colorPrimary);
-        handyTitleBar1.addLeftAction(new HandyTitleBar.BaseAction(handyTitleBar1) {
+        handyTitleBar = findViewById(R.id.titlebarNew);
+        handyTitleBar.showCustomStatusBar(TestActivity.this);
+        handyTitleBar.setTitleBarContent("主标题\n副标题");
+        handyTitleBar.setTitleBarBackground(R.color.colorPrimary);
+        handyTitleBar.addLeftAction(new HandyTitleBar.BaseAction(handyTitleBar) {
             {
                 this.setImageSrc(R.drawable.hdb_back_n);
                 this.setText(null);
@@ -32,24 +34,24 @@ public class TestActivity extends AppCompatActivity {
                 finish();
             }
         });
-        handyTitleBar1.addRightAction(new HandyTitleBar.BaseAction(handyTitleBar1) {
+        handyTitleBar.addRightAction(new HandyTitleBar.BaseAction(handyTitleBar) {
             {
                 this.setImageSrc(R.drawable.hdb_menu_n);
             }
 
             @Override
             public void onClick() {
-                handyTitleBar1.getContentLayout().setOrientation(LinearLayout.HORIZONTAL);
+                handyTitleBar.getContentLayout().setOrientation(LinearLayout.HORIZONTAL);
             }
         });
-        handyTitleBar1.addRightAction(new HandyTitleBar.BaseAction(handyTitleBar1) {
+        handyTitleBar.addRightAction(new HandyTitleBar.BaseAction(handyTitleBar) {
             {
                 this.setImageSrc(R.drawable.hdb_setting_n);
             }
 
             @Override
             public void onClick() {
-                handyTitleBar1.getContentLayout().setOrientation(LinearLayout.VERTICAL);
+                handyTitleBar.getContentLayout().setOrientation(LinearLayout.VERTICAL);
             }
         });
     }
