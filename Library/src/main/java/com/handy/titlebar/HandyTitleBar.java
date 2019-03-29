@@ -35,6 +35,7 @@ import java.lang.reflect.Field;
  */
 public class HandyTitleBar extends ViewGroup {
 
+    private Context context;
     private TypedArray typedArray;
 
     private int statusBarHeight;
@@ -99,6 +100,7 @@ public class HandyTitleBar extends ViewGroup {
     @SuppressLint("CustomViewStyleable")
     public HandyTitleBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.context = context;
         displayWidth = getScreenWidth(context);
         typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.HandyTitleBarStyleable);
 
@@ -792,6 +794,12 @@ public class HandyTitleBar extends ViewGroup {
         private int actionImageSrc;
         private int actionImageSize;
 
+        private int pressType;
+        private int normalImage;
+        private int pressImage;
+        private int normalColorId;
+        private int pressColorId;
+
         public BaseAction(HandyTitleBar handyTitleBar) {
             this.actionTextSize = handyTitleBar.actionTextSize;
             this.actionTextColor = handyTitleBar.actionTextColor;
@@ -844,31 +852,48 @@ public class HandyTitleBar extends ViewGroup {
             this.textView = textView;
         }
 
-        public BaseAction setText(String actionText) {
-            this.actionText = actionText;
+        public BaseAction setText(String text) {
+            this.actionText = text;
             return this;
         }
 
-        public BaseAction setTextSize(int actionTextSize) {
-            if (actionTextSize >= 0) {
-                this.actionTextSize = spTopx(actionTextSize);
+        public BaseAction setTextSize(int spSize) {
+            if (spSize >= 0) {
+                this.actionTextSize = spTopx(spSize);
             }
             return this;
         }
 
-        public BaseAction setTextColor(@ColorInt int actionTextColor) {
-            this.actionTextColor = actionTextColor;
+        public BaseAction setTextColor(@ColorInt int colorId) {
+            this.actionTextColor = colorId;
             return this;
         }
 
-        public BaseAction setImageSrc(@DrawableRes int actionImageSrc) {
+        public BaseAction setImageSrc(@DrawableRes int normalImage) {
+            this.pressType = 0;
+            this.actionImageSrc = normalImage;
+            return this;
+        }
+
+        public BaseAction setImageSrc(@DrawableRes int normalImage, @DrawableRes int pressImage) {
+            this.pressType = 1;
+            this.actionImageSrc = normalImage;
+            this.normalImage = normalImage;
+            this.pressImage = pressImage;
+            return this;
+        }
+
+        public BaseAction setImageSrc(@DrawableRes int actionImageSrc, @ColorInt int normalColorId, @ColorInt int pressColorId) {
+            this.pressType = 2;
             this.actionImageSrc = actionImageSrc;
+            this.normalColorId = normalColorId;
+            this.pressColorId = pressColorId;
             return this;
         }
 
-        public BaseAction setImageSize(int actionImageSize) {
-            if (actionImageSize >= 0) {
-                this.actionImageSize = dpTopx(actionImageSize);
+        public BaseAction setImageSize(int dpSize) {
+            if (dpSize >= 0) {
+                this.actionImageSize = dpTopx(dpSize);
             }
             return this;
         }
