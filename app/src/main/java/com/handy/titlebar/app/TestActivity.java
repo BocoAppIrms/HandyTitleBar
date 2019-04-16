@@ -1,11 +1,11 @@
 package com.handy.titlebar.app;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.handy.titlebar.HandyTitleBar;
+import com.handy.titlebar.entity.Action;
 
 public class TestActivity extends AppCompatActivity {
 
@@ -19,39 +19,16 @@ public class TestActivity extends AppCompatActivity {
         handyTitleBar = findViewById(R.id.titlebarNew);
         handyTitleBar.showCustomStatusBar(TestActivity.this);
         handyTitleBar.setTitleBarContent("主标题\n副标题");
-        handyTitleBar.setTitleBarBackground(R.color.colorPrimary);
-        handyTitleBar.addLeftAction(new HandyTitleBar.BaseAction(handyTitleBar) {
+        handyTitleBar.addLeftAction(new Action() {
             {
-                this.setImageSrc(R.drawable.hdb_back_n);
-                this.setText(null);
-                this.setTextColor(Color.WHITE);
-                this.setTextSize(15);
-                this.setImageSize(10);
+                setText("返回");
+                setImageSrc(R.drawable.hdb_back_n);
+                syncTextImage(R.color.myTitleBar_TestColor_BottomLine, R.color.myTitleBar_TestColor_ActionText);
             }
 
             @Override
             public void onClick() {
-                finish();
-            }
-        });
-        handyTitleBar.addRightAction(new HandyTitleBar.BaseAction(handyTitleBar) {
-            {
-                this.setImageSrc(R.drawable.hdb_menu_n);
-            }
-
-            @Override
-            public void onClick() {
-                handyTitleBar.getContentLayout().setOrientation(LinearLayout.HORIZONTAL);
-            }
-        });
-        handyTitleBar.addRightAction(new HandyTitleBar.BaseAction(handyTitleBar) {
-            {
-                this.setImageSrc(R.drawable.hdb_setting_n);
-            }
-
-            @Override
-            public void onClick() {
-                handyTitleBar.getContentLayout().setOrientation(LinearLayout.VERTICAL);
+                Toast.makeText(TestActivity.this, "!!!", Toast.LENGTH_SHORT).show();
             }
         });
     }
