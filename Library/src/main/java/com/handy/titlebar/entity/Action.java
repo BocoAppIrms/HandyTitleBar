@@ -25,20 +25,24 @@ public abstract class Action {
     public String actionText;
     public int actionTextSize;
     public int actionImageSize;
+
+    public int textPressType;
     @ColorRes
-    public int actionTextColor;
+    public int nTextColorId;
+    @ColorRes
+    public int pTextColorId;
+
+    public int imagePressType;
     @DrawableRes
     public int actionImageSrc;
-
-    public int pressType;
     @DrawableRes
-    public int normalImage;
+    public int nImageResId;
     @DrawableRes
-    public int pressImage;
+    public int pImageResId;
     @ColorRes
-    public int normalColorId;
+    public int nImageColorId;
     @ColorRes
-    public int pressColorId;
+    public int pImageColorId;
 
     public Action() {
     }
@@ -69,30 +73,38 @@ public abstract class Action {
         return this;
     }
 
-    public Action setTextColor(@ColorRes int colorId) {
-        this.actionTextColor = colorId;
+    public Action setTextColor(@ColorRes int nTextColorId) {
+        this.textPressType = 0;
+        this.nTextColorId = nTextColorId;
         return this;
     }
 
-    public Action setImageSrc(@DrawableRes int normalImage) {
-        this.pressType = 0;
-        this.actionImageSrc = normalImage;
+    public Action setTextColor(@ColorRes int nTextColorId, @ColorRes int pTextColorId) {
+        this.textPressType = 1;
+        this.nTextColorId = nTextColorId;
+        this.pTextColorId = pTextColorId;
         return this;
     }
 
-    public Action setImageSrc(@DrawableRes int normalImage, @DrawableRes int pressImage) {
-        this.pressType = 1;
-        this.actionImageSrc = normalImage;
-        this.normalImage = normalImage;
-        this.pressImage = pressImage;
+    public Action setImageSrc(@DrawableRes int nImageResId) {
+        this.imagePressType = 0;
+        this.actionImageSrc = nImageResId;
         return this;
     }
 
-    public Action setImageSrc(@DrawableRes int actionImageSrc, @ColorRes int normalColorId, @ColorRes int pressColorId) {
-        this.pressType = 2;
-        this.actionImageSrc = actionImageSrc;
-        this.normalColorId = normalColorId;
-        this.pressColorId = pressColorId;
+    public Action setImageSrc(@DrawableRes int nImageResId, @DrawableRes int pImageResId) {
+        this.imagePressType = 1;
+        this.actionImageSrc = nImageResId;
+        this.nImageResId = nImageResId;
+        this.pImageResId = pImageResId;
+        return this;
+    }
+
+    public Action setImageSrc(@DrawableRes int nImageResId, @ColorRes int nImageColorId, @ColorRes int pImageColorId) {
+        this.imagePressType = 2;
+        this.actionImageSrc = nImageResId;
+        this.nImageColorId = nImageColorId;
+        this.pImageColorId = pImageColorId;
         return this;
     }
 
