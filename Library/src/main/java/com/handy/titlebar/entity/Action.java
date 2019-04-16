@@ -1,6 +1,6 @@
 package com.handy.titlebar.entity;
 
-import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.view.View;
 import android.widget.ImageView;
@@ -63,7 +63,7 @@ public abstract class Action {
         return this;
     }
 
-    public Action setTextColor(@ColorInt int colorId) {
+    public Action setTextColor(@ColorRes int colorId) {
         this.actionTextColor = colorId;
         return this;
     }
@@ -82,7 +82,7 @@ public abstract class Action {
         return this;
     }
 
-    public Action setImageSrc(@DrawableRes int actionImageSrc, @ColorInt int normalColorId, @ColorInt int pressColorId) {
+    public Action setImageSrc(@DrawableRes int actionImageSrc, @ColorRes int normalColorId, @ColorRes int pressColorId) {
         this.pressType = 2;
         this.actionImageSrc = actionImageSrc;
         this.normalColorId = normalColorId;
