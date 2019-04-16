@@ -16,6 +16,7 @@
         <attr name="handy_titleBarHeight" format="dimension" />
         <attr name="handy_titleBarBackground" format="reference|color" />
 
+        <attr name="handy_contentLayoutPadding" format="dimension" />
         <attr name="handy_mainText" format="string" />
         <attr name="handy_mainTextSize" format="dimension" />
         <attr name="handy_mainTextColor" format="color" />
