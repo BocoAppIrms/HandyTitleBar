@@ -2,7 +2,6 @@ package com.handy.titlebar.entity;
 
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,21 +18,21 @@ import com.handy.titlebar.utils.HandyTitleBarUtils;
  */
 public abstract class Action {
 
-    private View actionView;
-    private ImageView imageView;
-    private TextView textView;
+    public View actionView;
+    public ImageView imageView;
+    public TextView textView;
 
-    private String actionText;
-    private int actionTextSize;
-    private int actionTextColor;
-    private int actionImageSrc;
-    private int actionImageSize;
+    public String actionText;
+    public int actionTextSize;
+    public int actionTextColor;
+    public int actionImageSrc;
+    public int actionImageSize;
 
-    private int pressType;
-    private int normalImage;
-    private int pressImage;
-    private int normalColorId;
-    private int pressColorId;
+    public int pressType;
+    public int normalImage;
+    public int pressImage;
+    public int normalColorId;
+    public int pressColorId;
 
     public Action() {
     }
@@ -50,83 +49,6 @@ public abstract class Action {
 
     public TextView getChildTextView() {
         return textView;
-    }
-
-    public String getText() {
-        return actionText;
-    }
-
-    public int getTextSize() {
-        return actionTextSize;
-    }
-
-    public int getTextColor() {
-        return actionTextColor;
-    }
-
-    public int getImageSrc() {
-        return actionImageSrc;
-    }
-
-    public int getImageSize() {
-        return actionImageSize;
-    }
-
-    public void setActionView(@NonNull View actionView) {
-        this.actionView = actionView;
-    }
-
-    public void setChildImageView(ImageView imageView) {
-        this.imageView = imageView;
-    }
-
-    public void setChildTextView(TextView textView) {
-        this.textView = textView;
-    }
-
-    public int getPressType() {
-        return pressType;
-    }
-
-    public void setPressType(int pressType) {
-        this.pressType = pressType;
-    }
-
-    public int getNormalImage() {
-        return normalImage;
-    }
-
-    public void setNormalImage(int normalImage) {
-        this.normalImage = normalImage;
-    }
-
-    public int getPressImage() {
-        return pressImage;
-    }
-
-    public void setPressImage(int pressImage) {
-        this.pressImage = pressImage;
-    }
-
-    public int getNormalColorId() {
-        return normalColorId;
-    }
-
-    public void setNormalColorId(int normalColorId) {
-        this.normalColorId = normalColorId;
-    }
-
-    public int getPressColorId() {
-        return pressColorId;
-    }
-
-    public void setPressColorId(int pressColorId) {
-        this.pressColorId = pressColorId;
-    }
-
-    public Action setText(String text) {
-        this.actionText = text;
-        return this;
     }
 
     public Action setTextSize(int spSize) {
