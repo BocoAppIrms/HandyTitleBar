@@ -51,6 +51,11 @@ public abstract class Action {
         return textView;
     }
 
+    public Action setText(String text) {
+        this.actionText = text;
+        return this;
+    }
+
     public Action setTextSize(int spSize) {
         if (spSize >= 0) {
             this.actionTextSize = HandyTitleBarUtils.spTopx(spSize);
