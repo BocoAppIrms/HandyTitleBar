@@ -2,6 +2,9 @@ package com.handy.titlebar.entity;
 
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -61,11 +64,6 @@ public abstract class Action {
         return textView;
     }
 
-    public Action setText(String text) {
-        this.actionText = text;
-        return this;
-    }
-
     public Action setTextSize(int spSize) {
         if (spSize >= 0) {
             this.actionTextSize = HandyTitleBarUtils.spTopx(spSize);
@@ -73,16 +71,31 @@ public abstract class Action {
         return this;
     }
 
-    public Action setTextColor(@ColorRes int nTextColorId) {
+    public Action setText(@NonNull String text) {
         this.textPressType = 0;
+        this.actionText = text;
+        return this;
+    }
+
+    public Action setText(@NonNull String text, @ColorRes int nTextColorId) {
+        this.textPressType = 1;
+        this.actionText = text;
         this.nTextColorId = nTextColorId;
         return this;
     }
 
-    public Action setTextColor(@ColorRes int nTextColorId, @ColorRes int pTextColorId) {
-        this.textPressType = 1;
+    public Action setText(@NonNull String text, @ColorRes int nTextColorId, @ColorRes int pTextColorId) {
+        this.textPressType = 2;
+        this.actionText = text;
         this.nTextColorId = nTextColorId;
         this.pTextColorId = pTextColorId;
+        return this;
+    }
+
+    public Action setImageSize(int dpSize) {
+        if (dpSize >= 0) {
+            this.actionImageSize = HandyTitleBarUtils.dpTopx(dpSize);
+        }
         return this;
     }
 
@@ -108,10 +121,21 @@ public abstract class Action {
         return this;
     }
 
-    public Action setImageSize(int dpSize) {
-        if (dpSize >= 0) {
-            this.actionImageSize = HandyTitleBarUtils.dpTopx(dpSize);
+    public Action syncTextImage(@ColorRes int nColorId, @ColorRes int pColorId) {
+        if (TextUtils.isEmpty(this.actionText)) {
+            Log.e("HandyTitleBar", "please set image res");
+            return this;
         }
+        if (this.actionImageSrc == 0) {
+            Log.e("HandyTitleBar", "please set text content");
+            return this;
+        }
+        this.textPressType = 2;
+        this.imagePressType = 2;
+        this.nTextColorId = nColorId;
+        this.pTextColorId = pColorId;
+        this.nImageColorId = nColorId;
+        this.pImageColorId = pColorId;
         return this;
     }
 }
