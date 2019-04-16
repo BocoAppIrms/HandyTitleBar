@@ -31,9 +31,13 @@ public abstract class Action {
     public int actionImageSrc;
 
     public int pressType;
+    @DrawableRes
     public int normalImage;
+    @DrawableRes
     public int pressImage;
+    @ColorRes
     public int normalColorId;
+    @ColorRes
     public int pressColorId;
 
     public Action() {
