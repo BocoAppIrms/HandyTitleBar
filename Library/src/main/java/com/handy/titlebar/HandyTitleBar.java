@@ -128,12 +128,12 @@ public class HandyTitleBar extends ViewGroup {
 
         contentLayoutPadding = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_contentLayoutPadding, HandyTitleBarUtils.dpTopx(8));
         mainText = typedArray.getString(R.styleable.HandyTitleBarStyleable_handy_mainText);
-        mainTextSize = typedArray.getDimensionPixelSize(R.styleable.HandyTitleBarStyleable_handy_mainTextSize, HandyTitleBarUtils.spTopx(15));
+        mainTextSize = typedArray.getDimensionPixelSize(R.styleable.HandyTitleBarStyleable_handy_mainTextSize, HandyTitleBarUtils.spTopx(17));
         mainTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_mainTextColor, 0XFFFFFFFF);
         mainTextBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_mainTextBackgroundColor, 0X00000000);
 
         subText = typedArray.getString(R.styleable.HandyTitleBarStyleable_handy_subText);
-        subTextSize = typedArray.getDimensionPixelSize(R.styleable.HandyTitleBarStyleable_handy_subTextSize, HandyTitleBarUtils.spTopx(11));
+        subTextSize = typedArray.getDimensionPixelSize(R.styleable.HandyTitleBarStyleable_handy_subTextSize, HandyTitleBarUtils.spTopx(13));
         subTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_subTextColor, 0XFFFFFFFF);
         subTextBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_subTextBackgroundColor, 0X00000000);
 
