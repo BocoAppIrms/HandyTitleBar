@@ -30,9 +30,9 @@
 
         <attr name="handy_actionViewPadding" format="dimension" />
         <attr name="handy_actionLayoutPadding" format="dimension" />
+        <attr name="handy_actionTextMarginLeft" format="dimension" />
         <attr name="handy_actionTextSize" format="dimension" />
         <attr name="handy_actionTextColor" format="color" />
         <attr name="handy_actionImageSize" format="dimension" />
-
     </declare-styleable>
 </resources>
