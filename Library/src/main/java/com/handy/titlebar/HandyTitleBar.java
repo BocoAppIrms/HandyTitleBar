@@ -3,15 +3,12 @@ package com.handy.titlebar;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -22,6 +19,10 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.handy.titlebar.entity.Action;
+import com.handy.titlebar.utils.HandyTitleBarUtils;
+import com.handy.titlebar.widget.MarqueeTextView;
 
 import java.lang.reflect.Field;
 
@@ -101,7 +102,8 @@ public class HandyTitleBar extends ViewGroup {
     public HandyTitleBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-        displayWidth = getScreenWidth(context);
+
+        displayWidth = HandyTitleBarUtils.getScreenWidth(context);
         typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.HandyTitleBarStyleable);
 
         isShowCustomStatusBar = typedArray.getBoolean(R.styleable.HandyTitleBarStyleable_handy_isShowCustomStatusBar, false);
@@ -116,27 +118,27 @@ public class HandyTitleBar extends ViewGroup {
         titleBarPaddingLeft = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarPaddingLeft, 0);
         titleBarPaddingRight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarPaddingRight, 0);
         titleBarPaddingBottom = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarPaddingBottom, 0);
-        titleBarHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarHeight, dpTopx(48));
+        titleBarHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarHeight, HandyTitleBarUtils.dpTopx(48));
         titleBarBackground = typedArray.getDrawable(R.styleable.HandyTitleBarStyleable_handy_titleBarBackground);
 
         mainText = typedArray.getString(R.styleable.HandyTitleBarStyleable_handy_mainText);
-        mainTextSize = typedArray.getDimensionPixelSize(R.styleable.HandyTitleBarStyleable_handy_mainTextSize, spTopx(15));
+        mainTextSize = typedArray.getDimensionPixelSize(R.styleable.HandyTitleBarStyleable_handy_mainTextSize, HandyTitleBarUtils.spTopx(15));
         mainTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_mainTextColor, Color.BLACK);
         mainTextBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_mainTextBackgroundColor, Color.TRANSPARENT);
 
         subText = typedArray.getString(R.styleable.HandyTitleBarStyleable_handy_subText);
-        subTextSize = typedArray.getDimensionPixelSize(R.styleable.HandyTitleBarStyleable_handy_subTextSize, spTopx(11));
+        subTextSize = typedArray.getDimensionPixelSize(R.styleable.HandyTitleBarStyleable_handy_subTextSize, HandyTitleBarUtils.spTopx(11));
         subTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_subTextColor, Color.BLACK);
         subTextBackgroundColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_subTextBackgroundColor, Color.TRANSPARENT);
 
         bottomLineHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_bottomLineHeight, 0);
         bottomLineColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_bottomLineColor, Color.GRAY);
 
-        actionViewPadding = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionViewPadding, dpTopx(8));
-        actionLayoutPadding = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionLayoutPadding, dpTopx(4));
-        actionTextSize = typedArray.getDimensionPixelSize(R.styleable.HandyTitleBarStyleable_handy_actionTextSize, spTopx(13));
+        actionViewPadding = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionViewPadding, HandyTitleBarUtils.dpTopx(8));
+        actionLayoutPadding = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionLayoutPadding, HandyTitleBarUtils.dpTopx(4));
+        actionTextSize = typedArray.getDimensionPixelSize(R.styleable.HandyTitleBarStyleable_handy_actionTextSize, HandyTitleBarUtils.spTopx(13));
         actionTextColor = typedArray.getColor(R.styleable.HandyTitleBarStyleable_handy_actionTextColor, Color.BLACK);
-        actionImageSize = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionImageSize, dpTopx(18));
+        actionImageSize = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_actionImageSize, HandyTitleBarUtils.dpTopx(18));
 
         typedArray.recycle();
         initView(context);
@@ -152,11 +154,7 @@ public class HandyTitleBar extends ViewGroup {
         titleBar = new View(context);
         titleBar.setBackgroundColor(Color.WHITE);
         if (titleBarBackground != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                titleBar.setBackground(titleBarBackground);
-            } else {
-                titleBar.setBackgroundDrawable(titleBarBackground);
-            }
+            titleBar.setBackground(titleBarBackground);
         }
 
         leftActionsLayout = new LinearLayout(context);
@@ -226,12 +224,12 @@ public class HandyTitleBar extends ViewGroup {
 
         } else {
             if (contentLayout.getOrientation() == LinearLayout.VERTICAL) {
-                mainTextView.setPadding(0, 0, 0, dpTopx(1));
-                subTextView.setPadding(0, dpTopx(1), 0, 0);
+                mainTextView.setPadding(0, 0, 0, HandyTitleBarUtils.dpTopx(1));
+                subTextView.setPadding(0, HandyTitleBarUtils.dpTopx(1), 0, 0);
 
             } else if (contentLayout.getOrientation() == LinearLayout.HORIZONTAL) {
-                mainTextView.setPadding(0, 0, dpTopx(2), 0);
-                subTextView.setPadding(dpTopx(2), 0, 0, 0);
+                mainTextView.setPadding(0, 0, HandyTitleBarUtils.dpTopx(2), 0);
+                subTextView.setPadding(HandyTitleBarUtils.dpTopx(2), 0, 0, 0);
             }
         }
 
@@ -329,7 +327,7 @@ public class HandyTitleBar extends ViewGroup {
 
     public HandyTitleBar setStatusBarHeight(int statusBarHeight) {
         if (statusBarHeight >= 0) {
-            this.statusBarHeight = dpTopx(statusBarHeight);
+            this.statusBarHeight = HandyTitleBarUtils.dpTopx(statusBarHeight);
             requestLayout();
         }
         return this;
@@ -368,7 +366,7 @@ public class HandyTitleBar extends ViewGroup {
 
     public HandyTitleBar setTopLineHeight(int topLineHeight) {
         if (topLineHeight >= 0) {
-            this.topLineHeight = dpTopx(topLineHeight);
+            this.topLineHeight = HandyTitleBarUtils.dpTopx(topLineHeight);
             requestLayout();
         }
         return this;
@@ -387,7 +385,7 @@ public class HandyTitleBar extends ViewGroup {
 
     public HandyTitleBar setTitleBarPadding(int titleBarPadding) {
         if (titleBarPadding >= 0) {
-            this.titleBarPadding = dpTopx(titleBarPadding);
+            this.titleBarPadding = HandyTitleBarUtils.dpTopx(titleBarPadding);
             requestLayout();
         }
         return this;
@@ -395,7 +393,7 @@ public class HandyTitleBar extends ViewGroup {
 
     public HandyTitleBar setTitleBarPaddingTop(int titleBarPaddingTop) {
         if (titleBarPaddingTop >= 0) {
-            this.titleBarPaddingTop = dpTopx(titleBarPaddingTop);
+            this.titleBarPaddingTop = HandyTitleBarUtils.dpTopx(titleBarPaddingTop);
             requestLayout();
         }
         return this;
@@ -403,7 +401,7 @@ public class HandyTitleBar extends ViewGroup {
 
     public HandyTitleBar setTitleBarPaddingLeft(int titleBarPaddingLeft) {
         if (titleBarPaddingLeft >= 0) {
-            this.titleBarPaddingLeft = dpTopx(titleBarPaddingLeft);
+            this.titleBarPaddingLeft = HandyTitleBarUtils.dpTopx(titleBarPaddingLeft);
             requestLayout();
         }
         return this;
@@ -411,7 +409,7 @@ public class HandyTitleBar extends ViewGroup {
 
     public HandyTitleBar setTitleBarPaddingRight(int titleBarPaddingRight) {
         if (titleBarPaddingRight >= 0) {
-            this.titleBarPaddingRight = dpTopx(titleBarPaddingRight);
+            this.titleBarPaddingRight = HandyTitleBarUtils.dpTopx(titleBarPaddingRight);
             requestLayout();
         }
         return this;
@@ -419,7 +417,7 @@ public class HandyTitleBar extends ViewGroup {
 
     public HandyTitleBar setTitleBarPaddingBottom(int titleBarPaddingBottom) {
         if (titleBarPaddingBottom >= 0) {
-            this.titleBarPaddingBottom = dpTopx(titleBarPaddingBottom);
+            this.titleBarPaddingBottom = HandyTitleBarUtils.dpTopx(titleBarPaddingBottom);
             requestLayout();
         }
         return this;
@@ -427,7 +425,7 @@ public class HandyTitleBar extends ViewGroup {
 
     public HandyTitleBar setTitleBarHeight(int titleBarHeight) {
         if (titleBarHeight >= 0) {
-            this.titleBarHeight = dpTopx(titleBarHeight);
+            this.titleBarHeight = HandyTitleBarUtils.dpTopx(titleBarHeight);
             requestLayout();
         }
         return this;
@@ -497,6 +495,7 @@ public class HandyTitleBar extends ViewGroup {
                 subTextView.setVisibility(View.GONE);
             }
         }
+        requestLayout();
         return this;
     }
 
@@ -510,7 +509,7 @@ public class HandyTitleBar extends ViewGroup {
 
     public HandyTitleBar setMainTextSize(float mainTextSize) {
         if (mainTextSize >= 0) {
-            this.mainTextSize = spTopx(mainTextSize);
+            this.mainTextSize = HandyTitleBarUtils.spTopx(mainTextSize);
             mainTextView.setVisibility(VISIBLE);
             mainTextView.setTextSize(mainTextSize);
             requestLayout();
@@ -552,7 +551,7 @@ public class HandyTitleBar extends ViewGroup {
 
     public HandyTitleBar setSubTextSize(float subTextSize) {
         if (subTextSize >= 0) {
-            this.subTextSize = spTopx(subTextSize);
+            this.subTextSize = HandyTitleBarUtils.spTopx(subTextSize);
             subTextView.setVisibility(VISIBLE);
             subTextView.setTextSize(subTextSize);
             requestLayout();
@@ -595,7 +594,7 @@ public class HandyTitleBar extends ViewGroup {
     /**
      * 在左侧容器内新增单个动作按钮
      */
-    public HandyTitleBar addLeftAction(HandyTitleBar.BaseAction action) {
+    public HandyTitleBar addLeftAction(Action action) {
         final int index = leftActionsLayout.getChildCount();
         return addLeftAction(action, index);
     }
@@ -603,7 +602,7 @@ public class HandyTitleBar extends ViewGroup {
     /**
      * 在左侧容器内指定的位置新增动作按钮
      */
-    public HandyTitleBar addLeftAction(HandyTitleBar.BaseAction action, int index) {
+    public HandyTitleBar addLeftAction(Action action, int index) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         View view = inflateAction(action);
         action.setActionView(view);
@@ -628,7 +627,7 @@ public class HandyTitleBar extends ViewGroup {
     /**
      * 在右侧容器内新增单个动作按钮
      */
-    public HandyTitleBar addRightAction(HandyTitleBar.BaseAction action) {
+    public HandyTitleBar addRightAction(Action action) {
         final int index = rightActionsLayout.getChildCount();
         return addRightAction(action, index);
     }
@@ -636,7 +635,7 @@ public class HandyTitleBar extends ViewGroup {
     /**
      * 在右侧容器内指定的位置新增动作按钮
      */
-    public HandyTitleBar addRightAction(HandyTitleBar.BaseAction action, int index) {
+    public HandyTitleBar addRightAction(Action action, int index) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         View view = inflateAction(action);
         action.setActionView(view);
@@ -695,47 +694,9 @@ public class HandyTitleBar extends ViewGroup {
     }
 
     /**
-     * dp转px
-     */
-    private static int dpTopx(int dpValue) {
-        final float scale = Resources.getSystem().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
-    }
-
-    /**
-     * sp 转 px
-     */
-    private static int spTopx(final float spValue) {
-        final float fontScale = Resources.getSystem().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * fontScale + 0.5f);
-    }
-
-    /**
-     * 带跑马灯功能的TextView
-     */
-    private class MarqueeTextView extends android.support.v7.widget.AppCompatTextView {
-        public MarqueeTextView(Context context) {
-            super(context);
-        }
-
-        public MarqueeTextView(Context context, AttributeSet attrs) {
-            super(context, attrs);
-        }
-
-        public MarqueeTextView(Context context, AttributeSet attrs, int defStyle) {
-            super(context, attrs, defStyle);
-        }
-
-        @Override
-        public boolean isFocused() {
-            return true;
-        }
-    }
-
-    /**
      * 初始化动作按钮控件布局
      */
-    private View inflateAction(HandyTitleBar.BaseAction action) {
+    private View inflateAction(Action action) {
         LinearLayout view = new LinearLayout(getContext());
         view.setGravity(Gravity.CENTER_VERTICAL);
         view.setOrientation(LinearLayout.HORIZONTAL);
@@ -745,8 +706,8 @@ public class HandyTitleBar extends ViewGroup {
             @Override
             public void onClick(View v) {
                 final Object tag = v.getTag();
-                if (tag instanceof HandyTitleBar.BaseAction) {
-                    final HandyTitleBar.BaseAction action = (HandyTitleBar.BaseAction) tag;
+                if (tag instanceof Action) {
+                    final Action action = (Action) tag;
                     action.onClick();
                 }
             }
@@ -769,7 +730,7 @@ public class HandyTitleBar extends ViewGroup {
             text.setGravity(Gravity.CENTER);
             text.setText(action.getText());
             //动作按钮中文字距离图片4dp
-            text.setPadding(action.getImageSrc() != 0 ? dpTopx(4) : 0, 0, 0, 0);
+            text.setPadding(action.getImageSrc() != 0 ? HandyTitleBarUtils.dpTopx(4) : 0, 0, 0, 0);
             text.setTextSize(TypedValue.COMPLEX_UNIT_PX, action.getTextSize());
             text.setTextColor(action.getTextColor());
             text.setClickable(false);
@@ -777,144 +738,5 @@ public class HandyTitleBar extends ViewGroup {
             action.setChildTextView(text);
         }
         return view;
-    }
-
-    /**
-     * 自定义对象类
-     */
-    public static abstract class BaseAction {
-
-        private View actionView;
-        private ImageView imageView;
-        private TextView textView;
-
-        private String actionText;
-        private int actionTextSize;
-        private int actionTextColor;
-        private int actionImageSrc;
-        private int actionImageSize;
-
-        private int pressType;
-        private int normalImage;
-        private int pressImage;
-        private int normalColorId;
-        private int pressColorId;
-
-        public BaseAction(HandyTitleBar handyTitleBar) {
-            this.actionTextSize = handyTitleBar.actionTextSize;
-            this.actionTextColor = handyTitleBar.actionTextColor;
-            this.actionImageSize = handyTitleBar.actionImageSize;
-        }
-
-        public abstract void onClick();
-
-        public View getActionView() {
-            return actionView;
-        }
-
-        public ImageView getChildImageView() {
-            return imageView;
-        }
-
-        public TextView getChildTextView() {
-            return textView;
-        }
-
-        private String getText() {
-            return actionText;
-        }
-
-        private int getTextSize() {
-            return actionTextSize;
-        }
-
-        private int getTextColor() {
-            return actionTextColor;
-        }
-
-        private int getImageSrc() {
-            return actionImageSrc;
-        }
-
-        private int getImageSize() {
-            return actionImageSize;
-        }
-
-        private void setActionView(@NonNull View actionView) {
-            this.actionView = actionView;
-        }
-
-        private void setChildImageView(ImageView imageView) {
-            this.imageView = imageView;
-        }
-
-        private void setChildTextView(TextView textView) {
-            this.textView = textView;
-        }
-
-        public BaseAction setText(String text) {
-            this.actionText = text;
-            return this;
-        }
-
-        public BaseAction setTextSize(int spSize) {
-            if (spSize >= 0) {
-                this.actionTextSize = spTopx(spSize);
-            }
-            return this;
-        }
-
-        public BaseAction setTextColor(@ColorInt int colorId) {
-            this.actionTextColor = colorId;
-            return this;
-        }
-
-        public BaseAction setImageSrc(@DrawableRes int normalImage) {
-            this.pressType = 0;
-            this.actionImageSrc = normalImage;
-            return this;
-        }
-
-        public BaseAction setImageSrc(@DrawableRes int normalImage, @DrawableRes int pressImage) {
-            this.pressType = 1;
-            this.actionImageSrc = normalImage;
-            this.normalImage = normalImage;
-            this.pressImage = pressImage;
-            return this;
-        }
-
-        public BaseAction setImageSrc(@DrawableRes int actionImageSrc, @ColorInt int normalColorId, @ColorInt int pressColorId) {
-            this.pressType = 2;
-            this.actionImageSrc = actionImageSrc;
-            this.normalColorId = normalColorId;
-            this.pressColorId = pressColorId;
-            return this;
-        }
-
-        public BaseAction setImageSize(int dpSize) {
-            if (dpSize >= 0) {
-                this.actionImageSize = dpTopx(dpSize);
-            }
-            return this;
-        }
-    }
-
-    /**
-     * Return the width of screen, in pixel.
-     *
-     * @return the width of screen, in pixel
-     */
-    private static int getScreenWidth(Context context) {
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        if (wm == null) {
-            return context.getResources().getDisplayMetrics().widthPixels;
-        }
-        Point point = new Point();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            wm.getDefaultDisplay().getRealSize(point);
-        } else {
-            wm.getDefaultDisplay().getSize(point);
-        }
-        return point.x;
     }
 }
