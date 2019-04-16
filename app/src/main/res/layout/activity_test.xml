@@ -11,14 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        app:handy_bottomLineColor="#0071ea"
-        app:handy_bottomLineHeight="2dp"
         app:handy_mainText="这个是主标题"
-        app:handy_mainTextColor="#ffffff"
-        app:handy_mainTextSize="15sp"
-        app:handy_subText="这个是副标题"
-        app:handy_subTextColor="#ffffff"
-        app:handy_titleBarBackground="#0091ea" />
+        app:handy_subText="这个是副标题" />
 
     <TextView
         android:layout_width="match_parent"

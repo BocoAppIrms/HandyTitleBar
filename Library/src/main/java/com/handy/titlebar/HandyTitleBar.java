@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
@@ -125,6 +126,7 @@ public class HandyTitleBar extends ViewGroup {
         titleBarPaddingBottom = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarPaddingBottom, 0);
         titleBarHeight = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_titleBarHeight, HandyTitleBarUtils.dpTopx(48));
         titleBarBackground = typedArray.getDrawable(R.styleable.HandyTitleBarStyleable_handy_titleBarBackground);
+        titleBarBackground = titleBarBackground != null ? titleBarBackground : new ColorDrawable(0xFF0091EA);
 
         contentLayoutPadding = (int) typedArray.getDimension(R.styleable.HandyTitleBarStyleable_handy_contentLayoutPadding, HandyTitleBarUtils.dpTopx(8));
         mainText = typedArray.getString(R.styleable.HandyTitleBarStyleable_handy_mainText);
@@ -159,10 +161,7 @@ public class HandyTitleBar extends ViewGroup {
         topLineView.setBackgroundColor(topLineColor);
 
         titleBar = new View(context);
-        titleBar.setBackgroundColor(Color.WHITE);
-        if (titleBarBackground != null) {
-            titleBar.setBackground(titleBarBackground);
-        }
+        titleBar.setBackground(titleBarBackground);
 
         leftActionsLayout = new LinearLayout(context);
         leftActionsLayout.setOrientation(LinearLayout.HORIZONTAL);
