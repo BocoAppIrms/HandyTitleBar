@@ -24,9 +24,11 @@ public abstract class Action {
 
     public String actionText;
     public int actionTextSize;
-    public int actionTextColor;
-    public int actionImageSrc;
     public int actionImageSize;
+    @ColorRes
+    public int actionTextColor;
+    @DrawableRes
+    public int actionImageSrc;
 
     public int pressType;
     public int normalImage;
