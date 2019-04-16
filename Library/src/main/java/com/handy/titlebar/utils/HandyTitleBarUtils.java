@@ -1,6 +1,7 @@
 package com.handy.titlebar.utils;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -14,6 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.view.WindowManager;
@@ -111,19 +113,18 @@ public class HandyTitleBarUtils {
      * @return Selector样式
      */
     public static StateListDrawable getStateDrawable(@NonNull Context context, @DrawableRes int idNormal, @DrawableRes int idPressed, @DrawableRes int idFocused) {
-        Drawable normal = idNormal == -1 ? null : context.getResources().getDrawable(idNormal);
-        Drawable pressed = idPressed == -1 ? null : context.getResources().getDrawable(idPressed);
-        Drawable focus = idFocused == -1 ? null : context.getResources().getDrawable(idFocused);
-        return getStateDrawable(context, normal, pressed, focus);
+        Drawable normal = idNormal == 0 ? null : context.getResources().getDrawable(idNormal);
+        Drawable pressed = idPressed == 0 ? null : context.getResources().getDrawable(idPressed);
+        Drawable focus = idFocused == 0 ? null : context.getResources().getDrawable(idFocused);
+        return getStateDrawable(normal, pressed, focus);
     }
 
     /**
      * 通过代码设置Selector效果
      *
-     * @param context 上下文
      * @return Selector样式
      */
-    public static StateListDrawable getStateDrawable(@NonNull Context context, Drawable normal, Drawable pressed, Drawable focus) {
+    public static StateListDrawable getStateDrawable(Drawable normal, Drawable pressed, Drawable focus) {
         StateListDrawable stateListDrawable = new StateListDrawable();
         //所以不要把大范围放在前面了，如果sd.addState(new[]{},normal)放在第一个的话，就没有什么效果了
         stateListDrawable.addState(new int[]{android.R.attr.state_enabled, android.R.attr.state_focused}, focus);
@@ -133,5 +134,38 @@ public class HandyTitleBarUtils {
         stateListDrawable.addState(new int[]{android.R.attr.state_enabled}, normal);
         stateListDrawable.addState(new int[]{}, normal);
         return stateListDrawable;
+    }
+
+    /**
+     * 通过代码设置Selector效果
+     *
+     * @param context   上下文
+     * @param idNormal  默认样式（或者图片和颜色的资源ID）
+     * @param idPressed 点击样式（或者图片和颜色的资源ID）
+     * @param idFocused 焦点样式（或者图片和颜色的资源ID）
+     * @return Selector样式
+     */
+    public static ColorStateList getStateColor(@NonNull Context context, @ColorRes int idNormal, @ColorRes int idPressed, @ColorRes int idFocused) {
+        int normal = context.getResources().getColor(idNormal);
+        int pressed = context.getResources().getColor(idPressed);
+        int focus = context.getResources().getColor(idFocused);
+        return getStateColor(normal, pressed, focus);
+    }
+
+    /**
+     * 通过代码设置Selector效果
+     *
+     * @return Selector样式
+     */
+    public static ColorStateList getStateColor(@ColorInt int normal, @ColorInt int pressed, @ColorInt int focus) {
+        int[] colors = new int[]{focus, pressed, focus, pressed, normal, normal};
+        int[][] states = new int[6][];
+        states[0] = new int[]{android.R.attr.state_enabled, android.R.attr.state_focused};
+        states[1] = new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled};
+        states[2] = new int[]{android.R.attr.state_focused};
+        states[3] = new int[]{android.R.attr.state_pressed};
+        states[4] = new int[]{android.R.attr.state_enabled};
+        states[5] = new int[]{};
+        return new ColorStateList(states, colors);
     }
 }
