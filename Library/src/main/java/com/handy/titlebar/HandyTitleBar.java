@@ -605,7 +605,7 @@ public class HandyTitleBar extends ViewGroup {
     public HandyTitleBar addLeftAction(Action action, int index) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         View view = inflateAction(action);
-        action.setActionView(view);
+        action.actionView = view;
         leftActionsLayout.addView(view, index, params);
         return this;
     }
@@ -638,7 +638,7 @@ public class HandyTitleBar extends ViewGroup {
     public HandyTitleBar addRightAction(Action action, int index) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         View view = inflateAction(action);
-        action.setActionView(view);
+        action.actionView = view;
         rightActionsLayout.addView(view, index, params);
         return this;
     }
@@ -714,28 +714,28 @@ public class HandyTitleBar extends ViewGroup {
         });
 
         //若图片设置不为空，添加动作按钮的图片
-        if (action.getImageSrc() != 0) {
+        if (action.actionImageSrc != 0) {
             ImageView img = new ImageView(getContext());
-            LayoutParams imglp = new LayoutParams(action.getImageSize(), action.getImageSize());
+            LayoutParams imglp = new LayoutParams(action.actionImageSize, action.actionImageSize);
             img.setLayoutParams(imglp);
-            img.setImageResource(action.getImageSrc());
+            img.setImageResource(action.actionImageSrc);
             img.setClickable(false);
             view.addView(img);
-            action.setChildImageView(img);
+            action.imageView = img;
         }
 
         //若文字设置不为空，添加动作按钮的文字
-        if (!TextUtils.isEmpty(action.getText())) {
+        if (!TextUtils.isEmpty(action.actionText)) {
             TextView text = new TextView(getContext());
             text.setGravity(Gravity.CENTER);
-            text.setText(action.getText());
+            text.setText(action.actionText);
             //动作按钮中文字距离图片4dp
-            text.setPadding(action.getImageSrc() != 0 ? HandyTitleBarUtils.dpTopx(4) : 0, 0, 0, 0);
-            text.setTextSize(TypedValue.COMPLEX_UNIT_PX, action.getTextSize());
-            text.setTextColor(action.getTextColor());
+            text.setPadding(action.actionImageSrc != 0 ? HandyTitleBarUtils.dpTopx(4) : 0, 0, 0, 0);
+            text.setTextSize(TypedValue.COMPLEX_UNIT_PX, action.actionTextSize);
+            text.setTextColor(action.actionTextColor);
             text.setClickable(false);
             view.addView(text);
-            action.setChildTextView(text);
+            action.textView = text;
         }
         return view;
     }
