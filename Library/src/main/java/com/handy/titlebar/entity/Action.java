@@ -4,7 +4,6 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -122,20 +121,16 @@ public abstract class Action {
     }
 
     public Action syncTextImage(@ColorRes int nColorId, @ColorRes int pColorId) {
-        if (TextUtils.isEmpty(this.actionText)) {
-            Log.e("HandyTitleBar", "please set image res");
-            return this;
+        if (!TextUtils.isEmpty(this.actionText)) {
+            this.textPressType = 2;
+            this.nTextColorId = nColorId;
+            this.pTextColorId = pColorId;
         }
-        if (this.actionImageSrc == 0) {
-            Log.e("HandyTitleBar", "please set text content");
-            return this;
+        if (this.actionImageSrc != 0) {
+            this.imagePressType = 2;
+            this.nImageColorId = nColorId;
+            this.pImageColorId = pColorId;
         }
-        this.textPressType = 2;
-        this.imagePressType = 2;
-        this.nTextColorId = nColorId;
-        this.pTextColorId = pColorId;
-        this.nImageColorId = nColorId;
-        this.pImageColorId = pColorId;
         return this;
     }
 }
