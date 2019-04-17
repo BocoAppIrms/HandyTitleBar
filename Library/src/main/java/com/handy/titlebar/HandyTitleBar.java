@@ -733,7 +733,10 @@ public class HandyTitleBar extends ViewGroup {
 
             } else if (action.imagePressType == 2) {
                 Drawable imageDrawable = getResources().getDrawable(action.actionImageSrc);
-                img.setImageDrawable(HandyTitleBarUtils.tintDrawable(context, imageDrawable, action.nImageColorId, action.pImageColorId, action.pImageColorId));
+                Drawable normalDrawable = action.nImageColorId == 0 ? imageDrawable : HandyTitleBarUtils.tintDrawable(context, action.actionImageSrc, action.nImageColorId);
+                Drawable pressDrawable = action.pImageColorId == 0 ? imageDrawable : HandyTitleBarUtils.tintDrawable(context, action.actionImageSrc, action.pImageColorId);
+                StateListDrawable stateListDrawable = HandyTitleBarUtils.getStateDrawable(normalDrawable, pressDrawable, pressDrawable);
+                img.setImageDrawable(stateListDrawable);
             }
 
             img.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
