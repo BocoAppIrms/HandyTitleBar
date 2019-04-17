@@ -3,21 +3,14 @@ package com.handy.titlebar.utils;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PixelFormat;
 import android.graphics.Point;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
-import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.WindowManager;
 
 /**
@@ -46,25 +39,6 @@ public class HandyTitleBarUtils {
         return (int) (spValue * fontScale + 0.5f);
     }
 
-    public static Bitmap drawable2Bitmap(Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if (bitmapDrawable.getBitmap() != null) {
-                return bitmapDrawable.getBitmap();
-            }
-        }
-        Bitmap bitmap;
-        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
-            bitmap = Bitmap.createBitmap(1, 1, drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
-        } else {
-            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
-        }
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return bitmap;
-    }
-
     /**
      * Return the width of screen, in pixel.
      *
@@ -76,31 +50,19 @@ public class HandyTitleBarUtils {
             return context.getResources().getDisplayMetrics().widthPixels;
         }
         Point point = new Point();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            wm.getDefaultDisplay().getRealSize(point);
-        } else {
-            wm.getDefaultDisplay().getSize(point);
-        }
+        wm.getDefaultDisplay().getRealSize(point);
         return point.x;
     }
 
     /**
      * 通过代码改变图片颜色
      *
-     * @param bitmap    原图片
-     * @param tintColor 目标颜色 (16进制)
-     * @return 改色后的Bitmap
+     * @param drawable  原图片
+     * @return 改色后的Drawable
      */
-    public static Bitmap tintBitmap(Bitmap bitmap, @ColorInt int tintColor) {
-        if (bitmap == null) {
-            return null;
-        }
-        Bitmap bitmap1 = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
-        Canvas canvas = new Canvas(bitmap1);
-        Paint paint = new Paint();
-        paint.setColorFilter(new PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, 0, 0, paint);
-        return bitmap1;
+    public static Drawable tintDrawable(Context context, Drawable drawable, @ColorRes int normal, @ColorRes int pressed, @ColorRes int focus) {
+        DrawableCompat.setTintList(drawable, getStateColor(context, normal, pressed, focus));
+        return drawable;
     }
 
     /**
