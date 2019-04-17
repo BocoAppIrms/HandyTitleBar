@@ -3,14 +3,20 @@ package com.handy.titlebar.utils;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.WindowManager;
 
 /**
@@ -57,12 +63,42 @@ public class HandyTitleBarUtils {
     /**
      * 通过代码改变图片颜色
      *
-     * @param drawable  原图片
+     * @param context    上下文
+     * @param idDrawable 原图片
+     * @param tintColor  目标颜色 (16进制)
      * @return 改色后的Drawable
      */
-    public static Drawable tintDrawable(Context context, Drawable drawable, @ColorRes int normal, @ColorRes int pressed, @ColorRes int focus) {
-        DrawableCompat.setTintList(drawable, getStateColor(context, normal, pressed, focus));
-        return drawable;
+    public static Drawable tintDrawable(Context context, @DrawableRes int idDrawable, @ColorRes int tintColor) {
+        if (idDrawable == 0) {
+            return null;
+        }
+        Drawable drawable = context.getResources().getDrawable(idDrawable).mutate();
+        Bitmap inBitmap = drawable2Bitmap(drawable);
+        Bitmap outBitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), inBitmap.getConfig());
+        Canvas canvas = new Canvas(outBitmap);
+        Paint paint = new Paint();
+        paint.setColorFilter(new PorterDuffColorFilter(context.getResources().getColor(tintColor), PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(inBitmap, 0, 0, paint);
+        return new BitmapDrawable(null, outBitmap);
+    }
+
+    private static Bitmap drawable2Bitmap(Drawable drawable) {
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if (bitmapDrawable.getBitmap() != null) {
+                return bitmapDrawable.getBitmap();
+            }
+        }
+        Bitmap bitmap;
+        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
+        }
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
     }
 
     /**
@@ -88,7 +124,6 @@ public class HandyTitleBarUtils {
      */
     public static StateListDrawable getStateDrawable(Drawable normal, Drawable pressed, Drawable focus) {
         StateListDrawable stateListDrawable = new StateListDrawable();
-        //所以不要把大范围放在前面了，如果sd.addState(new[]{},normal)放在第一个的话，就没有什么效果了
         stateListDrawable.addState(new int[]{android.R.attr.state_enabled, android.R.attr.state_focused}, focus);
         stateListDrawable.addState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled}, pressed);
         stateListDrawable.addState(new int[]{android.R.attr.state_focused}, focus);
