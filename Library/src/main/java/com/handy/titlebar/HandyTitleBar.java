@@ -4,9 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
@@ -734,14 +732,11 @@ public class HandyTitleBar extends ViewGroup {
                 img.setImageDrawable(stateListDrawable);
 
             } else if (action.imagePressType == 2) {
-                Bitmap imageBitmap = HandyTitleBarUtils.drawable2Bitmap(getResources().getDrawable(action.actionImageSrc));
-                Bitmap normalBitmap = action.nImageColorId == 0 ? imageBitmap : HandyTitleBarUtils.tintBitmap(imageBitmap, getResources().getColor(action.nImageColorId));
-                Bitmap pressBitmap = action.pImageColorId == 0 ? imageBitmap : HandyTitleBarUtils.tintBitmap(imageBitmap, getResources().getColor(action.pImageColorId));
-
-                StateListDrawable stateListDrawable = HandyTitleBarUtils.getStateDrawable(new BitmapDrawable(context.getResources(), normalBitmap), new BitmapDrawable(context.getResources(), pressBitmap), new BitmapDrawable(context.getResources(), pressBitmap));
-                img.setImageDrawable(stateListDrawable);
+                Drawable imageDrawable = getResources().getDrawable(action.actionImageSrc);
+                img.setImageDrawable(HandyTitleBarUtils.tintDrawable(context, imageDrawable, action.nImageColorId, action.pImageColorId, action.pImageColorId));
             }
 
+            img.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             img.setClickable(false);
             view.addView(img);
             action.imageView = img;
