@@ -27,6 +27,7 @@ public abstract class Action {
     public String actionText;
     public int actionTextSize;
     public int actionImageSize;
+    public int actionTextMarginLeft;
 
     public int textPressType;
     @ColorRes
@@ -130,6 +131,13 @@ public abstract class Action {
             this.imagePressType = 2;
             this.nImageColorId = nColorId;
             this.pImageColorId = pColorId;
+        }
+        return this;
+    }
+
+    public Action setActionTextMarginLeft(int dpSize) {
+        if (dpSize >= 0) {
+            this.actionTextMarginLeft = HandyTitleBarUtils.dpTopx(dpSize);
         }
         return this;
     }
