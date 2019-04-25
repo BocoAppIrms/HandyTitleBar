@@ -92,6 +92,13 @@ public abstract class Action {
         return this;
     }
 
+    public Action setTextMarginLeft(int dpSize) {
+        if (dpSize >= 0) {
+            this.actionTextMarginLeft = HandyTitleBarUtils.dpTopx(dpSize);
+        }
+        return this;
+    }
+
     public Action setImageSize(int dpSize) {
         if (dpSize >= 0) {
             this.actionImageSize = HandyTitleBarUtils.dpTopx(dpSize);
@@ -131,13 +138,6 @@ public abstract class Action {
             this.imagePressType = 2;
             this.nImageColorId = nColorId;
             this.pImageColorId = pColorId;
-        }
-        return this;
-    }
-
-    public Action setActionTextMarginLeft(int dpSize) {
-        if (dpSize >= 0) {
-            this.actionTextMarginLeft = HandyTitleBarUtils.dpTopx(dpSize);
         }
         return this;
     }
