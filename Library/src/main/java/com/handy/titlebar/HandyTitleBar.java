@@ -158,7 +158,7 @@ public class HandyTitleBar extends ViewGroup {
         if (isShowCustomStatusBar) {
             if (context instanceof Activity) {
                 showCustomStatusBar((Activity) context);
-            } else if (getContext() instanceof ContextWrapper) {
+            } else if (context instanceof ContextWrapper) {
                 showCustomStatusBar((Activity) ((ContextWrapper) context).getBaseContext());
             }
         }
