@@ -27,7 +27,8 @@ public abstract class Action {
     public String actionText;
     public int actionTextSize;
     public int actionImageSize;
-    public int actionTextMarginLeft;
+
+    public int actionTextMarginLeft = -1;
 
     public int textPressType;
     @ColorRes

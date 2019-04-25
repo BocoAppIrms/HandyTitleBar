@@ -22,6 +22,7 @@ public class TestActivity extends AppCompatActivity {
         handyTitleBar.addLeftAction(new Action() {
             {
                 setText("返回");
+                setTextMarginLeft(0);
                 setImageSrc(R.drawable.hdb_back_n);
                 syncTextImage(R.color.myTitleBar_TestColor_BottomLine, R.color.myTitleBar_TestColor_ActionText);
             }
