@@ -758,7 +758,7 @@ public class HandyTitleBar extends ViewGroup {
             TextView text = new TextView(getContext());
             text.setGravity(Gravity.CENTER);
             text.setText(action.actionText);
-            text.setPadding(action.actionImageSrc != 0 ? actionTextMarginLeft : 0, 0, 0, 0);
+            text.setPadding(action.actionImageSrc != 0 ? action.actionTextMarginLeft != 0 ? action.actionTextMarginLeft : actionTextMarginLeft : 0, 0, 0, 0);
             text.setTextSize(TypedValue.COMPLEX_UNIT_PX, action.actionTextSize == 0 ? actionTextSize : action.actionTextSize);
 
             if (action.textPressType == 0) {
