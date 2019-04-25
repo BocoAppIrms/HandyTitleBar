@@ -3,6 +3,7 @@ package com.handy.titlebar;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -154,6 +155,13 @@ public class HandyTitleBar extends ViewGroup {
     private void initView(Context context) {
         statusBar = new View(context);
         statusBar.setBackgroundColor(statusBarBackgroundColor);
+        if (isShowCustomStatusBar) {
+            if (context instanceof Activity) {
+                showCustomStatusBar((Activity) context);
+            } else if (getContext() instanceof ContextWrapper) {
+                showCustomStatusBar((Activity) ((ContextWrapper) context).getBaseContext());
+            }
+        }
 
         topLineView = new View(context);
         topLineView.setBackgroundColor(topLineColor);
