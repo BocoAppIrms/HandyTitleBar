@@ -156,10 +156,9 @@ public class HandyTitleBar extends ViewGroup {
         statusBar = new View(context);
         statusBar.setBackgroundColor(statusBarBackgroundColor);
         if (isShowCustomStatusBar) {
-            if (context instanceof Activity) {
-                showCustomStatusBar((Activity) context);
-            } else if (context instanceof ContextWrapper) {
-                showCustomStatusBar((Activity) ((ContextWrapper) context).getBaseContext());
+            Activity activity = getActivity();
+            if (activity != null) {
+                showCustomStatusBar(activity);
             }
         }
 
@@ -690,6 +689,26 @@ public class HandyTitleBar extends ViewGroup {
     }
 
     /*============================== 其他方法及内部类 ==============================*/
+
+    /**
+     * 从View内部获取到Activity的实例
+     */
+    private Activity getActivity() {
+        Context context = getContext();
+        if (context == null) {
+            return null;
+        } else if (context instanceof Activity) {
+            return (Activity) context;
+        } else {
+            while (context instanceof ContextWrapper) {
+                if (context instanceof Activity) {
+                    return (Activity) context;
+                }
+                context = ((ContextWrapper) context).getBaseContext();
+            }
+        }
+        return null;
+    }
 
     /**
      * 获取状态栏高度高度
