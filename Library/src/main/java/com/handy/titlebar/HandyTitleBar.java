@@ -695,15 +695,12 @@ public class HandyTitleBar extends ViewGroup {
      */
     private Activity getActivity() {
         Context context = getContext();
-        if (context == null) {
-            return null;
-        } else if (context instanceof Activity) {
-            return (Activity) context;
-        } else {
-            while (context instanceof ContextWrapper) {
-                if (context instanceof Activity) {
-                    return (Activity) context;
-                }
+        for (int i = 0; i < 10; i++) {
+            if (context == null) {
+                return null;
+            } else if (context instanceof Activity) {
+                return (Activity) context;
+            } else {
                 context = ((ContextWrapper) context).getBaseContext();
             }
         }
